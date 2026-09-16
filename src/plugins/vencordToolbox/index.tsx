@@ -68,7 +68,7 @@ function VencordPopoutButton() {
                     ref={buttonRef}
                     className="vc-toolbox-btn"
                     onClick={() => setShow(v => !v)}
-                    tooltip={isShown ? null : "Vencord Toolbox"}
+                    tooltip={isShown ? null : "Discord+ Toolbox"}
                     icon={() => <Icon isShown={isShown} />}
                     selected={isShown}
                 />
