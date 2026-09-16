@@ -170,8 +170,8 @@ export default definePlugin({
         const vencordEntries: SettingsLayoutNode[] = [
             buildEntry({
                 key: "vencord_main",
-                title: "Vencord",
-                panelTitle: "Vencord Settings",
+                title: "Discord+",
+                panelTitle: "Discord+ Settings",
                 Component: VencordTab,
                 Icon: MainSettingsIcon
             }),
@@ -190,14 +190,14 @@ export default definePlugin({
             !IS_UPDATER_DISABLED && UpdaterTab && buildEntry({
                 key: "vencord_updater",
                 title: "Updater",
-                panelTitle: "Vencord Updater",
+                panelTitle: "Discord+ Updater",
                 Component: UpdaterTab,
                 Icon: UpdaterIcon
             }),
             buildEntry({
                 key: "vencord_cloud",
                 title: "Cloud",
-                panelTitle: "Vencord Cloud",
+                panelTitle: "Discord+ Cloud",
                 Component: CloudTab,
                 Icon: CloudIcon
             }),
@@ -231,7 +231,7 @@ export default definePlugin({
         const vencordSection: SettingsLayoutNode = {
             key: "vencord_section",
             type: LayoutTypes.SECTION,
-            useTitle: () => "Vencord Settings",
+            useTitle: () => "Discord+ Settings",
             buildLayout: () => vencordEntries
         };
 
@@ -290,7 +290,7 @@ export default definePlugin({
     getInfoRows() {
         const { electronVersion, chromiumVersion, additionalInfo } = this;
 
-        const rows = [`Vencord ${gitHash}${additionalInfo}`];
+        const rows = [`Discord+ ${gitHash}${additionalInfo}`];
 
         if (electronVersion) rows.push(`Electron ${electronVersion}`);
         if (chromiumVersion) rows.push(`Chromium ${chromiumVersion}`);

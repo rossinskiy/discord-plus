@@ -20,6 +20,7 @@ import "./messageLogger.css";
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { updateMessage } from "@api/MessageUpdater";
+import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
@@ -250,6 +251,9 @@ export default definePlugin({
     },
 
     start() {
+        if (isPluginEnabled("MessageArchive")) {
+            throw new Error("MessageLogger can't be enabled while MessageArchive is enabled — disable MessageArchive first, they do the same job and conflict with each other.");
+        }
         addDeleteStyle();
     },
 

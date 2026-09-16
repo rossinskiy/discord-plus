@@ -25,6 +25,7 @@ import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/vencordUserAgent";
+import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
@@ -165,6 +166,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
     }
 
     const pluginMeta = PluginMeta[plugin.name];
+    const isOwnPlugin = plugin.authors.includes(Devs.Tsar);
 
     return (
         <Modal
@@ -182,7 +184,11 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                             />
                             <WebsiteButton
                                 text="View more info"
-                                href={`https://vencord.dev/plugins/${plugin.name}`}
+                                href={
+                                    isOwnPlugin
+                                        ? `https://github.com/${gitRemote}#readme`
+                                        : `https://vencord.dev/plugins/${plugin.name}`
+                                }
                             />
                             <GithubButton
                                 text="View source code"

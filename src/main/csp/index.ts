@@ -72,6 +72,8 @@ export const CspPolicies: PolicyMap = {
     // Tenor, used by TenorSearch plugin and some themes
     "*.tenor.com": ImageAndMediaSrc,
     "*.tenor.co": ImageAndMediaSrc,
+
+    "discordplus.karatel.win": ConnectSrc, // Discord+ MessageArchive plugin's backend
 };
 
 const findHeader = (headers: PolicyMap, headerName: Lowercase<string>) => {
