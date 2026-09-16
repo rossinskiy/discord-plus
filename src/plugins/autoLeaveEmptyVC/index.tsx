@@ -49,16 +49,36 @@ function isAlone(channelId: string, myId: string): boolean {
     );
 }
 
+// The channel we're currently tracking, and whether another human has been
+// in it with us at some point since we joined. Joining an empty channel and
+// staying alone should never trigger a leave — only actually being joined
+// by someone who then leaves should.
+let trackedChannelId: string | null = null;
+let hadCompanion = false;
+
 function check() {
     const myId = UserStore.getCurrentUser()?.id;
     if (!myId) return;
 
-    const channelId = VoiceStateStore.getVoiceStateForUser(myId)?.channelId;
+    const channelId = VoiceStateStore.getVoiceStateForUser(myId)?.channelId ?? null;
 
-    if (!channelId || !isAlone(channelId, myId)) {
+    if (channelId !== trackedChannelId) {
+        trackedChannelId = channelId;
+        hadCompanion = false;
+        clearLeaveTimer();
+    }
+
+    if (!channelId) return;
+
+    const alone = isAlone(channelId, myId);
+
+    if (!alone) {
+        hadCompanion = true;
         clearLeaveTimer();
         return;
     }
+
+    if (!hadCompanion) return; // been alone since joining — let them sit
 
     if (leaveTimer) return; // already counting down
 
@@ -95,5 +115,7 @@ export default definePlugin({
         VoiceStateStore.removeChangeListener(onVoiceStateChange);
         clearTimeout(debounceTimer);
         clearLeaveTimer();
+        trackedChannelId = null;
+        hadCompanion = false;
     }
 });
