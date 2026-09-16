@@ -1,3 +1,18 @@
+# Discord+
+
+**Discord+ is a fork of [Vencord](https://github.com/Vendicated/Vencord)**, licensed under GPL-3.0 (see [LICENSE](LICENSE)). It adds a few custom plugins on top of stock Vencord:
+
+- **MessageArchive** — persists edited/deleted messages to a self-hosted server (replaces MessageLogger)
+- **NicknameHistory** — tracks username/display name/server nickname changes over time
+- **BulkExport** — exports a channel or DM's full message history to JSON
+- **LastSeen** — tracks last-seen timestamps from real presence transitions and messages (not fake read receipts — Discord doesn't expose that data to any client)
+
+These plugins talk to a small self-hosted backend (see [server/](server)) that you run yourself; you'll need to configure your own `serverUrl` and `token` in each plugin's settings.
+
+Everything below this point is the original Vencord README.
+
+---
+
 # Vencord
 
 ![](https://img.shields.io/github/package-json/v/Vendicated/Vencord?style=for-the-badge&logo=github&logoColor=d3869b&label=&color=1d2021&labelColor=282828)
