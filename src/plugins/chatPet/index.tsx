@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ChatBarButton } from "@api/ChatButtons";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
@@ -29,13 +28,8 @@ export default definePlugin({
     tags: ["Fun"],
 
     chatBarButton: {
-        render(props) {
-            return (
-                <ChatBarButton tooltip="Your pet" onClick={() => {}}>
-                    <PetIcon />
-                </ChatBarButton>
-            );
-        },
+        // No button chrome — this is decorative, not clickable.
+        render: () => <PetIcon />,
         // PetIcon's props are a subset of what IconComponent allows; only used for Settings UI display.
         icon: PetIcon as any
     }
