@@ -20,10 +20,15 @@ import { onceDefined } from "@shared/onceDefined";
 import electron, { app, BrowserWindowConstructorOptions, Menu } from "electron";
 import { dirname, join } from "path";
 
+import { initMultiAccount } from "./multiAccount";
 import { RendererSettings } from "./settings";
 import { IS_VANILLA } from "./utils/constants";
 
 console.log("[Vencord] Starting up...");
+
+// Must run before Discord's own app.asar is required below, so we catch the
+// "browser-window-created" event for Discord's real main window.
+initMultiAccount();
 
 // Our injector file at app/index.js
 const injectorPath = require.main!.filename;
