@@ -33,6 +33,11 @@ const ONLINE_STATUSES = new Set(["online", "idle", "dnd", "streaming"]);
 // timing, so we can detect the exact moment someone crosses the online <-> offline boundary.
 const knownStatuses = new Map<string, string>();
 
+// Discord re-sends TYPING_START every few seconds while someone keeps typing,
+// so only log the first one per user in this window.
+const TYPING_LOG_INTERVAL_MS = 30_000;
+const lastTypingLogged = new Map<string, number>();
+
 let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
 function checkTransitions() {
@@ -103,9 +108,21 @@ export default definePlugin({
         PresenceStore.removeChangeListener(onPresenceStoreChange);
         clearTimeout(debounceTimer);
         knownStatuses.clear();
+        lastTypingLogged.clear();
     },
 
     flux: {
+        TYPING_START({ channelId, userId }: { channelId: string; userId: string; }) {
+            if (!userId || userId === UserStore.getCurrentUser()?.id) return;
+            if (UserStore.getUser(userId)?.bot) return;
+
+            const now = Date.now();
+            if (now - (lastTypingLogged.get(userId) ?? 0) < TYPING_LOG_INTERVAL_MS) return;
+            lastTypingLogged.set(userId, now);
+
+            sendPresenceEvents([{ userId, reason: "typing", channelId, timestamp: now }]);
+        },
+
         MESSAGE_CREATE({ message }: { message: any; }) {
             const myId = UserStore.getCurrentUser()?.id;
             if (!message?.author?.id || message.author.id === myId || message.author.bot) return;

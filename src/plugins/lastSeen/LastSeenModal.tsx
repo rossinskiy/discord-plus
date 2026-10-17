@@ -32,10 +32,10 @@ export function openLastSeenModal(userId: string) {
 }
 
 function describe(row: PresenceHistoryRow) {
-    if (row.reason === "message") {
+    if (row.reason === "message" || row.reason === "typing") {
         const channel = row.channel_id ? ChannelStore.getChannel(row.channel_id) : null;
         const where = channel?.name ? `#${channel.name}` : (channel ? "a DM" : "a channel");
-        return `Sent a message in ${where}`;
+        return row.reason === "typing" ? `Started typing in ${where}` : `Sent a message in ${where}`;
     }
     return `Went offline (was ${row.status ?? "online"})`;
 }

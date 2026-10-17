@@ -24,7 +24,7 @@ const logger = new Logger("LastSeen");
 
 export interface PresenceEvent {
     userId: string;
-    reason: "presence" | "message";
+    reason: "presence" | "message" | "typing";
     status?: string | null;
     channelId?: string | null;
     timestamp: number;
