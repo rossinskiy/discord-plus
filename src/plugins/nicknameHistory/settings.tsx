@@ -56,7 +56,7 @@ export const settings = definePluginSettings({
     },
     token: {
         type: OptionType.STRING,
-        description: "Archive server auth token (set this to the ARCHIVE_TOKEN configured on your server)",
+        description: "Archive server auth token. Leave empty to use the token from MessageArchive",
         default: ""
     },
     trackUsernames: {

@@ -1,20 +1,8 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
@@ -28,6 +16,11 @@ const settings = definePluginSettings({
     showToasts: {
         type: OptionType.BOOLEAN,
         description: "Show a toast when a quest starts and when it finishes",
+        default: true
+    },
+    autoClaim: {
+        type: OptionType.BOOLEAN,
+        description: "Automatically claim the reward once a quest is completed (some rewards need a captcha or extra info and must be claimed by hand)",
         default: true
     },
     checkMinutes: {
@@ -44,6 +37,7 @@ let running = false;
 let stopped = true;
 let checkTimer: ReturnType<typeof setInterval> | undefined;
 const failedQuests = new Set<string>();
+const claimAttempted = new Set<string>();
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
@@ -197,11 +191,55 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     }
 }
 
+function getUnclaimedQuests(): any[] {
+    return [...QuestsStore.quests.values()].filter((q: any) =>
+        q.userStatus?.completedAt && !q.userStatus?.claimedAt && !claimAttempted.has(q.id)
+    );
+}
+
+async function claimReward(quest: any) {
+    claimAttempted.add(quest.id);
+    const name = quest.config?.messages?.questName ?? "quest";
+
+    try {
+        await RestAPI.post({
+            url: `/quests/${quest.id}/claim-reward`,
+            body: {
+                location: 11, // QUEST_HOME_DESKTOP
+                platform: 0,
+                metadata_sealed: quest.metadataSealed ?? null,
+                traffic_metadata_sealed: quest.trafficMetadataSealed ?? null
+            }
+        });
+        toast(`Auto Quest: reward for "${name}" claimed.`, Toasts.Type.SUCCESS);
+    } catch (err: any) {
+        const body = err?.body;
+        console.warn("[AutoQuest] could not auto-claim", quest.id, err?.status, JSON.stringify(body));
+        if (body?.captcha_key) toast(`Auto Quest: "${name}" needs a captcha, claim it in the Quests tab.`);
+        else toast(`Auto Quest: could not auto-claim "${name}", claim it in the Quests tab.`, Toasts.Type.FAILURE);
+    }
+}
+
+async function claimPending() {
+    if (!settings.store.autoClaim) return;
+    for (const quest of getUnclaimedQuests()) {
+        if (stopped) return;
+        await claimReward(quest);
+        await sleep(3000);
+    }
+}
+
 async function runNext() {
     if (running || stopped) return;
 
     const quest = findPendingQuest();
-    if (!quest) return;
+    if (!quest) {
+        if (!running) {
+            running = true;
+            try { await claimPending(); } finally { running = false; }
+        }
+        return;
+    }
 
     const task = getTaskType(quest)!;
     const name = quest.config.messages?.questName ?? quest.config.application?.name ?? "quest";
@@ -214,7 +252,14 @@ async function runNext() {
         else if (task === "PLAY_ACTIVITY") await completeActivity(quest, task);
         else await completeVideo(quest, task);
 
-        if (!stopped) toast(`Auto Quest: "${name}" completed. Claim the reward in the Quests tab.`, Toasts.Type.SUCCESS);
+        if (!stopped) {
+            toast(`Auto Quest: "${name}" completed.`, Toasts.Type.SUCCESS);
+            if (settings.store.autoClaim) {
+                await sleep(3000);
+                const fresh = [...QuestsStore.quests.values()].find((q: any) => q.id === quest.id) ?? quest;
+                if (!fresh.userStatus?.claimedAt && !claimAttempted.has(fresh.id)) await claimReward(fresh);
+            }
+        }
     } catch (err) {
         failedQuests.add(quest.id);
         console.error("[AutoQuest] failed on quest", quest.id, err);
@@ -230,7 +275,7 @@ async function runNext() {
 export default definePlugin({
     name: "AutoQuest",
     authors: [Devs.Tsar],
-    description: "Automatically completes accepted Discord Quests (play a game, watch a video, play an activity) in the background just by having Discord open. Accept the quest first; claim the reward yourself afterwards.",
+    description: "Automatically completes accepted Discord Quests (play a game, watch a video, play an activity) in the background just by having Discord open. Accept the quest first. Rewards are claimed automatically when possible (captcha-protected ones are left for you).",
     tags: ["Utility"],
     settings,
 
@@ -245,5 +290,6 @@ export default definePlugin({
         clearInterval(checkTimer);
         checkTimer = undefined;
         failedQuests.clear();
+        claimAttempted.clear();
     }
 });

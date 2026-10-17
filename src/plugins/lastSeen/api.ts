@@ -1,21 +1,10 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
+import { getArchiveToken } from "@utils/archiveToken";
 import { Logger } from "@utils/Logger";
 
 import { settings } from "./settings";
@@ -60,12 +49,12 @@ function baseUrl() {
 function headers() {
     return {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${settings.store.token}`
+        "Authorization": `Bearer ${getArchiveToken(settings.store.token)}`
     };
 }
 
 export async function sendPresenceEvents(events: PresenceEvent[]) {
-    if (!settings.store.token || !events.length) return;
+    if (!getArchiveToken(settings.store.token) || !events.length) return;
 
     try {
         await ensureCspAllowed();
