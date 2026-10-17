@@ -26,6 +26,10 @@ import { IS_VANILLA } from "./utils/constants";
 
 console.log("[Vencord] Starting up...");
 
+// Captured so a second window (multiAccount.ts) can chain the same native
+// Discord preload script Vencord's own preload wraps for the real window.
+export let discordPreloadPath: string | undefined;
+
 // Must run before Discord's own app.asar is required below, so we catch the
 // "browser-window-created" event for Discord's real main window.
 initMultiAccount();
@@ -110,6 +114,7 @@ if (!IS_VANILLA) {
             }
 
             process.env.DISCORD_PRELOAD = original;
+            discordPreloadPath = original;
 
             super(options);
 

@@ -107,6 +107,11 @@ interface ToastsExports {
     popToast(): void;
 }
 
+// Discord now takes { text, variant, position, duration } instead of the old
+// { message, type, options } shape, so translate here and keep the old API for plugins.
+const discordShowToast: (data: { text: string; variant?: string; position?: string; duration?: number; }) => void =
+    findByCodeLazy(".currentToastMap.has(");
+
 const ToastsExports = mapMangledModuleLazy(".currentToastMap.has(", {
     showToast: filters.byCode(".currentToastMap.has("),
     popToast: filters.byCode(".delete(")
@@ -126,7 +131,12 @@ export const Toasts = {
     Position: ToastPosition,
     genId: () => (Math.random() || Math.random()).toString(36).slice(2),
 
-    show: ToastsExports.showToast,
+    show: (data: ToastData) => discordShowToast({
+        text: data.message,
+        variant: data.type === ToastType.SUCCESS ? "success" : data.type === ToastType.FAILURE ? "critical" : "default",
+        position: data.options?.position === ToastPosition.TOP ? "top" : "bottom",
+        duration: data.options?.duration
+    }),
     pop: ToastsExports.popToast,
     create: createToast,
 };

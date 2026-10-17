@@ -16,16 +16,43 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, Input } from "electron";
+import { join } from "path";
+
+// Imported as a namespace (not destructured) so we always read the current
+// value at call time — patcher.ts only assigns this once the real Discord
+// window is constructed, well after this module is first evaluated.
+import * as patcher from "./patcher";
 
 const SECOND_ACCOUNT_PARTITION = "persist:discordplus-account2";
-const TOGGLE_SHORTCUT = "CommandOrControl+Shift+2";
+
+function isToggleShortcut(input: Input) {
+    // input.code is the physical key position (layout-independent), unlike
+    // input.key which reflects the shifted character (e.g. "@" on US layout
+    // when Shift+2 is held) — so it must be checked instead of input.key.
+    return input.type === "keyDown" &&
+        (input.control || input.meta) &&
+        input.shift &&
+        input.code === "Digit2";
+}
 
 let mainWindow: BrowserWindow | null = null;
 let secondWindow: BrowserWindow | null = null;
 let isQuitting = false;
+let creatingSecondWindow = false;
 
 function createSecondWindow() {
+    creatingSecondWindow = true;
+
+    // Vencord's preload.js does `require(process.env.DISCORD_PRELOAD)` to chain
+    // into Discord's own native preload after it sets itself up. This env var is
+    // read at the moment the new renderer process spawns below, so it must be
+    // set synchronously right before the constructor call — same trick patcher.ts
+    // uses for the real window.
+    if (patcher.discordPreloadPath) {
+        process.env.DISCORD_PRELOAD = patcher.discordPreloadPath;
+    }
+
     const win = new BrowserWindow({
         width: 1280,
         height: 800,
@@ -33,10 +60,24 @@ function createSecondWindow() {
         autoHideMenuBar: true,
         webPreferences: {
             partition: SECOND_ACCOUNT_PARTITION,
+            preload: join(__dirname, "preload.js"),
             contextIsolation: true,
             sandbox: false
         }
     });
+
+    win.webContents.on("did-fail-load", (_e, code, desc) => {
+        console.error("[MultiAccount] second window failed to load:", code, desc);
+    });
+
+    win.webContents.on("before-input-event", (event, input) => {
+        if (isToggleShortcut(input)) {
+            event.preventDefault();
+            toggleActiveAccount();
+        }
+    });
+
+    creatingSecondWindow = false;
 
     win.loadURL("https://discord.com/app");
 
@@ -72,21 +113,27 @@ function toggleActiveAccount() {
 }
 
 export function initMultiAccount() {
-    // The first BrowserWindow Electron creates is Discord's own main window;
-    // we just need a reference to it to be able to show/hide it later.
-    app.once("browser-window-created", (_e, win) => {
+    // Discord creates a splash/loading window before the real main window,
+    // which gets destroyed once the real one is ready. Keep tracking the
+    // latest non-destroyed window (skipping our own second window) so we
+    // always end up pointing at the real main window.
+    app.on("browser-window-created", (_e, win) => {
+        if (creatingSecondWindow) return;
         mainWindow = win;
-    });
 
-    app.whenReady().then(() => {
-        globalShortcut.register(TOGGLE_SHORTCUT, toggleActiveAccount);
+        win.webContents.on("before-input-event", (event, input) => {
+            if (isToggleShortcut(input)) {
+                event.preventDefault();
+                toggleActiveAccount();
+            }
+        });
+
+        win.once("closed", () => {
+            if (mainWindow === win) mainWindow = null;
+        });
     });
 
     app.on("before-quit", () => {
         isQuitting = true;
-    });
-
-    app.on("will-quit", () => {
-        globalShortcut.unregister(TOGGLE_SHORTCUT);
     });
 }
