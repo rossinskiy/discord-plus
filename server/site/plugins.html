@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plugins | Discord+</title>
+<meta name="description" content="Every plugin written for Discord+: MessageArchive, NicknameHistory, LastSeen, UserTags, BulkExport, AutoLeaveEmptyVC and AutoQuest, plus the second-account window.">
+<link rel="canonical" href="https://discordplus.karatel.win/plugins">
+<meta name="theme-color" content="#0f172a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Discord+">
+<meta property="og:title" content="Plugins | Discord+">
+<meta property="og:description" content="Every plugin written for Discord+: MessageArchive, NicknameHistory, LastSeen, UserTags, BulkExport, AutoLeaveEmptyVC and AutoQuest, plus the second-account window.">
+<meta property="og:url" content="https://discordplus.karatel.win/plugins">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container header-inner">
+<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
+<button class="icon-btn menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<nav class="nav" id="site-nav" aria-label="Main">
+<a href="/plugins" aria-current="page">Plugins</a>
+<a href="/install">Install</a>
+<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a>
+<button class="icon-btn theme-toggle" type="button" aria-label="Switch between dark and light theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</nav>
+</div>
+</header>
+<main id="main">
+
+<section class="page-head">
+<div class="container">
+<h1>Plugins</h1>
+<p>Seven plugins written for Discord+, plus the multi-account window. All of Vencord's own plugins are still available in the same settings page.</p>
+</div>
+</section>
+<section class="section">
+<div class="container prose-wide">
+<div class="card" id="multi-account">
+<div class="plugin-head"><h2>Second account window</h2><span class="tag">built in</span><span class="tag">no server needed</span></div>
+<p>Not a plugin, so there is nothing to switch on. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>2</kbd> while a Discord window is focused.</p>
+<ul>
+<li>The second account runs in its own window with a separate login, and both accounts stay connected, so messages and notifications arrive on both.</li>
+<li>Only one window is visible at a time, and the second one does not appear in Alt+Tab.</li>
+<li>The shortcut only works while a Discord+ window is focused. It is never a system-wide hotkey.</li>
+<li>Closing the second window hides it instead of closing it.</li>
+</ul>
+</div>
+<div class="filter filter-spaced">
+<label class="visually-hidden" for="plugin-search">Search plugins</label>
+<input id="plugin-search" type="search" placeholder="Search plugins" autocomplete="off">
+</div>
+<p id="plugin-empty" class="empty" hidden>No plugin matches that search.</p>
+<article class="plugin" id="messagearchive">
+<div class="plugin-head"><h2>MessageArchive</h2><span class="tag tag-server">needs your server</span></div>
+<p>Saves edited and deleted messages to your server and shows them in chat, like MessageLogger.</p>
+<h3>What it does</h3>
+<ul><li>Deleted messages stay visible in chat, marked as deleted.</li><li>Click the (edited) text on a message to open its edit history.</li><li>Entries expire after 7 days. A button in the plugin settings clears everything immediately.</li></ul>
+<h3>Good to know</h3><p>Replaces MessageLogger. You cannot enable both at once, and enabling one is blocked while the other is on.</p>
+</article><article class="plugin" id="nicknamehistory">
+<div class="plugin-head"><h2>NicknameHistory</h2><span class="tag tag-server">needs your server</span></div>
+<p>Records changes to usernames, display names and per-server nicknames over time.</p>
+<h3>What it does</h3>
+<ul><li>Right-click a person and choose View Name History.</li><li>Works for global display names, not only server nicknames.</li><li>Only changes your client observed are recorded, starting from when you enable it.</li></ul>
+
+</article><article class="plugin" id="lastseen">
+<div class="plugin-head"><h2>LastSeen</h2><span class="tag tag-server">needs your server</span></div>
+<p>Remembers when someone was last seen, and what showed it: going offline, typing or sending a message.</p>
+<h3>What it does</h3>
+<ul><li>Right-click a person and choose Last Seen.</li><li>Logs the moment someone leaves online, idle or do not disturb, each message they send, and when they start typing.</li><li>Typing is logged once per person every 30 seconds, so it does not flood your server.</li></ul>
+<h3>Good to know</h3><p>This is not a read receipt. Discord does not give clients that data, and LastSeen only knows what your own client saw while it was running. Someone in invisible mode looks the same as offline.</p>
+</article><article class="plugin" id="usertags">
+<div class="plugin-head"><h2>UserTags</h2><span class="tag tag-server">needs your server</span></div>
+<p>Your own tags and a private note on any person, stored on your server.</p>
+<h3>What it does</h3>
+<ul><li>Right-click a person and choose Tags &amp; Notes.</li><li>Tags show next to their name in chat. Hover a tag to see the note.</li><li>Settings has a Browse tagged people button with a filter by tag.</li></ul>
+<h3>Good to know</h3><p>Separate from Discord&#x27;s built-in notes, which stay as they are.</p>
+</article><article class="plugin" id="bulkexport">
+<div class="plugin-head"><h2>BulkExport</h2><span class="tag">no server needed</span></div>
+<p>Exports the full history of a channel or DM to a JSON file.</p>
+<h3>What it does</h3>
+<ul><li>Runs locally and saves a file to your computer. No server needed.</li><li>Long histories take a while because Discord limits how fast messages can be fetched.</li></ul>
+
+</article><article class="plugin" id="autoleaveemptyvc">
+<div class="plugin-head"><h2>AutoLeaveEmptyVC</h2><span class="tag">no server needed</span></div>
+<p>Disconnects you from a voice channel once you are the only human left.</p>
+<h3>What it does</h3>
+<ul><li>You choose the delay before leaving. The default is 30 seconds.</li><li>Bots do not count as people.</li><li>If you join an empty channel and nobody comes, you can stay. It only leaves after someone joined and then left.</li></ul>
+
+</article><article class="plugin" id="autoquest">
+<div class="plugin-head"><h2>AutoQuest</h2><span class="tag">no server needed</span><span class="tag tag-risk">account risk</span></div>
+<p>Completes the Discord Quests you have accepted, in the background, and tries to claim the reward.</p>
+<h3>What it does</h3>
+<ul><li>Handles play-a-game quests, watch-a-video quests and play-an-activity quests. Stream quests are not supported because they need a real viewer.</li><li>Checks for new accepted quests every few minutes. Both the check interval and toast messages are settings.</li><li>Auto-claim is on by default. If Discord asks for a captcha or extra details, the reward is left for you to claim in the Quests tab.</li></ul>
+<h3>Good to know</h3><p>Automating quests breaks Discord&#x27;s rules and has led to account suspensions for some users. Accept the quests yourself first. Use a spare account if you can.</p>
+</article>
+</div>
+</section>
+
+</main>
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
+<p class="footer-note">A free, open-source fork of Vencord for the Discord desktop app. Not affiliated with Discord Inc. or the Vencord project.</p>
+</div>
+<div>
+<h2>Project</h2>
+<ul>
+<li><a href="/plugins">Plugins</a></li>
+<li><a href="/install">Install</a></li>
+<li><a href="/install#server">Self-hosting</a></li>
+</ul>
+</div>
+<div>
+<h2>Source</h2>
+<ul>
+<li><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a></li>
+<li><a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a></li>
+<li><a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a></li>
+<li><a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a></li>
+</ul>
+</div>
+<div>
+<h2>Legal</h2>
+<ul>
+<li><a href="/privacy">Privacy policy</a></li>
+<li><a href="/terms">Terms</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</div>
+</div>
+</footer>
+<button class="icon-btn to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="cookie" role="region" aria-label="Notice" hidden>
+<p>This site sets no cookies and has no analytics. It remembers your theme choice and this notice in your browser's local storage. <a href="/privacy">Details</a></p>
+<button class="btn btn-primary" type="button">Got it</button>
+</div>
+</body>
+</html>

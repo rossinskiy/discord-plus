@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install and self-host | Discord+</title>
+<meta name="description" content="How to install Discord+ from source, update or remove it, and how to set up the optional server for message archive, name history, last seen and tags.">
+<link rel="canonical" href="https://discordplus.karatel.win/install">
+<meta name="theme-color" content="#0f172a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Discord+">
+<meta property="og:title" content="Install and self-host | Discord+">
+<meta property="og:description" content="How to install Discord+ from source, update or remove it, and how to set up the optional server for message archive, name history, last seen and tags.">
+<meta property="og:url" content="https://discordplus.karatel.win/install">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container header-inner">
+<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
+<button class="icon-btn menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<nav class="nav" id="site-nav" aria-label="Main">
+<a href="/plugins">Plugins</a>
+<a href="/install" aria-current="page">Install</a>
+<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a>
+<button class="icon-btn theme-toggle" type="button" aria-label="Switch between dark and light theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</nav>
+</div>
+</header>
+<main id="main">
+
+<section class="page-head">
+<div class="container">
+<h1>Install</h1>
+<p>Discord+ is installed from source. It takes a few minutes and needs a terminal.</p>
+</div>
+</section>
+<section class="section">
+<div class="container prose">
+<h2 id="client">The client</h2>
+<p>You need <strong>Node.js 22 or newer</strong>, <a href="https://pnpm.io" rel="noopener">pnpm</a>, <strong>Git</strong> and the stable Discord desktop app. It is tested on Windows. Do not use the installers on vencord.dev, because they install stock Vencord instead of Discord+.</p>
+<ol class="steps">
+<li><strong>Get the code</strong><div class="code-block"><pre><code>git clone https://github.com/rossinskiy/discord-plus.git
+cd discord-plus</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
+<li><strong>Install dependencies</strong><div class="code-block"><pre><code>pnpm install</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
+<li><strong>Build</strong><div class="code-block"><pre><code>pnpm build</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
+<li><strong>Inject it into Discord</strong>
+<p>This points your Discord at the project folder. Close Discord first if the installer asks you to.</p>
+<div class="code-block"><pre><code>pnpm inject</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
+<li><strong>Restart Discord</strong>
+<p>Open Settings and look for the Discord+ entries. Plugins are off until you enable them in the plugin list.</p></li>
+</ol>
+
+<h3>Update</h3>
+<div class="code-block"><pre><code>git pull
+pnpm install
+pnpm build</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
+<p>Then restart Discord. Changes that only touch the interface can be picked up with <kbd>Ctrl</kbd> + <kbd>R</kbd>, but a full restart is safer.</p>
+
+<h3>Uninstall</h3>
+<div class="code-block"><pre><code>pnpm uninject</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
+<p>Restart Discord afterwards and it goes back to normal.</p>
+
+<h2 id="server">The server (optional)</h2>
+<p>Only MessageArchive, NicknameHistory, LastSeen and UserTags need it. You can skip this section if you do not use them. You need a machine that is always on, such as a small VPS, with Node.js installed.</p>
+<ol class="steps">
+<li><strong>Copy the server folder to the machine</strong>
+<p>It is the <code class="inline">server</code> folder in the repository. Run this inside it:</p>
+<div class="code-block"><pre><code>npm install</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
+<li><strong>Choose a secret token</strong>
+<p>Make a long random string. Copy <code class="inline">ecosystem.config.example.cjs</code> to <code class="inline">ecosystem.config.cjs</code> and put the token in <code class="inline">ARCHIVE_TOKEN</code>. Keep that file private.</p></li>
+<li><strong>Start it</strong>
+<p>With pm2, or plain Node:</p>
+<div class="code-block"><pre><code>pm2 start ecosystem.config.cjs
+# or: ARCHIVE_TOKEN=your-token node server.js</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
+<p>It listens on port 8790 on localhost only.</p></li>
+<li><strong>Put it behind HTTPS</strong>
+<p>Discord only lets plugins call HTTPS addresses. A Cloudflare Tunnel or a reverse proxy such as Caddy or nginx works. Point your domain at <code class="inline">http://localhost:8790</code>.</p></li>
+<li><strong>Tell the plugins where it is</strong>
+<p>In Discord, open the settings of MessageArchive and enter your server URL and the token. NicknameHistory, LastSeen and UserTags use the same token automatically unless you give them their own.</p></li>
+</ol>
+
+<h3>If something does not work</h3>
+<ul>
+<li><strong>Server responded with 401.</strong> The token is empty or does not match <code class="inline">ARCHIVE_TOKEN</code> on the server.</li>
+<li><strong>Failed to fetch.</strong> Check the server URL, that it uses https, and that the server is running.</li>
+<li><strong>Settings or a window crashes after a Discord update.</strong> Discord changed something inside the app. Pull the latest code and rebuild, as shown above.</li>
+</ul>
+<p class="meta">Still stuck? <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Open an issue on GitHub</a>.</p>
+</div>
+</section>
+
+</main>
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
+<p class="footer-note">A free, open-source fork of Vencord for the Discord desktop app. Not affiliated with Discord Inc. or the Vencord project.</p>
+</div>
+<div>
+<h2>Project</h2>
+<ul>
+<li><a href="/plugins">Plugins</a></li>
+<li><a href="/install">Install</a></li>
+<li><a href="/install#server">Self-hosting</a></li>
+</ul>
+</div>
+<div>
+<h2>Source</h2>
+<ul>
+<li><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a></li>
+<li><a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a></li>
+<li><a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a></li>
+<li><a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a></li>
+</ul>
+</div>
+<div>
+<h2>Legal</h2>
+<ul>
+<li><a href="/privacy">Privacy policy</a></li>
+<li><a href="/terms">Terms</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</div>
+</div>
+</footer>
+<button class="icon-btn to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="cookie" role="region" aria-label="Notice" hidden>
+<p>This site sets no cookies and has no analytics. It remembers your theme choice and this notice in your browser's local storage. <a href="/privacy">Details</a></p>
+<button class="btn btn-primary" type="button">Got it</button>
+</div>
+</body>
+</html>

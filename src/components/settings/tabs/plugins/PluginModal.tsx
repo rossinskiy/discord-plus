@@ -186,7 +186,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                 text="View more info"
                                 href={
                                     isOwnPlugin
-                                        ? `https://github.com/${gitRemote}#readme`
+                                        ? `https://discordplus.karatel.win/plugins#${plugin.name.toLowerCase()}`
                                         : `https://vencord.dev/plugins/${plugin.name}`
                                 }
                             />

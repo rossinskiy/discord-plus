@@ -1,65 +1,37 @@
-# Contributing to Vencord
+# Contributing to Discord+
 
-> [!NOTE]
-> **AI Usage Notice**
->
-> Your contribution must be majority human written! Some AI assistance like inline suggestions is acceptable, but "vibecoded" contributions are not welcome.
-> Also **do not** use AI to generate your pull request description, README.md or in communication. Ignoring this rule will lead to a permanent block.
+Bug reports, fixes and new plugins are welcome. Discord+ is a fork of [Vencord](https://github.com/Vendicated/Vencord), so most of the code in `src/` is theirs, and the Discord+ parts are the plugins listed in the [README](README.md), the second-account window in `src/main/multiAccount.ts` and the backend in `server/`.
 
-Vencord is a community project and welcomes any kind of contribution from anyone!
+Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-We have development documentation for new contributors, which can be found at <https://docs.vencord.dev>.
+## Reporting a problem
 
-All contributions should be made in accordance with our [Code of Conduct](./CODE_OF_CONDUCT.md).
+Open an issue on [GitHub](https://github.com/rossinskiy/discord-plus/issues). Include your Discord build number (shown in the console on start), what you did, what you expected and what happened. For a crash, the red error from the console (`Ctrl+Shift+I`) helps the most.
 
-## How to contribute
+Discord updates often change internal names and break plugins. If something stopped working after a Discord update, say so in the issue.
 
-Contributions can be sent via pull requests. If you're new to Git, check [this guide](https://opensource.com/article/19/7/create-pull-request-github).
+## Sending a change
 
-Pull requests can be made either to the `main` or the `dev` branch. However, unless you're an advanced user, I recommend sticking to `main`.
-This is because the dev branch might contain unstable changes and be force pushed frequently, which could cause conflicts in your pull request.
+1. Fork the repository and make a branch from `main`.
+2. Set up the project as described on the [install page](https://discordplus.karatel.win/install), then run `pnpm build` after each change.
+3. Check types and style before you push: `pnpm exec tsc --noEmit` and `pnpm exec eslint` on the files you touched.
+4. Open a pull request against `main` and describe what changed and how you tested it in Discord.
 
-Before working on a major change, I highly recommend opening a feature request for it, making sure to check "I am willing to work on this myself",
-so we can discuss before you invest time. Alternatively, you can also do so in our Discord server's development
-channels. This saves you a lot of time in case your feature is considered too niche or rejected for any other reason.
+Keep changes small and focused. For a big change, open an issue first so we can agree on it before you spend time.
 
-## Write a plugin
+## Writing a plugin
 
-Writing a plugin is the primary way to contribute.
+Plugins live in `src/plugins/<name>/`. Look at a small one such as `src/plugins/autoLeaveEmptyVC` for the structure. A few rules:
 
-Before starting your plugin:
-- Consider if this plugin would be useful to a large portion of the userbase. We do not accept niche plugins
-- Check existing pull requests to see if someone is already working on a similar plugin
-- Familarise yourself with our plugin rules below to ensure your plugin is not banned
+- Never commit secrets. Tokens and server addresses belong in the user's plugin settings, not in the code.
+- Plugins that save data must send it only to a server the user configured.
+- Do not add dependencies unless there is no sensible alternative.
+- Say plainly in the description if a plugin carries a risk for the user's account.
 
-### Plugin Rules
+## About AI-assisted code
 
-- No simple slash command plugins like `/cat`. Instead, make a [user installable Discord bot](https://discord.com/developers/docs/change-log#userinstallable-apps-preview)
-- No simple text replace plugins like Let me Google that for you. The TextReplace plugin can do this
-- No raw DOM manipulation. Use proper patches and React
-- No FakeDeafen or FakeMute
-- No StereoMic
-- No plugins that simply hide or redesign ui elements. This can be done with CSS
-- No plugins that interact with specific Discord bots (official Discord apps like Youtube WatchTogether are okay)
-- No selfbots or API spam (animated status, message pruner, auto reply, nitro snipers, etc)
-- No untrusted third party APIs. Popular services like Google or GitHub are fine, but absolutely no self hosted ones
-- No plugins that require the user to enter their own API key
-- Do not introduce new dependencies unless absolutely necessary and warranted
+Discord+ itself is vibe-coded, so AI help is fine here. You are still responsible for what you submit: run it, test it in Discord and be able to explain it. Untested generated code will be sent back.
 
-## Improve Vencord itself
+## Contributing to Vencord instead
 
-If you have any ideas on how to improve Vencord itself, or want to propose a new plugin API, feel free to open a feature request so we can discuss.
-
-Or if you notice any bugs or typos, feel free to fix them!
-
-## Contribute to our Documentation
-
-The source code of our documentation is available at <https://github.com/Vencord/Docs>
-
-If you see anything outdated, incorrect or lacking, please fix it!
-If you think a new page should be added, feel free to suggest it via an issue and we can discuss.
-
-## Help out users in our Discord community
-
-We have an open support channel in our [Discord community](https://vencord.dev/discord).
-Helping out users there is always appreciated! The more, the merrier.
+If your change belongs in Vencord itself, send it there and follow the [Vencord contribution guide](https://github.com/Vendicated/Vencord/blob/main/CONTRIBUTING.md). Its rules are stricter than ours. In particular, Vencord does not accept AI-generated contributions, niche plugins, or anything that automates actions on an account, so most Discord+ plugins would not be accepted there.
