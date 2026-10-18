@@ -86,7 +86,7 @@ const HistoryMenuItem: NavContextMenuPatchCallback = (children, { user }: { user
 export default definePlugin({
     name: "LastSeen",
     authors: [Devs.Tsar],
-    description: "Remembers when a user was last seen online (based on presence changes and messages you've observed) and what caused that reading. Not real read receipts — Discord doesn't expose that to any client.",
+    description: "Remembers when a user was last seen online (based on presence changes and messages you've observed) and what caused that reading. Not real read receipts — Discord doesn't expose that to any client. Stored locally on your own computer.",
     tags: ["Utility"],
     settings,
     contextMenus: {

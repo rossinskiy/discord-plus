@@ -4,12 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getArchiveToken } from "@utils/archiveToken";
-import { Logger } from "@utils/Logger";
+import * as DataStore from "@api/DataStore";
 
-import { settings } from "./settings";
-
-const logger = new Logger("LastSeen");
+const STORE_KEY = "LastSeen_data";
+const MAX_HISTORY_PER_USER = 50;
 
 export interface PresenceEvent {
     userId: string;
@@ -26,61 +24,32 @@ export interface PresenceHistoryRow {
     timestamp: number;
 }
 
-let cspChecked = false;
-
-async function ensureCspAllowed() {
-    if (cspChecked || IS_WEB) return;
-
-    const url = settings.store.serverUrl;
-    if (await VencordNative.csp.isDomainAllowed(url, ["connect-src"])) {
-        cspChecked = true;
-        return;
-    }
-
-    const res = await VencordNative.csp.requestAddOverride(url, ["connect-src"], "Discord+ Last Seen");
-    if (res === "ok") cspChecked = true;
-    else logger.warn("CSP override for the archive server was not granted:", res);
-}
-
-function baseUrl() {
-    return settings.store.serverUrl.replace(/\/+$/, "");
-}
-
-function headers() {
-    return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${getArchiveToken(settings.store.token)}`
-    };
-}
+type Store = Record<string, PresenceHistoryRow[]>;
 
 export async function sendPresenceEvents(events: PresenceEvent[]) {
-    if (!getArchiveToken(settings.store.token) || !events.length) return;
+    if (!events.length) return;
 
-    try {
-        await ensureCspAllowed();
-        await fetch(`${baseUrl()}/presence-events`, {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify({ events })
+    const store: Store = await DataStore.get(STORE_KEY) ?? {};
+    for (const event of events) {
+        const rows = store[event.userId] ?? (store[event.userId] = []);
+        rows.unshift({
+            reason: event.reason,
+            status: event.status ?? null,
+            channel_id: event.channelId ?? null,
+            timestamp: event.timestamp
         });
-    } catch (e) {
-        logger.error("Failed to send presence events", e);
+        if (rows.length > MAX_HISTORY_PER_USER) rows.length = MAX_HISTORY_PER_USER;
     }
+    await DataStore.set(STORE_KEY, store);
 }
 
 export async function getLastSeen(userId: string): Promise<{ latest: PresenceHistoryRow; history: PresenceHistoryRow[]; } | null> {
-    await ensureCspAllowed();
-    const res = await fetch(`${baseUrl()}/presence/${userId}`, { headers: headers() });
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-    return res.json();
+    const store: Store = await DataStore.get(STORE_KEY) ?? {};
+    const history = store[userId];
+    if (!history?.length) return null;
+    return { latest: history[0], history };
 }
 
 export async function clearLastSeen() {
-    await ensureCspAllowed();
-    const res = await fetch(`${baseUrl()}/clear-presence`, {
-        method: "POST",
-        headers: headers()
-    });
-    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+    await DataStore.set(STORE_KEY, {});
 }

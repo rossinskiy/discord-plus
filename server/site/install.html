@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Install and self-host | Discord+</title>
-<meta name="description" content="How to install Discord+ from source, update or remove it, and how to set up the optional server for message archive, name history, last seen and tags.">
+<title>Install | Discord+</title>
+<meta name="description" content="How to install Discord+ from source, and how to update or remove it.">
 <link rel="canonical" href="https://discordplus.karatel.win/install">
 <meta name="theme-color" content="#0f172a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
-<meta property="og:title" content="Install and self-host | Discord+">
-<meta property="og:description" content="How to install Discord+ from source, update or remove it, and how to set up the optional server for message archive, name history, last seen and tags.">
+<meta property="og:title" content="Install | Discord+">
+<meta property="og:description" content="How to install Discord+ from source, and how to update or remove it.">
 <meta property="og:url" content="https://discordplus.karatel.win/install">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -65,29 +65,8 @@ pnpm build</code></pre><button class="icon-btn copy-btn" type="button" aria-labe
 <div class="code-block"><pre><code>pnpm uninject</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
 <p>Restart Discord afterwards and it goes back to normal.</p>
 
-<h2 id="server">The server (optional)</h2>
-<p>Only MessageArchive, NicknameHistory, LastSeen and UserTags need it. You can skip this section if you do not use them. You need a machine that is always on, such as a small VPS, with Node.js installed.</p>
-<ol class="steps">
-<li><strong>Copy the server folder to the machine</strong>
-<p>It is the <code class="inline">server</code> folder in the repository. Run this inside it:</p>
-<div class="code-block"><pre><code>npm install</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></li>
-<li><strong>Choose a secret token</strong>
-<p>Make a long random string. Copy <code class="inline">ecosystem.config.example.cjs</code> to <code class="inline">ecosystem.config.cjs</code> and put the token in <code class="inline">ARCHIVE_TOKEN</code>. Keep that file private.</p></li>
-<li><strong>Start it</strong>
-<p>With pm2, or plain Node:</p>
-<div class="code-block"><pre><code>pm2 start ecosystem.config.cjs
-# or: ARCHIVE_TOKEN=your-token node server.js</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
-<p>It listens on port 8790 on localhost only.</p></li>
-<li><strong>Put it behind HTTPS</strong>
-<p>Discord only lets plugins call HTTPS addresses. A Cloudflare Tunnel or a reverse proxy such as Caddy or nginx works. Point your domain at <code class="inline">http://localhost:8790</code>.</p></li>
-<li><strong>Tell the plugins where it is</strong>
-<p>In Discord, open the settings of MessageArchive and enter your server URL and the token. NicknameHistory, LastSeen and UserTags use the same token automatically unless you give them their own.</p></li>
-</ol>
-
 <h3>If something does not work</h3>
 <ul>
-<li><strong>Server responded with 401.</strong> The token is empty or does not match <code class="inline">ARCHIVE_TOKEN</code> on the server.</li>
-<li><strong>Failed to fetch.</strong> Check the server URL, that it uses https, and that the server is running.</li>
 <li><strong>Settings or a window crashes after a Discord update.</strong> Discord changed something inside the app. Pull the latest code and rebuild, as shown above.</li>
 </ul>
 <p class="meta">Still stuck? <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Open an issue on GitHub</a>.</p>

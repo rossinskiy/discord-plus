@@ -49,16 +49,6 @@ function ClearButton() {
 }
 
 export const settings = definePluginSettings({
-    serverUrl: {
-        type: OptionType.STRING,
-        description: "Discord+ archive server URL",
-        default: "https://discordplus.karatel.win"
-    },
-    token: {
-        type: OptionType.STRING,
-        description: "Archive server auth token. Leave empty to use the token from MessageArchive",
-        default: ""
-    },
     trackUsernames: {
         type: OptionType.BOOLEAN,
         description: "Track global username/display name changes",
@@ -71,7 +61,7 @@ export const settings = definePluginSettings({
     },
     clearHistory: {
         type: OptionType.COMPONENT,
-        description: "Immediately delete all tracked name history from the server",
+        description: "Immediately delete all tracked name history stored on this computer",
         component: ClearButton
     }
 });

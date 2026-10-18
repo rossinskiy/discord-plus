@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Logger } from "@utils/Logger";
+import * as DataStore from "@api/DataStore";
 
-import { settings } from "./settings";
-
-const logger = new Logger("MessageArchive");
+const STORE_KEY = "MessageArchive_data";
+// Mirrors the old server's retention window, applied locally on read/write instead.
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 export interface ArchiveEvent {
     type: "upsert" | "delete";
@@ -47,61 +47,70 @@ export interface ArchiveHistory {
     edits: { old_content: string; edited_at: number; }[];
 }
 
-function baseUrl() {
-    return settings.store.serverUrl.replace(/\/+$/, "");
+type Store = Record<string, ArchiveHistory>;
+
+function isExpired(entry: ArchiveHistory, now: number) {
+    return now - (entry.deletedAt ?? entry.current.updatedAt) > MAX_AGE_MS;
 }
 
-let cspChecked = false;
-
-export async function ensureCspAllowed() {
-    if (cspChecked || IS_WEB) return;
-
-    const url = settings.store.serverUrl;
-    if (await VencordNative.csp.isDomainAllowed(url, ["connect-src"])) {
-        cspChecked = true;
-        return;
+async function loadStore(): Promise<Store> {
+    const store: Store = await DataStore.get(STORE_KEY) ?? {};
+    const now = Date.now();
+    let changed = false;
+    for (const id of Object.keys(store)) {
+        if (isExpired(store[id], now)) {
+            delete store[id];
+            changed = true;
+        }
     }
-
-    const res = await VencordNative.csp.requestAddOverride(url, ["connect-src"], "Discord+ Message Archive");
-    if (res === "ok") cspChecked = true;
-    else logger.warn("CSP override for the archive server was not granted:", res);
-}
-
-function headers() {
-    return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${settings.store.token}`
-    };
+    if (changed) await DataStore.set(STORE_KEY, store);
+    return store;
 }
 
 export async function sendEvents(events: ArchiveEvent[]) {
-    if (!settings.store.token || !events.length) return;
+    if (!events.length) return;
 
-    try {
-        await ensureCspAllowed();
-        await fetch(`${baseUrl()}/events`, {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify({ events })
-        });
-    } catch (e) {
-        logger.error("Failed to send events", e);
+    const store = await loadStore();
+    for (const event of events) {
+        if (event.type === "delete") {
+            const entry = store[event.messageId];
+            if (entry) entry.deletedAt = event.timestamp;
+            continue;
+        }
+
+        const existing = store[event.messageId];
+        if (!existing) {
+            store[event.messageId] = {
+                current: {
+                    content: event.content ?? "",
+                    attachments: event.attachments ?? [],
+                    authorId: event.authorId ?? null,
+                    channelId: event.channelId,
+                    guildId: event.guildId ?? null,
+                    createdAt: event.timestamp,
+                    updatedAt: event.timestamp
+                },
+                deletedAt: null,
+                edits: []
+            };
+            continue;
+        }
+
+        if (event.content !== undefined && event.content !== existing.current.content) {
+            existing.edits.push({ old_content: existing.current.content, edited_at: event.timestamp });
+        }
+        existing.current.content = event.content ?? existing.current.content;
+        existing.current.attachments = event.attachments ?? existing.current.attachments;
+        existing.current.updatedAt = event.timestamp;
     }
+    await DataStore.set(STORE_KEY, store);
 }
 
 export async function getHistory(messageId: string): Promise<ArchiveHistory | null> {
-    await ensureCspAllowed();
-    const res = await fetch(`${baseUrl()}/history/${messageId}`, { headers: headers() });
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-    return res.json();
+    const store = await loadStore();
+    return store[messageId] ?? null;
 }
 
 export async function clearArchive() {
-    await ensureCspAllowed();
-    const res = await fetch(`${baseUrl()}/clear`, {
-        method: "POST",
-        headers: headers()
-    });
-    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+    await DataStore.set(STORE_KEY, {});
 }

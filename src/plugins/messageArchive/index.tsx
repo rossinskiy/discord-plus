@@ -176,7 +176,7 @@ const patchChannelContextMenu: NavContextMenuPatchCallback = (children, { channe
 
 export default definePlugin({
     name: "MessageArchive",
-    description: "Logs deleted/edited messages inline (like MessageLogger) and persists them to your own server so history survives a client restart.",
+    description: "Logs deleted/edited messages inline (like MessageLogger) and persists them locally on your own computer so history survives a client restart.",
     tags: ["Chat", "Utility"],
     authors: [Devs.Tsar],
     dependencies: ["MessageUpdaterAPI"],

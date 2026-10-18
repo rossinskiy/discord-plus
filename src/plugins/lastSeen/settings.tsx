@@ -49,19 +49,9 @@ function ClearButton() {
 }
 
 export const settings = definePluginSettings({
-    serverUrl: {
-        type: OptionType.STRING,
-        description: "Discord+ archive server URL",
-        default: "https://discordplus.karatel.win"
-    },
-    token: {
-        type: OptionType.STRING,
-        description: "Archive server auth token. Leave empty to use the token from MessageArchive",
-        default: ""
-    },
     clearData: {
         type: OptionType.COMPONENT,
-        description: "Immediately delete all last-seen data from the server",
+        description: "Immediately delete all last-seen data stored on this computer",
         component: ClearButton
     }
 });

@@ -20,16 +20,6 @@ function BrowseButton() {
 }
 
 export const settings = definePluginSettings({
-    serverUrl: {
-        type: OptionType.STRING,
-        description: "Discord+ archive server URL",
-        default: "https://discordplus.karatel.win"
-    },
-    token: {
-        type: OptionType.STRING,
-        description: "Archive server auth token. Leave empty to use the token from MessageArchive",
-        default: ""
-    },
     showInMessages: {
         type: OptionType.BOOLEAN,
         description: "Show a person's tags next to their name in chat",

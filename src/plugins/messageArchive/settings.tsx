@@ -57,16 +57,6 @@ function ClearArchiveButton() {
 }
 
 export const settings = definePluginSettings({
-    serverUrl: {
-        type: OptionType.STRING,
-        description: "Discord+ message archive server URL",
-        default: "https://discordplus.karatel.win"
-    },
-    token: {
-        type: OptionType.STRING,
-        description: "Archive server auth token (set this to the ARCHIVE_TOKEN configured on your server)",
-        default: ""
-    },
     deleteStyle: {
         type: OptionType.SELECT,
         description: "The style of deleted messages",
@@ -133,7 +123,7 @@ export const settings = definePluginSettings({
     },
     clearArchive: {
         type: OptionType.COMPONENT,
-        description: "Immediately delete all archived messages from the server (they also auto-expire after 7 days)",
+        description: "Immediately delete all archived messages stored on this computer (they also auto-expire after 7 days)",
         component: ClearArchiveButton
     }
 });

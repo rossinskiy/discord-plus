@@ -1,6 +1,6 @@
 # Contributing to Discord+
 
-Bug reports, fixes and new plugins are welcome. Discord+ is a fork of [Vencord](https://github.com/Vendicated/Vencord), so most of the code in `src/` is theirs, and the Discord+ parts are the plugins listed in the [README](README.md), the second-account window in `src/main/multiAccount.ts` and the backend in `server/`.
+Bug reports, fixes and new plugins are welcome. Discord+ is a fork of [Vencord](https://github.com/Vendicated/Vencord), so most of the code in `src/` is theirs, and the Discord+ parts are the plugins listed in the [README](README.md), the second-account window in `src/main/multiAccount.ts` and the website in `server/`.
 
 Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 

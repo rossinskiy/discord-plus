@@ -50,7 +50,7 @@ const HistoryMenuItem: NavContextMenuPatchCallback = (children, { user }: { user
 export default definePlugin({
     name: "NicknameHistory",
     authors: [Devs.Tsar],
-    description: "Tracks username, display name, and per-server nickname changes over time, persisted to your own server.",
+    description: "Tracks username, display name, and per-server nickname changes over time, stored locally on your own computer.",
     tags: ["Utility"],
     settings,
     contextMenus: {

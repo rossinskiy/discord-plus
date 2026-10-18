@@ -59,7 +59,7 @@ function MessageTags({ message }: { message: { author?: { id: string; }; }; }) {
 export default definePlugin({
     name: "UserTags",
     authors: [Devs.Tsar],
-    description: "Add your own tags and a private note to any person (e.g. \"work\", \"owes money\"), shown next to their name in chat and filterable by tag. Stored on your own server, separate from Discord's built-in notes.",
+    description: "Add your own tags and a private note to any person (e.g. \"work\", \"owes money\"), shown next to their name in chat and filterable by tag. Stored locally on your own computer, separate from Discord's built-in notes.",
     tags: ["Utility"],
     settings,
     contextMenus: {

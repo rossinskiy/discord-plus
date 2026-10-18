@@ -1,6 +1,6 @@
 # Discord+
 
-Discord+ is a desktop Discord client mod built for people who want Discord to remember things and run chores for them. It adds a set of its own plugins, a second-account window and an optional self-hosted backend, on top of the Vencord plugin framework.
+Discord+ is a desktop Discord client mod built for people who want Discord to remember things and run chores for them. It adds a set of its own plugins and a second-account window on top of the Vencord plugin framework.
 
 It is a fork of [Vencord](https://github.com/Vendicated/Vencord) and is licensed under GPL-3.0, the same license as Vencord. See [Credits and license](#credits-and-license).
 
@@ -12,26 +12,19 @@ It is a fork of [Vencord](https://github.com/Vendicated/Vencord) and is licensed
 
 | Plugin | What it does |
 | --- | --- |
-| MessageArchive | Saves edited and deleted messages to your own server and shows them in chat like MessageLogger does. Old entries are removed after 7 days, or on demand from the plugin settings. Replaces MessageLogger. |
-| NicknameHistory | Records changes to usernames, display names and per-server nicknames, so you can see what someone used to be called. |
-| LastSeen | Remembers when someone was last seen online, was typing, or sent a message, and why that reading was made. It only knows what your own client saw, and it is not a read receipt. |
+| MessageArchive | Saves edited and deleted messages locally on your own computer and shows them in chat like MessageLogger does. Old entries are removed after 7 days, or on demand from the plugin settings. Replaces MessageLogger. |
+| NicknameHistory | Records changes to usernames, display names and per-server nicknames, so you can see what someone used to be called. Stored locally. |
+| LastSeen | Remembers when someone was last seen online, was typing, or sent a message, and why that reading was made. It only knows what your own client saw, and it is not a read receipt. Stored locally. |
 | BulkExport | Exports the full history of a channel or DM to a JSON file. |
 | AutoLeaveEmptyVC | Disconnects you from a voice channel once you are the only human left, after a delay you choose. |
 | AutoQuest | Completes the Discord Quests you have accepted in the background and tries to claim the reward. See the warning below. |
-| UserTags | Lets you give any person your own tags and a private note, shows the tags next to their name in chat, and lets you filter everyone you have tagged. |
+| UserTags | Lets you give any person your own tags and a private note, shows the tags next to their name in chat, and lets you filter everyone you have tagged. Stored locally. |
 
 Every Vencord plugin still works alongside these.
 
-## Self-hosted backend
+## Local-only data
 
-MessageArchive, NicknameHistory, LastSeen and UserTags store their data on a small server that you run yourself. It is a Node.js app using Express and SQLite, in [server/](server). Nothing is sent anywhere else.
-
-1. Copy `server/ecosystem.config.example.cjs` to `ecosystem.config.cjs` and set `ARCHIVE_TOKEN` to a long random string.
-2. Install and start it, for example `npm install` and then `pm2 start ecosystem.config.cjs`.
-3. Put it behind HTTPS (a Cloudflare Tunnel works well).
-4. In each of those plugins' settings, enter your server URL and the same token.
-
-The token is never part of the repository. Each plugin keeps its own settings, so the token has to be entered in each one.
+MessageArchive, NicknameHistory, LastSeen and UserTags keep all of their data on your own computer (in the client's local IndexedDB storage), never on any server. Nothing is sent anywhere else, there is nothing to self-host, and no token or server URL to configure.
 
 ## Installing
 
