@@ -35,11 +35,13 @@ type TaskType = typeof TASK_TYPES[number];
 
 let running = false;
 let stopped = true;
-let checkTimer: ReturnType<typeof setInterval> | undefined;
+let checkTimer: ReturnType<typeof setTimeout> | undefined;
 const failedQuests = new Set<string>();
 const claimAttempted = new Set<string>();
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+const rand = (min: number, max: number) => min + Math.random() * (max - min);
+const randInt = (min: number, max: number) => Math.floor(rand(min, max + 1));
 
 function toast(message: string, type = Toasts.Type.MESSAGE) {
     if (settings.store.showToasts) showToast(message, type);
@@ -68,15 +70,16 @@ function getProgress(quest: any, task: TaskType): number {
 async function completeVideo(quest: any, task: TaskType) {
     const needed: number = quest.config.taskConfigV2.tasks[task].target;
     const enrolledAt = new Date(quest.userStatus.enrolledAt).getTime();
-    const speed = 7;
     const maxFuture = 10;
     let done = getProgress(quest, task);
     let completed = false;
 
     // The server rejects timestamps further ahead than real elapsed time since
-    // enrolling (plus a small margin), so advance in small steps as allowed.
+    // enrolling (plus a small margin), so advance in small, uneven steps -
+    // a human watching doesn't check in on a fixed clock tick.
     while (!stopped && done < needed) {
         const maxAllowed = Math.floor((Date.now() - enrolledAt) / 1000) + maxFuture;
+        const speed = rand(3, 9);
         if (maxAllowed - done >= speed) {
             const timestamp = Math.min(needed, done + speed);
             const res = await RestAPI.post({
@@ -86,7 +89,9 @@ async function completeVideo(quest: any, task: TaskType) {
             completed = res.body?.completed_at != null;
             done = timestamp;
         }
-        await sleep(1000);
+        // Occasionally sit on the current timestamp a bit longer, as if the
+        // window lost focus or attention drifted for a moment.
+        await sleep(rand(800, 1600) + (Math.random() < 0.08 ? rand(2000, 6000) : 0));
     }
 
     if (!stopped && !completed) {
@@ -113,7 +118,7 @@ async function completeActivity(quest: any, task: TaskType) {
             });
             return;
         }
-        await sleep(20_000);
+        await sleep(rand(16_000, 24_000));
     }
 }
 
@@ -131,7 +136,12 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     if (!exe) throw new Error("application has no known executable");
 
     const exeName: string = exe.name.replace(">", "");
-    const pid = Math.floor(Math.random() * 30000) + 1000;
+    // A real launch doesn't happen the instant the quest is accepted - leave
+    // a believable gap, as if the user went and opened the game themselves.
+    await sleep(rand(8_000, 25_000));
+    if (stopped) return;
+
+    const pid = randInt(4000, 28000);
     const fakeGame = {
         cmdLine: `C:\\Program Files\\${app.name}\\${exeName}`,
         exeName,
@@ -224,8 +234,9 @@ async function claimPending() {
     if (!settings.store.autoClaim) return;
     for (const quest of getUnclaimedQuests()) {
         if (stopped) return;
+        await sleep(rand(4000, 15_000));
+        if (stopped) return;
         await claimReward(quest);
-        await sleep(3000);
     }
 }
 
@@ -255,9 +266,9 @@ async function runNext() {
         if (!stopped) {
             toast(`Auto Quest: "${name}" completed.`, Toasts.Type.SUCCESS);
             if (settings.store.autoClaim) {
-                await sleep(3000);
+                await sleep(rand(4000, 15_000));
                 const fresh = [...QuestsStore.quests.values()].find((q: any) => q.id === quest.id) ?? quest;
-                if (!fresh.userStatus?.claimedAt && !claimAttempted.has(fresh.id)) await claimReward(fresh);
+                if (!stopped && !fresh.userStatus?.claimedAt && !claimAttempted.has(fresh.id)) await claimReward(fresh);
             }
         }
     } catch (err) {
@@ -268,8 +279,9 @@ async function runNext() {
         running = false;
     }
 
-    // Chain straight into the next accepted quest, if any.
-    if (!stopped) setTimeout(runNext, 2000);
+    // Chain into the next accepted quest, if any, after a human-ish pause
+    // rather than instantly.
+    if (!stopped) setTimeout(runNext, rand(3000, 9000));
 }
 
 export default definePlugin({
@@ -281,13 +293,18 @@ export default definePlugin({
 
     start() {
         stopped = false;
-        setTimeout(runNext, 15_000);
-        checkTimer = setInterval(runNext, Math.max(1, settings.store.checkMinutes) * 60_000);
+        setTimeout(runNext, rand(15_000, 45_000));
+        const scheduleCheck = () => {
+            if (stopped) return;
+            const baseMs = Math.max(1, settings.store.checkMinutes) * 60_000;
+            checkTimer = setTimeout(() => { runNext(); scheduleCheck(); }, rand(baseMs * 0.7, baseMs * 1.3));
+        };
+        scheduleCheck();
     },
 
     stop() {
         stopped = true;
-        clearInterval(checkTimer);
+        clearTimeout(checkTimer);
         checkTimer = undefined;
         failedQuests.clear();
         claimAttempted.clear();
