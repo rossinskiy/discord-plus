@@ -162,11 +162,19 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     const realGetGameForPID = store.getGameForPID;
     const fakeGames = [fakeGame];
 
-    store.getRunningGames = () => fakeGames;
-    store.getGameForPID = (p: number) => fakeGames.find(g => g.pid === p);
-    FluxDispatcher.dispatch({ type: "RUNNING_GAMES_CHANGE", removed: realGames, added: [fakeGame], games: fakeGames });
+    const assertFakeGame = () => {
+        // Discord periodically rescans actually-running processes and will
+        // overwrite our override, so we have to keep reapplying it for as
+        // long as this quest is running, not just once at the start.
+        store.getRunningGames = () => fakeGames;
+        store.getGameForPID = (p: number) => fakeGames.find(g => g.pid === p);
+        FluxDispatcher.dispatch({ type: "RUNNING_GAMES_CHANGE", removed: realGames, added: [fakeGame], games: fakeGames });
+    };
+    assertFakeGame();
+    const reassert = setInterval(assertFakeGame, 4000);
 
     const restore = () => {
+        clearInterval(reassert);
         store.getRunningGames = realGetRunningGames;
         store.getGameForPID = realGetGameForPID;
         FluxDispatcher.dispatch({ type: "RUNNING_GAMES_CHANGE", removed: [fakeGame], added: [], games: realGames });
@@ -181,6 +189,7 @@ async function completeDesktopGame(quest: any, task: TaskType) {
                 const progress = quest.config.configVersion === 1
                     ? status?.streamProgressSeconds
                     : Math.floor(status?.progress?.[task]?.value ?? 0);
+                console.log(`[AutoQuest] progress: ${progress}/${needed}`);
                 if (progress >= needed) done();
             };
             const poll = setInterval(() => { if (stopped) done(); }, 2000);
