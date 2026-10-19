@@ -133,9 +133,13 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     if (!app) throw new Error("application info not found");
 
     const exe = (app.executables ?? []).find((e: any) => e.os === "win32") ?? app.executables?.[0];
-    if (!exe) throw new Error("application has no known executable");
-
-    const exeName: string = exe.name.replace(">", "");
+    // Some games (e.g. ones only distributed through Steam/EA App/etc.) have no
+    // executables registered in Discord's own detection database at all. What
+    // actually matters for the quest heartbeat match is the application id, so
+    // fall back to a plausible-looking exe name instead of giving up entirely.
+    const exeName: string = exe
+        ? exe.name.replace(">", "")
+        : `${(app.name as string).replace(/[^a-z0-9]/gi, "")}.exe`;
     // A real launch doesn't happen the instant the quest is accepted - leave
     // a believable gap, as if the user went and opened the game themselves.
     await sleep(rand(8_000, 25_000));
