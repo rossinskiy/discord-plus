@@ -25,6 +25,11 @@ export const settings = definePluginSettings({
         description: "Show a toast when a reminder is set and when it fires",
         default: true
     },
+    playSound: {
+        type: OptionType.BOOLEAN,
+        description: "Play a short chime when a reminder fires",
+        default: true
+    },
     view: {
         type: OptionType.COMPONENT,
         description: "See and cancel upcoming reminders",

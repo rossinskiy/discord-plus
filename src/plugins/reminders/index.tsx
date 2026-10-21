@@ -24,10 +24,34 @@ function excerpt(content: string | undefined): string {
     return oneLine.length > 80 ? oneLine.slice(0, 77) + "..." : oneLine || "Reminder";
 }
 
+function playChime() {
+    try {
+        const ctx = new AudioContext();
+        const now = ctx.currentTime;
+
+        for (const [freq, start] of [[880, 0], [1320, 0.12]] as const) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, now + start);
+            gain.gain.linearRampToValueAtTime(0.2, now + start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + start + 0.3);
+            osc.connect(gain).connect(ctx.destination);
+            osc.start(now + start);
+            osc.stop(now + start + 0.35);
+        }
+
+        setTimeout(() => ctx.close(), 800);
+    } catch { }
+}
+
 function fireReminder(reminder: Reminder, jump: () => void) {
     if (settings.store.showToasts) {
         showToast(`Reminder: ${reminder.note}`, Toasts.Type.MESSAGE);
     }
+
+    if (settings.store.playSound) playChime();
 
     showNotification({
         title: "Reminder",
