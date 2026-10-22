@@ -1,32 +1,8 @@
 # Discord+
 
-Discord+ is a desktop Discord client mod built for people who want Discord to remember things and run chores for them. It adds a set of its own plugins and a second-account window on top of the Vencord plugin framework.
+Discord+ is a desktop Discord client mod with its own plugins, built on the Vencord plugin framework. Install it and look through the plugin list in Discord's settings to see what it adds.
 
 It is a fork of [Vencord](https://github.com/Vendicated/Vencord) and is licensed under GPL-3.0, the same license as Vencord. See [Credits and license](#credits-and-license).
-
-## What Discord+ adds
-
-**Two accounts at once.** Press `Ctrl+Shift+2` while a Discord+ window is focused to switch between your main account and a second one. The second account runs in its own window with its own login, and both stay connected, so messages and notifications arrive on both. Only one window is visible at a time, and the second one does not show up in Alt+Tab. The shortcut works only inside Discord, never system-wide.
-
-**Plugins made for Discord+:**
-
-| Plugin | What it does |
-| --- | --- |
-| MessageArchive | Saves edited and deleted messages locally on your own computer and shows them in chat like MessageLogger does. Old entries are removed after 7 days, or on demand from the plugin settings. Replaces MessageLogger. |
-| NicknameHistory | Records changes to usernames, display names and per-server nicknames, so you can see what someone used to be called. Stored locally. |
-| LastSeen | Remembers when someone was last seen online, was typing, or sent a message, and why that reading was made. It only knows what your own client saw, and it is not a read receipt. Stored locally. |
-| BulkExport | Exports the full history of a channel or DM to a JSON file. |
-| AutoLeaveEmptyVC | Disconnects you from a voice channel once you are the only human left, after a delay you choose. |
-| AutoQuest | Completes the Discord Quests you have accepted in the background and tries to claim the reward. See the warning below. |
-| UserTags | Lets you give any person your own tags and a private note, shows the tags next to their name in chat, and lets you filter everyone you have tagged. Stored locally. |
-| LiteMode | Makes Discord lighter on CPU, GPU and RAM: cuts animations and blur and swaps animated avatars, emoji and banners for still images. Each part has its own switch. Cannot run together with AlwaysAnimate. |
-| Reminders | Right-click a message (or use `/remind in: about:`) to get a notification later, with a jump straight back to it. Stored locally and survives a client restart. |
-
-Every Vencord plugin still works alongside these.
-
-## Local-only data
-
-MessageArchive, NicknameHistory, LastSeen and UserTags keep all of their data on your own computer (in the client's local IndexedDB storage), never on any server. Nothing is sent anywhere else, there is nothing to self-host, and no token or server URL to configure.
 
 ## Installing
 
