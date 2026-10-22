@@ -79,9 +79,9 @@ async function completeVideo(quest: any, task: TaskType) {
     // a human watching doesn't check in on a fixed clock tick.
     while (!stopped && done < needed) {
         const maxAllowed = Math.floor((Date.now() - enrolledAt) / 1000) + maxFuture;
-        const speed = rand(3, 9);
-        if (maxAllowed - done >= speed) {
-            const timestamp = Math.min(needed, done + speed);
+        const step = Math.min(rand(3, 9), needed - done);
+        if (maxAllowed - done >= step) {
+            const timestamp = Math.min(needed, done + step);
             const res = await RestAPI.post({
                 url: `/quests/${quest.id}/video-progress`,
                 body: { timestamp: Math.min(needed, timestamp + Math.random()) }
@@ -90,8 +90,9 @@ async function completeVideo(quest: any, task: TaskType) {
             done = timestamp;
         }
         // Occasionally sit on the current timestamp a bit longer, as if the
-        // window lost focus or attention drifted for a moment.
-        await sleep(rand(800, 1600) + (Math.random() < 0.08 ? rand(2000, 6000) : 0));
+        // window lost focus. Never near the end, so it can't run past the task.
+        const idle = needed - done > 60 && Math.random() < 0.08 ? rand(2000, 6000) : 0;
+        await sleep(rand(800, 1600) + idle);
     }
 
     if (!stopped && !completed) {
@@ -118,7 +119,8 @@ async function completeActivity(quest: any, task: TaskType) {
             });
             return;
         }
-        await sleep(rand(16_000, 24_000));
+        const remainingMs = Math.max(0, needed - (res.body?.progress?.[task]?.value ?? 0)) * 1000;
+        await sleep(Math.min(rand(16_000, 24_000), remainingMs + 1000));
     }
 }
 
@@ -140,9 +142,9 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     const exeName: string = exe
         ? exe.name.replace(">", "")
         : `${(app.name as string).replace(/[^a-z0-9]/gi, "")}.exe`;
-    // A real launch doesn't happen the instant the quest is accepted - leave
-    // a believable gap, as if the user went and opened the game themselves.
-    await sleep(rand(8_000, 25_000));
+    // Progress only counts from the moment the game shows up, so keep this
+    // short: just enough that it isn't the very same tick as accepting.
+    await sleep(rand(2_000, 5_000));
     if (stopped) return;
 
     const pid = randInt(4000, 28000);
@@ -247,7 +249,7 @@ async function claimPending() {
     if (!settings.store.autoClaim) return;
     for (const quest of getUnclaimedQuests()) {
         if (stopped) return;
-        await sleep(rand(4000, 15_000));
+        await sleep(rand(2000, 5000));
         if (stopped) return;
         await claimReward(quest);
     }
@@ -279,7 +281,7 @@ async function runNext() {
         if (!stopped) {
             toast(`Auto Quest: "${name}" completed.`, Toasts.Type.SUCCESS);
             if (settings.store.autoClaim) {
-                await sleep(rand(4000, 15_000));
+                await sleep(rand(2000, 5000));
                 const fresh = [...QuestsStore.quests.values()].find((q: any) => q.id === quest.id) ?? quest;
                 if (!stopped && !fresh.userStatus?.claimedAt && !claimAttempted.has(fresh.id)) await claimReward(fresh);
             }
@@ -292,9 +294,22 @@ async function runNext() {
         running = false;
     }
 
-    // Chain into the next accepted quest, if any, after a human-ish pause
-    // rather than instantly.
-    if (!stopped) setTimeout(runNext, rand(3000, 9000));
+    // Chain into the next accepted quest, if any, after a short pause.
+    if (!stopped) setTimeout(runNext, rand(2000, 4000));
+}
+
+let enrollTimer: ReturnType<typeof setTimeout> | undefined;
+
+// Quests are picked up shortly after being accepted, instead of waiting for
+// the next periodic check, so no time is lost before the task starts.
+function onQuestsChange() {
+    if (stopped || running || enrollTimer) return;
+    if (!findPendingQuest() && !(settings.store.autoClaim && getUnclaimedQuests().length)) return;
+
+    enrollTimer = setTimeout(() => {
+        enrollTimer = undefined;
+        runNext();
+    }, rand(2000, 5000));
 }
 
 export default definePlugin({
@@ -306,7 +321,12 @@ export default definePlugin({
 
     start() {
         stopped = false;
-        setTimeout(runNext, rand(15_000, 45_000));
+        setTimeout(runNext, rand(5_000, 10_000));
+        try {
+            QuestsStore.addChangeListener(onQuestsChange);
+        } catch (e) {
+            console.warn("[AutoQuest] could not watch quests, falling back to periodic checks", e);
+        }
         const scheduleCheck = () => {
             if (stopped) return;
             const baseMs = Math.max(1, settings.store.checkMinutes) * 60_000;
@@ -318,7 +338,10 @@ export default definePlugin({
     stop() {
         stopped = true;
         clearTimeout(checkTimer);
+        clearTimeout(enrollTimer);
         checkTimer = undefined;
+        enrollTimer = undefined;
+        try { QuestsStore.removeChangeListener(onQuestsChange); } catch { }
         failedQuests.clear();
         claimAttempted.clear();
     }
