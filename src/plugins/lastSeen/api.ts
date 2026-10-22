@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import * as DataStore from "@api/DataStore";
+import { createKeyedStore } from "@utils/keyedStore";
 
-const STORE_KEY = "LastSeen_data";
 const MAX_HISTORY_PER_USER = 50;
 
 export interface PresenceEvent {
@@ -24,14 +23,11 @@ export interface PresenceHistoryRow {
     timestamp: number;
 }
 
-type Store = Record<string, PresenceHistoryRow[]>;
+const store = createKeyedStore<PresenceHistoryRow[]>("DiscordPlusLastSeen", { legacyKey: "LastSeen_data" });
 
 export async function sendPresenceEvents(events: PresenceEvent[]) {
-    if (!events.length) return;
-
-    const store: Store = await DataStore.get(STORE_KEY) ?? {};
     for (const event of events) {
-        const rows = store[event.userId] ?? (store[event.userId] = []);
+        const rows = await store.get(event.userId) ?? [];
         rows.unshift({
             reason: event.reason,
             status: event.status ?? null,
@@ -39,17 +35,16 @@ export async function sendPresenceEvents(events: PresenceEvent[]) {
             timestamp: event.timestamp
         });
         if (rows.length > MAX_HISTORY_PER_USER) rows.length = MAX_HISTORY_PER_USER;
+        store.set(event.userId, rows);
     }
-    await DataStore.set(STORE_KEY, store);
 }
 
 export async function getLastSeen(userId: string): Promise<{ latest: PresenceHistoryRow; history: PresenceHistoryRow[]; } | null> {
-    const store: Store = await DataStore.get(STORE_KEY) ?? {};
-    const history = store[userId];
+    const history = await store.get(userId);
     if (!history?.length) return null;
     return { latest: history[0], history };
 }
 
 export async function clearLastSeen() {
-    await DataStore.set(STORE_KEY, {});
+    await store.clear();
 }

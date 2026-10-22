@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import * as DataStore from "@api/DataStore";
+import { createKeyedStore } from "@utils/keyedStore";
 
-const STORE_KEY = "NicknameHistory_data";
 const MAX_HISTORY_PER_USER = 50;
 
 export interface NameChangeEvent {
@@ -26,14 +25,11 @@ export interface NameChangeRow {
     changed_at: number;
 }
 
-type Store = Record<string, NameChangeRow[]>;
+const store = createKeyedStore<NameChangeRow[]>("DiscordPlusNicknameHistory", { legacyKey: "NicknameHistory_data" });
 
 export async function sendNameEvents(events: NameChangeEvent[]) {
-    if (!events.length) return;
-
-    const store: Store = await DataStore.get(STORE_KEY) ?? {};
     for (const event of events) {
-        const rows = store[event.userId] ?? (store[event.userId] = []);
+        const rows = await store.get(event.userId) ?? [];
         rows.unshift({
             guild_id: event.guildId ?? null,
             field: event.field,
@@ -42,15 +38,14 @@ export async function sendNameEvents(events: NameChangeEvent[]) {
             changed_at: event.timestamp
         });
         if (rows.length > MAX_HISTORY_PER_USER) rows.length = MAX_HISTORY_PER_USER;
+        store.set(event.userId, rows);
     }
-    await DataStore.set(STORE_KEY, store);
 }
 
 export async function getNameHistory(userId: string): Promise<NameChangeRow[]> {
-    const store: Store = await DataStore.get(STORE_KEY) ?? {};
-    return store[userId] ?? [];
+    return await store.get(userId) ?? [];
 }
 
 export async function clearNameHistory() {
-    await DataStore.set(STORE_KEY, {});
+    await store.clear();
 }

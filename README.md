@@ -19,6 +19,7 @@ It is a fork of [Vencord](https://github.com/Vendicated/Vencord) and is licensed
 | AutoLeaveEmptyVC | Disconnects you from a voice channel once you are the only human left, after a delay you choose. |
 | AutoQuest | Completes the Discord Quests you have accepted in the background and tries to claim the reward. See the warning below. |
 | UserTags | Lets you give any person your own tags and a private note, shows the tags next to their name in chat, and lets you filter everyone you have tagged. Stored locally. |
+| LiteMode | Makes Discord lighter on CPU, GPU and RAM: cuts animations and blur and swaps animated avatars, emoji and banners for still images. Each part has its own switch. Cannot run together with AlwaysAnimate. |
 | Reminders | Right-click a message (or use `/remind in: about:`) to get a notification later, with a jump straight back to it. Stored locally and survives a client restart. |
 
 Every Vencord plugin still works alongside these.

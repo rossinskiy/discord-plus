@@ -33,7 +33,7 @@ import { Message, MessageAttachment } from "@vencord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { ChannelStore, FluxDispatcher, Menu, MessageStore, Timestamp, UserStore, useStateFromStores } from "@webpack/common";
 
-import { sendEvents } from "./api";
+import { sendEvents, startMaintenance, stopMaintenance } from "./api";
 import overlayStyle from "./deleteStyleOverlay.css?managed";
 import textStyle from "./deleteStyleText.css?managed";
 import { openHistoryModal } from "./HistoryModal";
@@ -194,6 +194,11 @@ export default definePlugin({
             throw new Error("MessageArchive can't be enabled while MessageLogger is enabled — disable MessageLogger first, they do the same job and conflict with each other.");
         }
         addDeleteStyle();
+        startMaintenance();
+    },
+
+    stop() {
+        stopMaintenance();
     },
 
     renderEdits: ErrorBoundary.wrap(({ message: { id: messageId, channel_id: channelId } }: { message: Message; }) => {

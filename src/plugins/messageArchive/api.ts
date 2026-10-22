@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import * as DataStore from "@api/DataStore";
+import { createKeyedStore } from "@utils/keyedStore";
 
-const STORE_KEY = "MessageArchive_data";
-// Mirrors the old server's retention window, applied locally on read/write instead.
+// Mirrors the old server's retention window, applied locally instead.
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 export interface ArchiveEvent {
@@ -47,40 +46,28 @@ export interface ArchiveHistory {
     edits: { old_content: string; edited_at: number; }[];
 }
 
-type Store = Record<string, ArchiveHistory>;
+const store = createKeyedStore<ArchiveHistory>("DiscordPlusMessageArchive", { legacyKey: "MessageArchive_data" });
+let pruneTimer: ReturnType<typeof setInterval> | undefined;
+let pruneStartTimer: ReturnType<typeof setTimeout> | undefined;
 
-function isExpired(entry: ArchiveHistory, now: number) {
-    return now - (entry.deletedAt ?? entry.current.updatedAt) > MAX_AGE_MS;
-}
-
-async function loadStore(): Promise<Store> {
-    const store: Store = await DataStore.get(STORE_KEY) ?? {};
-    const now = Date.now();
-    let changed = false;
-    for (const id of Object.keys(store)) {
-        if (isExpired(store[id], now)) {
-            delete store[id];
-            changed = true;
-        }
-    }
-    if (changed) await DataStore.set(STORE_KEY, store);
-    return store;
+function isExpired(entry: ArchiveHistory) {
+    return Date.now() - (entry.deletedAt ?? entry.current.updatedAt) > MAX_AGE_MS;
 }
 
 export async function sendEvents(events: ArchiveEvent[]) {
-    if (!events.length) return;
-
-    const store = await loadStore();
     for (const event of events) {
+        const existing = await store.get(event.messageId);
+
         if (event.type === "delete") {
-            const entry = store[event.messageId];
-            if (entry) entry.deletedAt = event.timestamp;
+            if (existing) {
+                existing.deletedAt = event.timestamp;
+                store.set(event.messageId, existing);
+            }
             continue;
         }
 
-        const existing = store[event.messageId];
         if (!existing) {
-            store[event.messageId] = {
+            store.set(event.messageId, {
                 current: {
                     content: event.content ?? "",
                     attachments: event.attachments ?? [],
@@ -92,7 +79,7 @@ export async function sendEvents(events: ArchiveEvent[]) {
                 },
                 deletedAt: null,
                 edits: []
-            };
+            });
             continue;
         }
 
@@ -102,15 +89,30 @@ export async function sendEvents(events: ArchiveEvent[]) {
         existing.current.content = event.content ?? existing.current.content;
         existing.current.attachments = event.attachments ?? existing.current.attachments;
         existing.current.updatedAt = event.timestamp;
+        store.set(event.messageId, existing);
     }
-    await DataStore.set(STORE_KEY, store);
 }
 
 export async function getHistory(messageId: string): Promise<ArchiveHistory | null> {
-    const store = await loadStore();
-    return store[messageId] ?? null;
+    const entry = await store.get(messageId);
+    return entry && !isExpired(entry) ? entry : null;
 }
 
 export async function clearArchive() {
-    await DataStore.set(STORE_KEY, {});
+    await store.clear();
+}
+
+// Expired entries are only swept now and then, and well after startup, so the
+// full scan never competes with Discord loading.
+export function startMaintenance() {
+    pruneStartTimer = setTimeout(() => {
+        store.prune(isExpired);
+        pruneTimer = setInterval(() => store.prune(isExpired), 60 * 60 * 1000);
+    }, 2 * 60 * 1000);
+}
+
+export function stopMaintenance() {
+    clearTimeout(pruneStartTimer);
+    clearInterval(pruneTimer);
+    store.flush();
 }
