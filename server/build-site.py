@@ -14,6 +14,7 @@ SITE = os.path.join(HERE, "site")
 ORIGIN = "https://discordplus.karatel.win"
 GITHUB = "https://github.com/rossinskiy/discord-plus"
 CMD = "irm https://discordplus.karatel.win/install.ps1 | iex"
+CMD_UNIX = "curl -fsSL https://discordplus.karatel.win/install.sh | bash"
 
 e = H.escape
 
@@ -297,7 +298,7 @@ def home():
          ["It is open source, so every line can be read, and nothing it saves leaves your PC apart from the MyProfile lookups in the table above.",
           "Client mods, Discord+ included, go against Discord's terms of service and Discord may act against accounts that use them. AutoQuest raises that risk. You use Discord+ at your own risk."]),
         ("Which systems does it run on?",
-         ["It is tested on Windows with the stable Discord desktop app. Installing from source on macOS or Linux may work, but nothing there has been tested."]),
+         ["It is tested on Windows with the stable Discord desktop app. There is an installer for macOS and Linux too, but nobody has run it there yet, so expect rough edges and open an issue if it breaks."]),
         ("Do I have to remove Vencord first?",
          ["You do not need to uninstall it by hand. The installer points Discord at Discord+ instead. Discord+ reads the same settings folder as Vencord, so your existing Vencord settings carry over."]),
         ("What is the member number?",
@@ -340,7 +341,7 @@ def home():
 <p>One command, in PowerShell on Windows:</p>
 <div class="gap8"></div>
 {install_cmd}
-<p class="sub">Needs Git and Node.js 22 or newer. It asks which Discord to patch.</p>
+<p class="sub">Needs Git and Node.js 22 or newer. It asks which Discord to patch. macOS or Linux? The <a href="/install">install page</a> has a Terminal command, not tested yet.</p>
 <p class="sub risk-line">Client mods break Discord's rules, and AutoQuest is the riskiest part. <a href="#warn-title">Read the warning</a>.</p>
 <div class="actions">
 <a class="btn alt" href="/install.ps1">Read the script first</a>
@@ -420,15 +421,15 @@ def plugins_page():
 
 def install_page():
     a_steps = f'''<ol class="steps">
-<li><div><h3>Run the installer</h3><p>Press the Windows key, type PowerShell, press Enter, and paste:</p>{cmd_box(CMD, None, "Copy")}</div></li>
-<li><div><h3>Pick your Discord</h3><p>Close Discord first. When it asks which Discord to patch, choose the stable one.</p></div></li>
+<li><div><h3>Run the installer</h3><p><span class="title">Windows.</span> Press the Windows key, type PowerShell, press Enter, and paste:</p>{cmd_box(CMD, None, "Copy")}<p class="mt10"><span class="title">macOS and Linux.</span> Open Terminal and paste. This one has not been tested yet, and if it fails <a href="{GITHUB}/issues" rel="noopener">tell me what it printed</a>:</p>{cmd_box(CMD_UNIX, None, "Copy", prompt="$ ")}</div></li>
+<li><div><h3>Pick your Discord</h3><p>Close Discord first. When it asks which Discord to patch, choose the stable one. On macOS and Linux it may ask for your password, because it writes into Discord's own folder.</p></div></li>
 <li><div><h3>Switch plugins on</h3><p>Start Discord, open Settings, then Plugins, and switch on the Discord+ plugins you want. They all start off.</p></div></li>
 </ol>'''
     b_steps = f'''<ol class="steps">
-<li><div><h3>Get the code</h3>{cmd_box("git clone https://github.com/rossinskiy/discord-plus.git" + chr(10) + "cd discord-plus", None, "Copy")}</div></li>
-<li><div><h3>Install the dependencies</h3>{cmd_box("pnpm install", None, "Copy")}</div></li>
-<li><div><h3>Build it</h3>{cmd_box("pnpm build", None, "Copy")}</div></li>
-<li><div><h3>Add it to Discord</h3><p>Close Discord first. Pick your Discord when asked.</p>{cmd_box("pnpm inject", None, "Copy")}</div></li>
+<li><div><h3>Get the code</h3>{cmd_box("git clone https://github.com/rossinskiy/discord-plus.git" + chr(10) + "cd discord-plus", None, "Copy", prompt="")}</div></li>
+<li><div><h3>Install the dependencies</h3>{cmd_box("pnpm install", None, "Copy", prompt="")}</div></li>
+<li><div><h3>Build it</h3>{cmd_box("pnpm build", None, "Copy", prompt="")}</div></li>
+<li><div><h3>Add it to Discord</h3><p>Close Discord first. Pick your Discord when asked.</p>{cmd_box("pnpm inject", None, "Copy", prompt="")}</div></li>
 <li><div><h3>Restart Discord</h3><p>Open Settings, then Plugins, and switch on what you want.</p></div></li>
 </ol>'''
     trouble = [
@@ -453,7 +454,8 @@ def install_page():
 <section class="pane" aria-labelledby="req-title">
 <h2 class="pane-title" id="req-title">Requirements</h2>
 <ul class="rows" role="list">
-<li><span class="row static"><span class="name">System</span><span class="val">Windows (tested)</span></span></li>
+<li><span class="row static"><span class="name">Windows</span><span class="val">tested</span></span></li>
+<li><span class="row static"><span class="name">macOS and Linux</span><span class="val">not tested yet</span></span></li>
 <li><span class="row static"><span class="name">Discord</span><span class="val">stable desktop app</span></span></li>
 <li><span class="row static"><span class="name">Git</span><span class="val">any recent version</span></span></li>
 <li><span class="row static"><span class="name">Node.js</span><span class="val">22 or newer</span></span></li>
@@ -464,7 +466,7 @@ def install_page():
 
 <section class="pane" aria-labelledby="a-title">
 <h2 class="pane-title" id="a-title">Option A: one command</h2>
-<p class="lead72">The script checks Git and Node.js, installs pnpm if needed, downloads Discord+ into <span class="value">%USERPROFILE%\\discord-plus</span>, builds it and runs the Discord installer. It changes nothing else. <a href="/install.ps1">Read it first</a>, it is short.</p>
+<p class="lead72">The script checks Git and Node.js, installs pnpm if needed, downloads Discord+ into <span class="value">%USERPROFILE%\\discord-plus</span> (<span class="value">~/discord-plus</span> on macOS and Linux), builds it and runs the Discord installer. It changes nothing else. Read it first, it is short: <a href="/install.ps1">install.ps1</a> for Windows, <a href="/install.sh">install.sh</a> for macOS and Linux.</p>
 {a_steps}
 </section>
 
@@ -488,7 +490,7 @@ def install_page():
 </main>
 '''
     hints = ['<span>Copying a command greys out its step</span>']
-    return (head("Install | Discord+", "Install Discord+ on Windows with one PowerShell command, or step by step from source. Requires Git and Node.js 22 or newer.", "/install")
+    return (head("Install | Discord+", "Install Discord+ on Windows with one PowerShell command, on macOS or Linux with one Terminal command, or step by step from source. Requires Git and Node.js 22 or newer.", "/install")
             + top("install") + body + bottom(hints))
 
 
