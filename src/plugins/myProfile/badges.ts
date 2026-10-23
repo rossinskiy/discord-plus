@@ -7,14 +7,11 @@
 import * as DataStore from "@api/DataStore";
 import type { PluginNative } from "@utils/types";
 
+import { BADGE_ICONS, UID_ICONS } from "./badgeIcons";
+
 const Native = VencordNative?.pluginHelpers?.MyProfile as PluginNative<typeof import("./native")> | undefined;
 
 export const nativeAvailable = () => !!Native;
-
-function icon(bg: string, path: string) {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${bg}"/>${path}</svg>`;
-    return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-}
 
 export interface OfficialBadge {
     id: string;
@@ -26,12 +23,12 @@ export interface OfficialBadge {
 // The only badges other people can ever see. They are handed out by the server
 // owner, so nobody can claim one for themselves. The ids must match the server.
 export const OFFICIAL_BADGES: OfficialBadge[] = [
-    { id: "dev", name: "Discord+ Dev", description: "Discord+ Dev", icon: icon("#16a34a", "<path d='M9.5 8 5.5 12l4 4M14.5 8l4 4-4 4' fill='none' stroke='#fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>") },
-    { id: "tester", name: "Discord+ Tester", description: "Discord+ Tester", icon: icon("#2563eb", "<path d='M10 5h4M11 5v5l-4 7a1.6 1.6 0 0 0 1.4 2.4h7.2A1.6 1.6 0 0 0 17 17l-4-7V5' fill='none' stroke='#fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/>") },
-    { id: "supporter", name: "Discord+ Supporter", description: "Discord+ Supporter", icon: icon("#db2777", "<path d='M12 18.5s-6-3.7-6-8A3.3 3.3 0 0 1 12 8.6a3.3 3.3 0 0 1 6 1.9c0 4.3-6 8-6 8z' fill='#fff'/>") },
-    { id: "founder", name: "Discord+ Founder", description: "Discord+ Founder", icon: icon("#d97706", "<path d='m12 5 2.1 4.4 4.9.6-3.6 3.3 1 4.8L12 15.7 7.6 18l1-4.8L5 9.9l4.9-.6z' fill='#fff'/>") },
-    { id: "bughunter", name: "Discord+ Bug Hunter", description: "Discord+ Bug Hunter", icon: icon("#7c3aed", "<circle cx='11' cy='11' r='4.2' fill='none' stroke='#fff' stroke-width='2'/><path d='m14.2 14.2 4 4' stroke='#fff' stroke-width='2' stroke-linecap='round'/>") },
-    { id: "artist", name: "Discord+ Artist", description: "Discord+ Artist", icon: icon("#0891b2", "<path d='M12 5a7 7 0 1 0 0 14c1.2 0 1.7-.8 1.3-1.7-.5-1 .1-2.1 1.3-2.1H16a3 3 0 0 0 3-3A7 7 0 0 0 12 5z' fill='none' stroke='#fff' stroke-width='1.8'/><circle cx='9' cy='11' r='1' fill='#fff'/><circle cx='12' cy='8.8' r='1' fill='#fff'/><circle cx='15' cy='11' r='1' fill='#fff'/>") }
+    { id: "dev", name: "Discord+ Dev", description: "Discord+ Dev", icon: BADGE_ICONS.dev },
+    { id: "tester", name: "Discord+ Tester", description: "Discord+ Tester", icon: BADGE_ICONS.tester },
+    { id: "supporter", name: "Discord+ Supporter", description: "Discord+ Supporter", icon: BADGE_ICONS.supporter },
+    { id: "founder", name: "Discord+ Founder", description: "Discord+ Founder", icon: BADGE_ICONS.founder },
+    { id: "bughunter", name: "Discord+ Bug Hunter", description: "Discord+ Bug Hunter", icon: BADGE_ICONS.bughunter },
+    { id: "artist", name: "Discord+ Artist", description: "Discord+ Artist", icon: BADGE_ICONS.artist }
 ];
 
 export const officialById = (id: string) => OFFICIAL_BADGES.find(b => b.id === id);
@@ -102,7 +99,7 @@ export function imageToBadge(file: File): Promise<string> {
 
 // What the server says about other people, cached for a while.
 const CACHE_MS = 10 * 60_000;
-const cache = new Map<string, { ids: string[]; at: number; }>();
+const cache = new Map<string, { ids: string[]; uid?: number; joined?: number; at: number; }>();
 const queue = new Set<string>();
 let flushTimer: ReturnType<typeof setTimeout> | undefined;
 let serverUrl = "";
@@ -113,13 +110,32 @@ export function configureRemote(url: string, on: boolean) {
     enabled = on;
 }
 
-export function cachedOfficialBadges(userId: string): string[] {
+export function cachedProfile(userId: string): { ids: string[]; uid?: number; joined?: number; } {
     const hit = cache.get(userId);
     if (!hit || Date.now() - hit.at > CACHE_MS) {
         requestBadges([userId]);
-        return hit?.ids ?? [];
+        return hit ?? { ids: [] };
     }
-    return hit.ids;
+    return hit;
+}
+
+export const cachedOfficialBadges = (userId: string) => cachedProfile(userId).ids;
+
+export function uidTier(uid: number) {
+    return uid <= 100 ? "og" : uid <= 1000 ? "early" : "member";
+}
+
+export function uidBadgeInfo(uid: number, joined?: number) {
+    const tier = uidTier(uid);
+    const since = joined
+        ? new Date(joined).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
+        : "";
+    const days = joined ? Math.max(0, Math.floor((Date.now() - joined) / 86_400_000)) : 0;
+    const title = tier === "og" ? "Discord+ OG" : tier === "early" ? "Early Discord+ user" : "Discord+ user";
+    return {
+        icon: UID_ICONS[tier],
+        description: `${title} #${uid}${since ? `, since ${since}` : ""}${joined ? ` (${days === 0 ? "joined today" : `${days} day${days === 1 ? "" : "s"}`})` : ""}`
+    };
 }
 
 export function requestBadges(ids: string[]) {
@@ -140,12 +156,13 @@ async function flush() {
     if (!batch.length) return;
 
     try {
-        const res = await Native!.request(serverUrl, `/api/badges?ids=${batch.join(",")}`, "GET");
+        const res = await Native!.request(serverUrl, `/api/profiles?ids=${batch.join(",")}`, "GET");
         if (res.status === 200) {
-            const data = JSON.parse(res.body) as Record<string, string[]>;
+            const data = JSON.parse(res.body) as Record<string, { badges?: string[]; uid?: number; joined?: number; }>;
             const now = Date.now();
             for (const id of batch) {
-                cache.set(id, { ids: (data[id] ?? []).filter(b => officialById(b)), at: now });
+                const p = data[id];
+                cache.set(id, { ids: (p?.badges ?? []).filter(b => officialById(b)), uid: p?.uid, joined: p?.joined, at: now });
             }
             emit();
         }
@@ -187,3 +204,41 @@ export function forgetBadges(userId: string) {
     cache.delete(userId);
     requestBadges([userId]);
 }
+
+// Your own place on the Discord+ user list.
+export interface SelfInfo {
+    userId: string;
+    uid: number;
+    joined: number;
+}
+
+const SELF_KEY = "MyProfile_self";
+export let mySelf: SelfInfo | null = null;
+let registering = false;
+
+export async function loadSelf() {
+    mySelf = (await DataStore.get<SelfInfo>(SELF_KEY)) ?? null;
+    emit();
+}
+
+// Tells the server this account uses Discord+, once. Gets the member number back.
+export async function registerSelf(userId: string) {
+    if (!Native || !serverUrl || !userId || registering) return;
+    if (mySelf?.userId === userId) return;
+
+    registering = true;
+    try {
+        const res = await Native.request(serverUrl, "/api/register", "POST", undefined, JSON.stringify({ userId }));
+        if (res.status === 200) {
+            const data = JSON.parse(res.body) as { uid: number; joined: number; };
+            mySelf = { userId, uid: data.uid, joined: data.joined };
+            await DataStore.set(SELF_KEY, mySelf);
+            cache.delete(userId);
+            emit();
+        }
+    } catch { } finally {
+        registering = false;
+    }
+}
+
+export const selfInfoSince = () => mySelf;

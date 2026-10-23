@@ -12,7 +12,8 @@ import definePlugin from "@utils/types";
 import { FluxDispatcher, GuildMemberStore, UserStore } from "@webpack/common";
 
 import {
-    cachedOfficialBadges, clearBadgeCache, configureRemote, loadLocalBadges, localBadges, officialById, requestBadges
+    cachedOfficialBadges, cachedProfile, clearBadgeCache, configureRemote, loadLocalBadges, loadSelf, localBadges, officialById,
+    registerSelf, requestBadges, uidBadgeInfo
 } from "./badges";
 import { settings } from "./settings";
 
@@ -58,6 +59,19 @@ const officialBadges: ProfileBadge = {
         .map(b => ({ id: `discordplus-${b!.id}`, key: `discordplus-${b!.id}`, description: b!.description, iconSrc: b!.icon }))
 };
 
+// The member number badge, drawn last. Its colour shows how early the person joined.
+const uidBadge: ProfileBadge = {
+    id: "myprofile-uid",
+    position: BadgePosition.END,
+    shouldShow: () => settings.store.showOfficialBadges,
+    getBadges: ({ userId }: BadgeUserArgs) => {
+        const { uid, joined } = cachedProfile(userId);
+        if (!uid) return [];
+        const info = uidBadgeInfo(uid, joined);
+        return [{ id: `discordplus-uid-${uid}`, key: `discordplus-uid-${uid}`, description: info.description, iconSrc: info.icon }];
+    }
+};
+
 // Wraps a store method for the lifetime of the plugin and puts the original back afterwards.
 const restorers: (() => void)[] = [];
 function wrap(store: any, method: string, make: (original: (...args: any[]) => any) => (...args: any[]) => any) {
@@ -72,11 +86,13 @@ function wrap(store: any, method: string, make: (original: (...args: any[]) => a
 }
 
 const customName = () => settings.store.customName.trim();
+const customUsername = () => settings.store.customUsername.trim().replace(/^@/, "");
+const overriding = () => !!(customName() || customUsername());
 
 // Only you ever see this, since it just changes what your own client shows for your own account.
 function installNameOverride() {
     // Nothing to override, so leave the stores completely alone.
-    if (!customName()) return;
+    if (!overriding()) return;
 
     originalCurrentUser = UserStore.getCurrentUser.bind(UserStore);
     cachedId = "";
@@ -89,12 +105,22 @@ function installNameOverride() {
         return member && customName() && isMe(userId) ? { ...member, nick: customName() } : member;
     });
 
-    const withName = (user: any) =>
-        user && customName() && isMe(user.id) ? Object.create(user, { globalName: { value: customName() } }) : user;
+    const withName = (user: any) => {
+        if (!user || !overriding() || !isMe(user.id)) return user;
+        const props: PropertyDescriptorMap = {};
+        if (customName()) props.globalName = { value: customName() };
+        if (customUsername()) props.username = { value: customUsername() };
+        return Object.create(user, props);
+    };
 
 
     wrap(UserStore, "getUser", original => (id: string) => withName(original(id)));
     wrap(UserStore, "getCurrentUser", original => () => withName(original()));
+}
+
+function joinList() {
+    const id = UserStore.getCurrentUser()?.id;
+    if (id && settings.store.joinUserList) registerSelf(id);
 }
 
 const onMessages = ({ messages }: { messages?: { author?: { id: string; }; }[]; }) =>
@@ -111,25 +137,31 @@ export default definePlugin({
 
     async start() {
         await loadLocalBadges();
+        await loadSelf();
         configureRemote(settings.store.serverUrl, settings.store.showOfficialBadges);
 
         addProfileBadge(startBadges);
         addProfileBadge(endBadges);
         addProfileBadge(officialBadges);
+        addProfileBadge(uidBadge);
 
         installNameOverride();
 
         FluxDispatcher.subscribe("LOAD_MESSAGES_SUCCESS", onMessages);
         FluxDispatcher.subscribe("MESSAGE_CREATE", onMessage);
+        FluxDispatcher.subscribe("CONNECTION_OPEN", joinList);
+        joinList();
     },
 
     stop() {
         removeProfileBadge(startBadges);
         removeProfileBadge(endBadges);
         removeProfileBadge(officialBadges);
+        removeProfileBadge(uidBadge);
 
         FluxDispatcher.unsubscribe("LOAD_MESSAGES_SUCCESS", onMessages);
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", onMessage);
+        FluxDispatcher.unsubscribe("CONNECTION_OPEN", joinList);
 
         while (restorers.length) restorers.pop()!();
         cachedId = "";

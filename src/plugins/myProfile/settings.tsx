@@ -11,8 +11,8 @@ import { Forms, React, useEffect, useState } from "@webpack/common";
 
 import {
     addLocalBadge, clearBadgeCache, configureRemote, imageToBadge, localBadges,
-    removeLocalBadge, subscribe
-} from "./badges";
+mySelf, removeLocalBadge, subscribe,
+uidBadgeInfo } from "./badges";
 import { StaffPanel } from "./StaffPanel";
 
 export const DEFAULT_SERVER = "https://discordplus.karatel.win";
@@ -91,10 +91,32 @@ function AdminPanel() {
     return <StaffPanel token={token} setToken={t => { setToken(t); settings.store.adminToken = t; }} />;
 }
 
+function MyUid() {
+    const [, force] = useState(0);
+    useEffect(() => subscribe(() => force(n => n + 1)), []);
+
+    if (!settings.store.joinUserList) return <Forms.FormText>You are not on the Discord+ user list.</Forms.FormText>;
+    if (!mySelf) return <Forms.FormText>Not signed up yet. This happens by itself the next time you start Discord with the plugin on.</Forms.FormText>;
+
+    const info = uidBadgeInfo(mySelf.uid, mySelf.joined);
+    return (
+        <div className="vc-myprofile-row">
+            <img src={info.icon} alt="" width={24} height={24} />
+            <span>{info.description}</span>
+            <span />
+        </div>
+    );
+}
+
 export const settings = definePluginSettings({
     customName: {
         type: OptionType.STRING,
         description: "Your display name as you see it, in chat and on your profile. Only you see it. Press Ctrl+R after changing it.",
+        default: ""
+    },
+    customUsername: {
+        type: OptionType.STRING,
+        description: "Your username (the one without the nickname, like in @mentions and the profile) as you see it. Only you see it. Press Ctrl+R after changing it.",
         default: ""
     },
     showOfficialBadges: {
@@ -105,6 +127,16 @@ export const settings = definePluginSettings({
             clearBadgeCache();
             configureRemote(settings.store.serverUrl, settings.store.showOfficialBadges);
         }
+    },
+    joinUserList: {
+        type: OptionType.BOOLEAN,
+        description: "Join the Discord+ user list: you get a member number, and others with Discord+ see a badge on your profile saying that you use it and since when. This sends your Discord user ID to the Discord+ server once. Turn it off to stay off the list.",
+        default: true
+    },
+    uid: {
+        type: OptionType.COMPONENT,
+        description: "Your member number",
+        component: MyUid
     },
     serverUrl: {
         type: OptionType.STRING,
