@@ -16,7 +16,7 @@
 # It changes nothing outside that folder and Discord's own install. To undo it, run "pnpm uninject"
 # inside the folder. Read this file before you run it, that is what it is here for.
 #
-# This script has not been tested on macOS or Linux yet. If it breaks, please open an issue.
+# Tested on Windows and Arch Linux. macOS has not been tested yet. If it breaks, please open an issue.
 #
 # Settings for people who want them:
 #   DISCORDPLUS_DIR          install somewhere else than ~/discord-plus
