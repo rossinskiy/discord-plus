@@ -580,4 +580,9 @@ write("terms.html", doc_page("Terms | Discord+", "Terms", "/terms",
 write("404.html", not_found())
 if WALLETS:
     write("support.html", support_page())
+# the sitemap lists exactly the pages that exist
+pages = ["/", "/plugins", "/install", "/privacy", "/terms"] + (["/support"] if WALLETS else [])
+NL = chr(10)
+urls = "".join("  <url><loc>" + ORIGIN + path + "</loc></url>" + NL for path in pages)
+write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>' + NL + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + NL + urls + "</urlset>" + NL)
 print("built")
