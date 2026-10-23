@@ -1,4 +1,10 @@
 {
+    "services": [
+        {
+            "name": "Boosty",
+            "url": "https://boosty.to/discordplus/donate"
+        }
+    ],
     "wallets": [
         {
             "name": "USDT and TRX",
