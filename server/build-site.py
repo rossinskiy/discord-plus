@@ -119,11 +119,15 @@ import json
 
 DONATE_FILE = os.path.join(HERE, "donate.json")
 WALLETS = []
+SERVICES = []
 if os.path.exists(DONATE_FILE):
-    WALLETS = [w for w in json.load(open(DONATE_FILE, encoding="utf-8")).get("wallets", []) if w.get("address")]
+    _donate = json.load(open(DONATE_FILE, encoding="utf-8"))
+    WALLETS = [w for w in _donate.get("wallets", []) if w.get("address")]
+    SERVICES = [x for x in _donate.get("services", []) if x.get("url")]
+HAS_SUPPORT = bool(WALLETS or SERVICES)
 
 NAV = [("/", "Main", "home"), ("/plugins", "Plugins", "plugins"), ("/install", "Install", "install")]
-if WALLETS:
+if HAS_SUPPORT:
     NAV.append(("/support", "Support", "support"))
 
 
@@ -174,7 +178,7 @@ def top(active):
 
 def bottom(hints):
     keys = "".join(f"<span>{h}</span>" for h in hints)
-    support_link = '<a href="/support">Support the project</a>\n' if WALLETS else ""
+    support_link = '<a href="/support">Support the project</a>\n' if HAS_SUPPORT else ""
     return f'''<footer>
 <div class="notice" id="notice" role="region" aria-label="Notice">
 <p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
@@ -210,7 +214,7 @@ def cmd_box(text, copy_id=None, label="Copy", prompt="PS&gt; "):
         pieces = []
         for k, part in enumerate(parts):
             pieces.append('<span class="seg">' + ("| " if k else "") + e(part).replace("karatel.win/", "karatel.win/<wbr>") + "</span>")
-        lead = f'<span class="prompt">{prompt}</span>' if n == 0 else '<span class="prompt">    </span>'
+        lead = f'<span class="prompt">{prompt}</span>' if n == 0 else ('<span class="prompt">    </span>' if prompt else "")
         out.append(lead + " ".join(pieces))
     idattr = f' id="{copy_id}"' if copy_id else ""
     return '<div class="cmd"><code>' + "\n".join(out) + '</code><button class="btn" type="button" data-copy' + idattr + ">" + label + "</button></div>"
@@ -537,27 +541,45 @@ def support_page():
             '<div class="wallet"><div class="wallet-name"><span class="title">' + e(w["name"]) + '</span> <span class="dim">' + e(w.get("network", "")) + '</span></div>'
             + '<div class="cmd"><code><span class="seg">' + e(w["address"]) + '</span></code><button class="btn" type="button" data-copy>Copy</button></div></div>'
         )
-    body = f'''<main id="main">
-<div class="wrap">
-<div class="page-head">
-<h1>Support</h1>
-<p>Discord+ is free and stays free. If it saves you time and you want to chip in, the money pays for the server and the hours that go into the project. It unlocks nothing and gets you no perks.</p>
-</div>
-<div class="block">
-<section class="pane" aria-labelledby="w-title">
-<h2 class="pane-title" id="w-title">Wallets</h2>
-<p class="lead72">These are plain crypto wallets that the author controls, with no middleman and no account. Send only the coin on the network named next to each address. Money sent on a different network is lost.</p>
-{rows}
-</section>
-<section class="pane" aria-labelledby="v-title">
-<h2 class="pane-title" id="v-title">Check the address first</h2>
-<p class="lead72">The same addresses are listed in the project repository, in <a href="{GITHUB}/blob/main/server/donate.json" rel="noopener">server/donate.json</a>. Compare them with the ones above before you send anything, so a tampered page cannot send your money somewhere else.</p>
-</section>
-</div>
-</div>
-</main>
-'''
-    return (head("Support | Discord+", "Support Discord+ with a crypto donation. The project is free and stays free, donations pay for the server and the time that goes into it.", "/support")
+
+    services = ""
+    if SERVICES:
+        buttons = "".join('<a class="btn" href="' + e(x["url"]) + '" rel="noopener">Donate on ' + e(x["name"]) + "</a>" for x in SERVICES)
+        services = ('<section class="pane" aria-labelledby="s-title"><h2 class="pane-title" id="s-title">Donate online</h2>'
+                    '<p class="lead72">Boosty handles the payment for you, you do not need a crypto wallet.</p>'
+                    '<div class="actions">' + buttons + "</div></section>")
+
+    wallets = ""
+    check = ""
+    if WALLETS:
+        wallets = ('<section class="pane" aria-labelledby="w-title"><h2 class="pane-title" id="w-title">Crypto wallets</h2>'
+                   '<p class="lead72">These are plain crypto wallets that the author controls, with no middleman and no account. '
+                   'Send only the coin on the network named next to each address. Money sent on a different network is lost.</p>'
+                   + rows + "</section>")
+        check = ('<section class="pane" aria-labelledby="v-title"><h2 class="pane-title" id="v-title">Check the address first</h2>'
+                 '<p class="lead72">The same addresses are listed in the project repository, in '
+                 '<a href="' + GITHUB + '/blob/main/server/donate.json" rel="noopener">server/donate.json</a>. '
+                 'Compare them with the ones above before you send anything, so a tampered page cannot send your money somewhere else.</p></section>')
+
+    message = cmd_box("Supporter badge" + chr(10) + "Discord ID: 123456789012345678" + chr(10) + "Donated: Boosty or which coin" + chr(10) + "Proof: Boosty name or transaction hash", None, "Copy", prompt="")
+    badge = (
+        '<section class="pane" aria-labelledby="b-title"><h2 class="pane-title" id="b-title">Get your Supporter badge</h2>'
+        '<ol class="steps">'
+        '<li><div><h3>Donate</h3><p>Any amount, on Boosty or to one of the wallets.</p></div></li>'
+        '<li><div><h3>Message me on Telegram</h3><p>Write to <a href="https://t.me/jreinject" rel="noopener">@jreinject</a> and send this, with your own details filled in:</p>' + message + '</div></li>'
+        '<li><div><h3>Wait for the badge</h3><p>I check the donation by hand and add the badge within 24 hours. People who run Discord+ with MyProfile switched on then see it on your profile.</p></div></li>'
+        '</ol>'
+        '<p class="note">Your Discord ID is a long number, not your username. In Discord open Settings, then Advanced, switch on Developer Mode, right-click your own name and choose Copy User ID.</p>'
+        "</section>"
+    )
+
+    body = (
+        '<main id="main"><div class="wrap"><div class="page-head"><h1>Support</h1>'
+        "<p>Discord+ is free and stays free. If it saves you time and you want to chip in, the money pays for the server and the hours that go into the project. "
+        "Everyone who donates, in any amount, gets the Discord+ Supporter badge on their profile.</p></div>"
+        '<div class="block">' + services + wallets + badge + check + "</div></div></main>\n"
+    )
+    return (head("Support | Discord+", "Support Discord+ with a donation and get the Discord+ Supporter badge. The project is free and stays free, donations pay for the server and the time that goes into it.", "/support")
             + top("support") + body + bottom(['<span>Copy an address and check it against the repository</span>']))
 
 
@@ -578,10 +600,10 @@ write("terms.html", doc_page("Terms | Discord+", "Terms", "/terms",
                               "The terms of using Discord+: GPL-3.0 license, no warranty, your responsibility and no affiliation with Discord or Vencord.",
                               "October 17, 2026", terms))
 write("404.html", not_found())
-if WALLETS:
+if HAS_SUPPORT:
     write("support.html", support_page())
 # the sitemap lists exactly the pages that exist
-pages = ["/", "/plugins", "/install", "/privacy", "/terms"] + (["/support"] if WALLETS else [])
+pages = ["/", "/plugins", "/install", "/privacy", "/terms"] + (["/support"] if HAS_SUPPORT else [])
 NL = chr(10)
 urls = "".join("  <url><loc>" + ORIGIN + path + "</loc></url>" + NL for path in pages)
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>' + NL + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + NL + urls + "</urlset>" + NL)
