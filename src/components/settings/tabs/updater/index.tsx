@@ -84,17 +84,17 @@ function Updater() {
             <div className="vc-settings-switches">
                 <FormSwitch
                     title="Automatically update"
-                    description="Automatically update Vencord without confirmation prompt"
-                    value={settings.autoUpdate}
-                    onChange={(v: boolean) => settings.autoUpdate = v}
+                    description="Always on in Discord+. New versions are downloaded and built on their own, then you restart once."
+                    value={true}
+                    onChange={() => { }}
+                    disabled
                     hideBorder
                 />
                 <FormSwitch
                     title="Get notified when an automatic update completes"
-                    description="Show a notification when Vencord automatically updates"
+                    description="Show a notification when Discord+ has updated itself"
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
-                    disabled={!settings.autoUpdate}
                     hideBorder
                 />
             </div>

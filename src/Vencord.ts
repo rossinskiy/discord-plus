@@ -30,7 +30,6 @@ export * as WebpackPatcher from "./webpack/patchWebpack";
 export { PlainSettings, Settings };
 
 import { coreStyleRootNode, initStyles } from "@api/Styles";
-import { openSettingsTabModal, UpdaterTab } from "@components/settings";
 import { debounce } from "@shared/debounce";
 import { IS_WINDOWS } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
@@ -103,9 +102,11 @@ async function syncSettings() {
 }
 
 let notifiedForUpdatesThisSession = false;
+// After a failed update there is no point trying again until Discord restarts.
+let gaveUpOnUpdates = false;
 
 async function runUpdateCheck() {
-    if (IS_UPDATER_DISABLED) return;
+    if (IS_UPDATER_DISABLED || gaveUpOnUpdates) return;
 
     const notify = (data: NotificationData) => {
         if (notifiedForUpdatesThisSession) return;
@@ -122,25 +123,18 @@ async function runUpdateCheck() {
         const isOutdated = await checkForUpdates();
         if (!isOutdated) return;
 
-        if (Settings.autoUpdate) {
-            await update();
-            if (Settings.autoUpdateNotification) {
-                notify({
-                    title: "Vencord has been updated!",
-                    body: "Click here to restart",
-                    onClick: relaunch
-                });
-            }
-            return;
+        // Discord+ always updates itself, there is no switch for it.
+        await update();
+        if (Settings.autoUpdateNotification) {
+            notify({
+                title: "Discord+ has been updated",
+                body: "Click here to restart and use the new version",
+                onClick: relaunch
+            });
         }
-
-        notify({
-            title: "A Vencord update is available!",
-            body: "Click here to view the update",
-            onClick: () => openSettingsTabModal(UpdaterTab!)
-        });
     } catch (err) {
-        UpdateLogger.error("Failed to check for updates", err);
+        gaveUpOnUpdates = true;
+        UpdateLogger.error("Failed to update", err);
     }
 }
 
@@ -152,11 +146,7 @@ async function init() {
 
     if (!IS_WEB && !IS_UPDATER_DISABLED) {
         runUpdateCheck();
-
-        // this tends to get really annoying, so only do this if the user has auto-update without notification enabled
-        if (Settings.autoUpdate && !Settings.autoUpdateNotification) {
-            setInterval(runUpdateCheck, 1000 * 60 * 30); // 30 minutes
-        }
+        setInterval(runUpdateCheck, 1000 * 60 * 30); // 30 minutes
     }
 
     if (IS_DEV) {

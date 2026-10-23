@@ -66,12 +66,43 @@ async function calculateGitChanges() {
     }) : [];
 }
 
+// The commit that worked before the last pull, so a broken update can be undone.
+let previousHead: string | undefined;
+
 async function pull() {
-    const res = await git("pull");
-    return res.stdout.includes("Fast-forward");
+    previousHead = (await git("rev-parse", "HEAD")).stdout.trim();
+
+    // Fast-forward only: local edits or a rewritten branch are never merged over silently.
+    const res = await git("pull", "--ff-only");
+    const updated = res.stdout.includes("Fast-forward");
+
+    if (updated) await installDependenciesIfChanged(previousHead);
+    return updated;
+}
+
+// A new version may need packages the old one did not, and the build fails without them.
+async function installDependenciesIfChanged(from: string) {
+    const changed = await git("diff", "--name-only", from, "HEAD", "--", "package.json", "pnpm-lock.yaml");
+    if (!changed.stdout.trim()) return;
+
+    const opts = { cwd: VENCORD_SRC_DIR, timeout: 10 * 60_000 };
+    if (isFlatpak) await execFile("flatpak-spawn", ["--host", "pnpm", "install"], opts);
+    else if (process.platform === "win32") await execFile("cmd.exe", ["/c", "pnpm", "install"], opts);
+    else await execFile("pnpm", ["install"], opts);
 }
 
 async function build() {
+    if (await runBuild().catch(() => false)) return true;
+
+    // The new version did not build. Go back to the one that did, so Discord keeps working.
+    if (previousHead) {
+        await git("reset", "--keep", previousHead).catch(() => { });
+        await runBuild().catch(() => { });
+    }
+    return false;
+}
+
+async function runBuild() {
     const opts = { cwd: VENCORD_SRC_DIR };
 
     const command = isFlatpak ? "flatpak-spawn" : "node";
