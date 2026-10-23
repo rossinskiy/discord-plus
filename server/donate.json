@@ -1,0 +1,34 @@
+{
+    "wallets": [
+        {
+            "name": "USDT and TRX",
+            "network": "TRON network (TRC20) only",
+            "address": "TDRnbxonyhUb2hvVmX6VGmXx4CjEdY6XcK"
+        },
+        {
+            "name": "TON",
+            "network": "TON network only, also takes USDT on TON",
+            "address": "UQDBMMrUOK-X0f6Qac2Q-tXwnT9v453Rq0XTINm5r-7XbFvL"
+        },
+        {
+            "name": "Bitcoin",
+            "network": "Bitcoin network only",
+            "address": "bc1qj7z9yx7d34ld8txq6xe6pxnf9aez7gea6wvq7t"
+        },
+        {
+            "name": "Ethereum",
+            "network": "Ethereum network only, also takes ERC-20 tokens",
+            "address": "0x851449F3eCd00373846a583752618695A1b79746"
+        },
+        {
+            "name": "Solana",
+            "network": "Solana network only, also takes SPL tokens",
+            "address": "GCtpMCRNQALHwYZewEfWwQyyfvVCMWoLBX7b7NDzZoM3"
+        },
+        {
+            "name": "Litecoin",
+            "network": "Litecoin network only",
+            "address": "ltc1q6scmj3zlny9j7enq8392wtdcq5dymnpn86a9a9"
+        }
+    ]
+}
