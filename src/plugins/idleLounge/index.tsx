@@ -14,6 +14,7 @@ import { Devs } from "@utils/constants";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { React, showToast, Toasts } from "@webpack/common";
 
+import { diskAvailable, revealSavePath, savePath } from "./disk";
 import { formatDuration, formatNumber, resetGame, setAchievementHandler, startGame, stopGame, takeOfflineReport } from "./game";
 import { openLoungeModal } from "./LoungeModal";
 
@@ -34,10 +35,15 @@ const LoungeButton: ChatBarButtonFactory = ({ isMainChat }) => {
 
 function Controls() {
     const [armed, setArmed] = React.useState(false);
+    const [path, setPath] = React.useState("");
+    React.useEffect(() => { savePath().then(setPath); }, []);
 
     return (
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
             <Button size="small" onClick={openLoungeModal}>Open the lounge</Button>
+            {diskAvailable() && (
+                <Button size="small" variant="secondary" onClick={() => revealSavePath()}>Show save file</Button>
+            )}
             <Button
                 size="small"
                 variant="dangerSecondary"
@@ -49,6 +55,7 @@ function Controls() {
             >
                 {armed ? "Really delete all progress?" : "Reset progress"}
             </Button>
+            {path && <span style={{ fontSize: 12, color: "var(--text-muted)", width: "100%" }}>Saved to {path}</span>}
         </div>
     );
 }

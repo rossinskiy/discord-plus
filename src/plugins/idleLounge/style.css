@@ -499,3 +499,10 @@
     height: 100%;
     background: var(--brand-500);
 }
+
+.vc-lounge-playfield {
+    height: 420px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+}

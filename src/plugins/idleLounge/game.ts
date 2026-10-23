@@ -6,9 +6,11 @@
 
 import * as DataStore from "@api/DataStore";
 
+import { DiskSave, flushDiskWrite, readDisk, scheduleDiskWrite } from "./disk";
 import {
     ACHIEVEMENT_BONUS, ACHIEVEMENTS, BOUNTY_KINDS, BOUNTY_MINUTES, BountyKind, COMPANIONS, Ctx, LINE_COSTS, MAX_LINES, SEED_UPGRADES, UPGRADES
 } from "./progress";
+import { allStats, restoreStats, setStatListener } from "./storage";
 
 const SAVE_KEY = "IdleLounge_save";
 const TICK_MS = 500;
@@ -731,10 +733,16 @@ function sanitize(raw: Partial<Save> | undefined) {
     } satisfies Save;
 }
 
+// Everything that goes into the save file on disk: the game itself plus the toy records.
+function snapshot(): DiskSave {
+    return { version: 1, savedAt: Date.now(), game: { ...state }, stats: allStats() };
+}
+
 export async function save() {
     if (!dirty) return;
     dirty = false;
     await DataStore.set(SAVE_KEY, { ...state });
+    scheduleDiskWrite(snapshot);
 }
 
 function onVisibility() {
@@ -742,7 +750,15 @@ function onVisibility() {
 }
 
 export async function startGame() {
-    Object.assign(state, sanitize(await DataStore.get<Partial<Save>>(SAVE_KEY)));
+    // The browser copy and the file on disk can drift apart (a wiped profile, a
+    // reinstall), so start from whichever was written last.
+    const local = await DataStore.get<Partial<Save>>(SAVE_KEY);
+    const disk = await readDisk();
+    if (disk?.stats) restoreStats(disk.stats);
+    const fromDisk = disk?.game && (!local || (disk.game.lastTick ?? 0) > (local.lastTick ?? 0));
+    Object.assign(state, sanitize(fromDisk ? disk!.game as Partial<Save> : local));
+    if (fromDisk) dirty = true;
+    setStatListener(() => scheduleDiskWrite(snapshot));
 
     const away = Date.now() - state.lastTick;
     if (away > OFFLINE_GAP_MS && cps() > 0) {
@@ -762,7 +778,9 @@ export async function stopGame() {
     document.removeEventListener("visibilitychange", onVisibility);
     dirty = true;
     state.lastTick = Date.now();
+    setStatListener(undefined);
     await save();
+    await flushDiskWrite(snapshot);
 }
 
 export async function resetGame() {

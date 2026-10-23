@@ -14,12 +14,14 @@ import { Farm } from "./Farm";
 import { Fidget } from "./Fidget";
 import { Fishing } from "./Fishing";
 import { Goals } from "./Goals";
+import { Play } from "./Play";
 
 const TABS = [
     { id: "farm", label: "Garden" },
     { id: "fishing", label: "Fishing" },
     { id: "bricks", label: "Bricks" },
     { id: "goals", label: "Goals" },
+    { id: "play", label: "Play" },
     { id: "fidget", label: "Fidget" },
     { id: "chill", label: "Chill" }
 ] as const;
@@ -76,6 +78,7 @@ function LoungeModal({ modalProps }: { modalProps: RenderModalProps; }) {
                     <div style={{ display: tab === "fishing" ? undefined : "none" }}><Fishing /></div>
                     {tab === "bricks" && <Bricks />}
                     {tab === "goals" && <Goals />}
+                    {tab === "play" && <Play />}
                     {tab === "fidget" && <Fidget />}
                     {tab === "chill" && <Chill />}
                 </div>
