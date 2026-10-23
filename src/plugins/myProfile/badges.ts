@@ -159,18 +159,31 @@ export function clearBadgeCache() {
     queue.clear();
 }
 
-export async function adminRequest(token: string, userId: string, badge: string, action: "grant" | "revoke") {
-    if (!Native) return { ok: false, message: "This only works in the desktop app." };
-    if (!serverUrl) return { ok: false, message: "Set the server address first." };
-    if (!token) return { ok: false, message: "Enter the admin token first." };
+export interface ApiResult {
+    status: number;
+    json: any;
+    error: string;
+}
 
-    const res = await Native.request(serverUrl, "/api/admin/badges", "POST", token, JSON.stringify({ userId, badge, action }));
-    if (res.status === 200) {
-        cache.delete(userId);
-        requestBadges([userId]);
-        return { ok: true, message: action === "grant" ? "Badge granted." : "Badge removed." };
-    }
-    if (res.status === 401) return { ok: false, message: "Wrong admin token." };
-    if (res.status === 404) return { ok: false, message: "The server has no admin token set up." };
-    return { ok: false, message: `Server said ${res.status === -1 ? res.body : res.status}.` };
+// Talks to the owner and moderator endpoints. The token only goes to the server you configured.
+export async function adminCall(token: string, method: "GET" | "POST", path: string, body?: object): Promise<ApiResult> {
+    if (!Native) return { status: -1, json: null, error: "This only works in the desktop app." };
+    if (!serverUrl) return { status: -1, json: null, error: "Set the server address first." };
+    if (!token) return { status: -1, json: null, error: "Enter your token first." };
+
+    const res = await Native.request(serverUrl, path, method, token, body ? JSON.stringify(body) : undefined);
+    let json: any = null;
+    try { json = JSON.parse(res.body); } catch { }
+
+    const error = res.status === 200 ? ""
+        : res.status === -1 ? res.body
+            : res.status === 401 ? "That token is not valid."
+                : res.status === 404 ? "The server has no admin access set up."
+                    : json?.error ?? `The server answered ${res.status}.`;
+    return { status: res.status, json, error };
+}
+
+export function forgetBadges(userId: string) {
+    cache.delete(userId);
+    requestBadges([userId]);
 }

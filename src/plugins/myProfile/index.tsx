@@ -16,7 +16,25 @@ import {
 } from "./badges";
 import { settings } from "./settings";
 
-const isMe = (userId: string) => userId === UserStore.getCurrentUser()?.id;
+// UserStore.getCurrentUser() ends up calling getUser(), which this plugin wraps, so the id has to be
+// looked up with a guard against calling itself and then remembered.
+let cachedId = "";
+let looking = false;
+let originalCurrentUser: (() => { id: string; } | undefined) | undefined;
+
+function myId() {
+    if (cachedId) return cachedId;
+    if (looking) return "";
+    looking = true;
+    try {
+        cachedId = (originalCurrentUser ?? (() => UserStore.getCurrentUser()))()?.id ?? "";
+    } catch { } finally {
+        looking = false;
+    }
+    return cachedId;
+}
+
+const isMe = (userId: string) => !!userId && userId === myId();
 
 const localBadgeFor = (position: "start" | "end"): ProfileBadge => ({
     id: `myprofile-local-${position}`,
@@ -57,6 +75,12 @@ const customName = () => settings.store.customName.trim();
 
 // Only you ever see this, since it just changes what your own client shows for your own account.
 function installNameOverride() {
+    // Nothing to override, so leave the stores completely alone.
+    if (!customName()) return;
+
+    originalCurrentUser = UserStore.getCurrentUser.bind(UserStore);
+    cachedId = "";
+
     wrap(GuildMemberStore, "getNick", original => (guildId: string, userId: string) =>
         customName() && isMe(userId) ? customName() : original(guildId, userId));
 
@@ -67,6 +91,7 @@ function installNameOverride() {
 
     const withName = (user: any) =>
         user && customName() && isMe(user.id) ? Object.create(user, { globalName: { value: customName() } }) : user;
+
 
     wrap(UserStore, "getUser", original => (id: string) => withName(original(id)));
     wrap(UserStore, "getCurrentUser", original => () => withName(original()));
@@ -107,6 +132,8 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", onMessage);
 
         while (restorers.length) restorers.pop()!();
+        cachedId = "";
+        originalCurrentUser = undefined;
         clearBadgeCache();
     }
 });

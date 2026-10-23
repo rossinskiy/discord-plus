@@ -7,12 +7,13 @@
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import { OptionType } from "@utils/types";
-import { Forms, React, useEffect, UserStore, useState } from "@webpack/common";
+import { Forms, React, useEffect, useState } from "@webpack/common";
 
 import {
-    addLocalBadge, adminRequest, clearBadgeCache, configureRemote, imageToBadge, localBadges, nativeAvailable, OFFICIAL_BADGES,
+    addLocalBadge, clearBadgeCache, configureRemote, imageToBadge, localBadges,
     removeLocalBadge, subscribe
 } from "./badges";
+import { StaffPanel } from "./StaffPanel";
 
 export const DEFAULT_SERVER = "https://discordplus.karatel.win";
 
@@ -86,57 +87,8 @@ function LocalBadgesEditor() {
 }
 
 function AdminPanel() {
-    const me = UserStore.getCurrentUser()?.id ?? "";
-    const [userId, setUserId] = useState(me);
-    const [badge, setBadge] = useState(OFFICIAL_BADGES[0].id);
-    const [status, setStatus] = useState("");
     const [token, setToken] = useState(settings.store.adminToken);
-
-    async function run(action: "grant" | "revoke") {
-        settings.store.adminToken = token;
-        const res = await adminRequest(token, userId.trim(), badge, action);
-        setStatus(res.message);
-    }
-
-    if (!nativeAvailable()) {
-        return <Forms.FormText>Handing out badges works in the desktop app only.</Forms.FormText>;
-    }
-
-    return (
-        <div className="vc-myprofile">
-            <Forms.FormText>
-                For the owner of the Discord+ server. Only a person with the admin token can give someone one of these
-                badges, and everyone running Discord+ will see it on that person's profile.
-            </Forms.FormText>
-            <input
-                className="vc-myprofile-input"
-                type="password"
-                placeholder="Admin token"
-                value={token}
-                autoComplete="off"
-                onChange={e => setToken(e.target.value)}
-            />
-            <input
-                className="vc-myprofile-input"
-                placeholder="User ID (yours is filled in)"
-                value={userId}
-                onChange={e => setUserId(e.target.value)}
-            />
-            <div className="vc-myprofile-actions" role="group" aria-label="Badge to hand out">
-                {OFFICIAL_BADGES.map(b => (
-                    <Button key={b.id} size="small" variant={badge === b.id ? "primary" : "secondary"} onClick={() => setBadge(b.id)}>
-                        <img src={b.icon} alt="" width={14} height={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                        {b.name.replace("Discord+ ", "")}
-                    </Button>
-                ))}
-            </div>
-            <div className="vc-myprofile-actions">
-                <Button size="small" onClick={() => run("grant")}>Give badge</Button>
-                <Button size="small" variant="dangerSecondary" onClick={() => run("revoke")}>Take it back</Button>
-            </div>
-            {status && <span className="vc-myprofile-muted" role="status">{status}</span>}
-        </div>
-    );
+    return <StaffPanel token={token} setToken={t => { setToken(t); settings.store.adminToken = t; }} />;
 }
 
 export const settings = definePluginSettings({
@@ -165,7 +117,7 @@ export const settings = definePluginSettings({
     },
     adminToken: {
         type: OptionType.STRING,
-        description: "Admin token (filled in from the panel below)",
+        description: "Staff token (filled in from the panel below)",
         default: "",
         hidden: true
     },
@@ -176,7 +128,7 @@ export const settings = definePluginSettings({
     },
     admin: {
         type: OptionType.COMPONENT,
-        description: "Hand out Discord+ badges",
+        description: "Discord+ team tools",
         component: AdminPanel
     }
 });
