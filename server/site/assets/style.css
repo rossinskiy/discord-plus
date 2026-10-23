@@ -540,3 +540,7 @@ progress::-moz-progress-bar { background: var(--ok); }
     .help { min-height: 372px; }
 }
 .mock .cap { margin-top: 2px; }
+
+.wallet { margin-top: 16px; }
+.wallet-name { margin-bottom: 4px; }
+.wallet .cmd code { font-size: inherit; }

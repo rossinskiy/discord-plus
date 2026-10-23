@@ -7,7 +7,7 @@
 <meta name="description" content="What the Discord+ website and client do with your data: no cookies, no analytics, optional badge lookups and an optional member number.">
 <meta name="theme-color" content="#0000aa">
 <link rel="canonical" href="https://discordplus.karatel.win/privacy">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.svg?v=a872b06a" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
 <meta property="og:title" content="Privacy | Discord+">
@@ -18,9 +18,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css">
-<script src="/assets/theme.js"></script>
-<script src="/assets/app.js" defer></script>
+<link rel="stylesheet" href="/assets/style.css?v=30828f55">
+<script src="/assets/theme.js?v=6ca03193"></script>
+<script src="/assets/app.js?v=2da448de" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -36,7 +36,7 @@
 <div class="wrap">
 <div class="page-head">
 <h1>Privacy policy</h1>
-<p>Last updated October 22, 2026</p>
+<p>Last updated October 23, 2026</p>
 </div>
 <div class="block"><section class="pane" aria-label="Privacy policy"><div class="prose">
 <h2>This website</h2>
@@ -47,6 +47,7 @@
 <h2>The Discord+ client</h2>
 <p>Discord+ runs on your own computer. Apart from the badge lookup described below, it does not send anything to the author or to any service run by the author.</p>
 <p>The MyProfile plugin can show Discord+ badges on other people's profiles. To do that it asks the Discord+ server which of the users you look at have a badge. The request contains the Discord user IDs of those users, and the server sees your IP address like any web server does. Nothing else is sent: not your messages, not your account details and not your own Discord ID. The server stores only a list of which user IDs were given which badge. The standard access logs described above can include these requests, with the IDs in the address. You can turn the lookup off with the &ldquo;Show Discord+ badges&rdquo; setting of the plugin, or by disabling the plugin. Your own badges and display name stay on your computer.</p>
+<p>Discord+ also updates itself. While Discord is open it asks GitHub, about every half hour, whether the repository has a newer version, and downloads it when there is one. GitHub sees your IP address like any website, and nothing else about you is sent. The update comes from the Discord+ repository on GitHub, not from the Discord+ server.</p>
 <p>The same plugin can put you on the Discord+ user list. If you leave the &ldquo;Join the Discord+ user list&rdquo; setting on, your own Discord user ID is sent to the server once, and the server stores it together with a member number and the date you joined. Other Discord+ users can see that number and date as a badge on your profile. Nothing else is sent. Turn the setting off and nothing is sent. To be taken off the list after you joined, open an issue on GitHub and the entry will be deleted.</p>
 <p>Four plugins (MessageArchive, NicknameHistory, LastSeen and UserTags) keep their data in your local browser storage (IndexedDB), on your own computer only. The data can include message contents, attachment links, user and channel IDs, names and nicknames, presence changes and your own tags and notes. None of it is sent anywhere, and clearing it from the plugin settings or uninstalling Discord+ removes it for good.</p>
 

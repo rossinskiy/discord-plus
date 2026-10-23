@@ -7,7 +7,7 @@
 <meta name="description" content="Install Discord+ on Windows with one PowerShell command, or step by step from source. Requires Git and Node.js 22 or newer.">
 <meta name="theme-color" content="#0000aa">
 <link rel="canonical" href="https://discordplus.karatel.win/install">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.svg?v=a872b06a" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
 <meta property="og:title" content="Install | Discord+">
@@ -18,9 +18,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css">
-<script src="/assets/theme.js"></script>
-<script src="/assets/app.js" defer></script>
+<link rel="stylesheet" href="/assets/style.css?v=30828f55">
+<script src="/assets/theme.js?v=6ca03193"></script>
+<script src="/assets/app.js?v=2da448de" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -75,7 +75,7 @@
 
 <section class="pane" aria-labelledby="u-title">
 <h2 class="pane-title" id="u-title">Update and remove</h2>
-<p><span class="title">Update.</span> Run the one command again, or inside the folder run <code class="value">git pull</code>, <code class="value">pnpm install</code> and <code class="value">pnpm build</code>, then restart Discord. A change that only touches the interface also loads with Ctrl+R, but a full restart is safer.</p>
+<p><span class="title">Update.</span> You do not have to do anything. Discord+ checks for a new version every half hour while Discord is open, downloads it, builds it and shows a notice. Restart Discord when it appears. If a new version fails to build, Discord+ goes back to the version that worked. Running the one command again also updates it.</p>
 <p class="mt10"><span class="title">Remove.</span> Inside the Discord+ folder run <code class="value">pnpm uninject</code> and restart Discord. It goes back to normal.</p>
 </section>
 
