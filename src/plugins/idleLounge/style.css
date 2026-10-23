@@ -1,0 +1,501 @@
+.vc-lounge {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: calc(100vh - 150px);
+    color: var(--text-default);
+}
+
+.vc-lounge-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.vc-lounge-tab {
+    padding: 8px 14px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.vc-lounge-tab:hover {
+    color: var(--text-default);
+}
+
+.vc-lounge-tab[aria-selected="true"] {
+    color: var(--text-default);
+    border-bottom-color: var(--brand-500);
+}
+
+.vc-lounge-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.vc-lounge-stats {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.vc-lounge-coins {
+    font-size: 28px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.vc-lounge-muted {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.vc-lounge-buff {
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--status-warning-background, #f0b232);
+    color: var(--status-warning-text, #000);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.vc-lounge-farm {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(300px, 1.4fr);
+    gap: 16px;
+}
+
+@media (max-width: 760px) {
+    .vc-lounge-farm {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vc-lounge-field {
+    position: relative;
+    height: 360px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #6a9b45;
+    user-select: none;
+}
+
+.vc-lounge-plant {
+    position: absolute;
+    left: 50%;
+    bottom: 22%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.08s;
+}
+
+.vc-lounge-plant:hover {
+    transform: scale(1.05);
+}
+
+.vc-lounge-plant:active {
+    transform: scale(0.94);
+}
+
+.vc-lounge-plant svg {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.vc-lounge-pop {
+    position: absolute;
+    pointer-events: none;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    animation: vc-lounge-pop 0.9s ease-out forwards;
+}
+
+@keyframes vc-lounge-pop {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-48px); }
+}
+
+.vc-lounge-butterfly {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    animation: vc-lounge-flutter 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes vc-lounge-flutter {
+    from { transform: translate(0, 0) rotate(-6deg); }
+    to { transform: translate(14px, -10px) rotate(6deg); }
+}
+
+.vc-lounge-toast {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.vc-lounge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.vc-lounge-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: var(--background-base-low, var(--background-secondary));
+}
+
+.vc-lounge-row-title {
+    font-weight: 600;
+}
+
+.vc-lounge-row-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.vc-lounge-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    background: var(--brand-500);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.vc-lounge-btn:hover:not(:disabled) {
+    background: var(--brand-560, var(--brand-500));
+    filter: brightness(1.1);
+}
+
+.vc-lounge-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.vc-lounge-btn[data-variant="secondary"] {
+    background: var(--button-secondary-background, var(--background-modifier-hover));
+    color: var(--text-default);
+}
+
+.vc-lounge-btn[data-variant="danger"] {
+    background: var(--button-danger-background, #da373c);
+}
+
+.vc-lounge-section {
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.vc-lounge-fishing {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(280px, 1.2fr);
+    gap: 16px;
+}
+
+@media (max-width: 760px) {
+    .vc-lounge-fishing {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vc-lounge-pond {
+    position: relative;
+    height: 340px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #123f63;
+    color: #fff;
+}
+
+.vc-lounge-pondcanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.vc-lounge-pond-ui {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 16px 16px;
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(5, 20, 36, 0.8));
+}
+
+.vc-lounge-bobber {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #e8412c 50%, #fff 50%);
+    border: 2px solid #222;
+    animation: vc-lounge-bob 2s ease-in-out infinite;
+}
+
+.vc-lounge-bobber[data-bite="true"] {
+    animation: vc-lounge-dunk 0.25s ease-in-out infinite;
+}
+
+@keyframes vc-lounge-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+@keyframes vc-lounge-dunk {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(14px); }
+}
+
+.vc-lounge-log {
+    min-height: 40px;
+    font-weight: 600;
+}
+
+.vc-lounge-dex {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 6px;
+}
+
+.vc-lounge-fish {
+    padding: 8px;
+    border-radius: 6px;
+    background: var(--background-base-low, var(--background-secondary));
+    border-left: 3px solid var(--rarity, #888);
+    font-size: 13px;
+}
+
+.vc-lounge-fish[data-locked="true"] {
+    opacity: 0.45;
+}
+
+.vc-lounge-chill {
+    position: relative;
+    height: 100%;
+    min-height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+}
+
+.vc-lounge-chill canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.vc-lounge-chill-bar {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: flex;
+    gap: 6px;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+}
+
+.vc-lounge-chill:hover .vc-lounge-chill-bar {
+    opacity: 1;
+}
+
+.vc-lounge-fidget {
+    display: grid;
+    grid-template-columns: minmax(280px, 1.3fr) minmax(220px, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 760px) {
+    .vc-lounge-fidget {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vc-lounge-pop-grid {
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.vc-lounge-bubble {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 30%, hsl(var(--hue) 85% 78%), hsl(var(--hue) 70% 52%));
+    box-shadow: 0 4px 0 hsl(var(--hue) 60% 36%), inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.06s, box-shadow 0.06s, filter 0.1s;
+}
+
+.vc-lounge-bubble:hover {
+    filter: brightness(1.08);
+}
+
+.vc-lounge-bubble[data-popped="true"] {
+    transform: translateY(3px) scale(0.92);
+    box-shadow: 0 1px 0 hsl(var(--hue) 60% 36%), inset 0 4px 8px rgba(0, 0, 0, 0.35);
+    background: radial-gradient(circle at 65% 70%, hsl(var(--hue) 55% 60%), hsl(var(--hue) 55% 42%));
+}
+
+.vc-lounge-spinner {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 8px 0;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.vc-lounge-spinner svg {
+    width: 100%;
+    height: 100%;
+}
+
+.vc-lounge-switches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.vc-lounge-switch {
+    height: 46px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #3a3d44;
+    box-shadow: 0 4px 0 #1e2024;
+    transition: transform 0.05s, box-shadow 0.05s, background 0.1s;
+}
+
+.vc-lounge-switch[data-on="true"] {
+    background: #5fbf6a;
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #2f7a38;
+}
+
+.vc-lounge-bigbutton {
+    display: block;
+    width: 130px;
+    height: 130px;
+    margin-top: 10px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    background: radial-gradient(circle at 35% 30%, #ff7a6b, #d63a2a);
+    box-shadow: 0 8px 0 #8d2418;
+    transition: transform 0.04s, box-shadow 0.04s;
+}
+
+.vc-lounge-bigbutton:active {
+    transform: translateY(6px);
+    box-shadow: 0 2px 0 #8d2418;
+}
+
+/* Open the lounge as a full-screen window instead of a small modal. */
+[role="dialog"]:has(.vc-lounge),
+[role="alertdialog"]:has(.vc-lounge) {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+}
+
+.vc-lounge-farmcanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.vc-lounge-chill-bar {
+    flex-wrap: wrap;
+    max-width: calc(100% - 20px);
+}
+
+.vc-lounge-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.vc-lounge-chill canvas {
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.vc-lounge-arena {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+    background: #0b0d1c;
+}
+
+.vc-lounge-bar {
+    height: 4px;
+    margin-top: 6px;
+    border-radius: 2px;
+    background: var(--background-modifier-hover, rgba(255, 255, 255, 0.1));
+    overflow: hidden;
+}
+
+.vc-lounge-bar > div {
+    height: 100%;
+    background: var(--brand-500);
+}
