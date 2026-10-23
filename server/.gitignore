@@ -1,3 +1,10 @@
 node_modules/
 data/
 ecosystem.config.cjs
+
+# The backend stays private: its code lives on the server and on the maintainer's machine only.
+/server.js
+/package.json
+/package-lock.json
+/ecosystem.config.example.cjs
+/node_modules/
