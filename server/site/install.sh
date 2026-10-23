@@ -31,24 +31,31 @@ DIR="${DISCORDPLUS_DIR:-$HOME/discord-plus}"
 step() { printf '\n\033[32m==> %s\033[0m\n' "$1"; }
 stop() { printf '\n\033[33m%s\033[0m\n' "$1" >&2; exit 1; }
 
+# A package-manager hint for the one distribution family this has been written against.
+hint() {
+    if command -v pacman > /dev/null 2>&1; then
+        printf ' On Arch Linux: sudo pacman -S %s.' "$1"
+    fi
+}
+
 case "$(uname -s)" in
     Linux | Darwin) ;;
     *) [ "${DISCORDPLUS_ANY_OS:-}" = "1" ] || stop "This script is for macOS and Linux. On Windows use the PowerShell command from https://discordplus.karatel.win/install" ;;
 esac
 
 step "Checking Git"
-command -v git > /dev/null 2>&1 || stop "Git is missing. Install it with your package manager (on macOS run: xcode-select --install), open a new Terminal and run this again."
+command -v git > /dev/null 2>&1 || stop "Git is missing. Install it with your package manager (on macOS run: xcode-select --install).$(hint "git") Then open a new Terminal and run this again."
 
 step "Checking Node.js (22 or newer)"
-command -v node > /dev/null 2>&1 || stop "Node.js is missing. Install version 22 or newer from https://nodejs.org, open a new Terminal and run this again."
+command -v node > /dev/null 2>&1 || stop "Node.js is missing. Install version 22 or newer from https://nodejs.org.$(hint "nodejs npm") Then open a new Terminal and run this again."
 node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 22 ? 0 : 1)' \
-    || stop "Node.js $(node --version) is too old, Discord+ needs 22 or newer. Update it from https://nodejs.org and run this again."
+    || stop "Node.js $(node --version) is too old, Discord+ needs 22 or newer. Update it from https://nodejs.org.$(hint "nodejs npm") Then run this again."
 
 step "Checking pnpm"
 if ! command -v pnpm > /dev/null 2>&1; then
     echo "pnpm is missing, installing it with npm."
     npm install --global pnpm \
-        || stop "Could not install pnpm for you, the folder may need extra permission. Install it from https://pnpm.io/installation, open a new Terminal and run this again."
+        || stop "Could not install pnpm for you, the folder may need extra permission. Install it from https://pnpm.io/installation.$(hint "pnpm") Then open a new Terminal and run this again."
 fi
 
 step "Getting Discord+"
@@ -78,7 +85,7 @@ fi
 
 step "Adding Discord+ to Discord"
 echo "Close Discord first. Pick your Discord install when it asks."
-echo "If it asks for your password, it is writing into Discord's own folder."
+echo "It finds Discord by itself. If it says permission denied, run the same command with sudo in front of bash."
 # When this script is piped from curl, the keyboard is not the script's input, so the
 # installer is given the terminal directly. Without that it could not ask anything.
 if [ -r /dev/tty ]; then
