@@ -1,180 +1,129 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Discord+ | Discord client mod with message archive, two accounts and quests</title>
-<meta name="description" content="Discord+ is a free, open-source fork of Vencord for the Discord desktop app. It adds a message archive, a second-account window and people tags, all stored locally on your own computer.">
+<title>Discord+ | Vencord fork with quests, a game lounge, profile badges and more</title>
+<meta name="description" content="Discord+ is a free Vencord fork for the Discord desktop app with eleven extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.">
+<meta name="theme-color" content="#0000aa">
 <link rel="canonical" href="https://discordplus.karatel.win/">
-<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
-<meta property="og:title" content="Discord+ | Discord client mod with message archive, two accounts and quests">
-<meta property="og:description" content="Discord+ is a free, open-source fork of Vencord for the Discord desktop app. It adds a message archive, a second-account window and people tags, all stored locally on your own computer.">
+<meta property="og:title" content="Discord+ | Vencord fork with quests, a game lounge, profile badges and more">
+<meta property="og:description" content="Discord+ is a free Vencord fork for the Discord desktop app with eleven extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.">
 <meta property="og:url" content="https://discordplus.karatel.win/">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="https://discordplus.karatel.win/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/theme.js"></script>
 <script src="/assets/app.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-<div class="container header-inner">
-<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
-<button class="icon-btn menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-<nav class="nav" id="site-nav" aria-label="Main">
-<a href="/plugins">Plugins</a>
-<a href="/install">Install</a>
-<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a>
-<button class="icon-btn theme-toggle" type="button" aria-label="Switch between dark and light theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-</nav>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<div class="wrap">
+<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/><path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+ Setup Utility</span></a>
+<nav id="tabs" class="tabs" aria-label="Main"><a href="/" aria-current="page">Main</a><a href="/plugins">Plugins</a><a href="/install">Install</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">Theme: Dark</button></nav>
+<button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
 </div>
 </header>
+<div class="progress" aria-hidden="true"><i></i></div>
+<!--
+THESIS: The website is the setup utility of your Discord: plugins are menu items you switch on. It refuses the dev-tool landing page (hero, card grid, feature icons).
+OWN-WORLD: Firmware setup screen. Blue text-mode field, grey title bar and tabs, white text, cyan frame titles, yellow values, double-line frames, selection as an inverse bar. One bitmap face (VT323) at two sizes on a character cell grid. Light theme is a pale UEFI sheet with navy bars.
+STORY: A visitor learns that Discord+ is a Vencord fork with plugins nobody else ships, sees they are all off until switched on, sees every byte stays on their PC except one named lookup, and copies one command.
+FIRST VIEWPORT: Left, the Discord+ wordmark at display size with a two-line promise, then the plugin menu as firmware options. Right, the help pane for the selected item and the install command with its Copy button beneath it. Key hints along the bottom bar.
+FORM: Firmware setup utility, candidate 4 of my grounded list, seed key 175bc1b0 (assigned by the roll).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
 <main id="main">
+<div class="wrap">
+<div class="screen">
+<div class="intro">
+<h1 class="display">Discord<span class="plus">+</span></h1>
+<p class="lede">A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and eleven more were written for it: quests on autopilot, a game lounge, your own profile badges and a lighter Discord. What it saves stays on your PC.<span class="caret" aria-hidden="true"></span></p>
+</div>
 
-<section class="hero">
-<div class="container hero-grid">
-<div>
-<span class="eyebrow">Open source Discord client mod</span>
-<h1>Keep deleted messages. Run two accounts. Let Discord do the chores.</h1>
-<p class="lead">Discord+ is a free fork of Vencord for the Discord desktop app. It adds its own plugins, a second-account window and an optional backend that you host yourself, so your data stays on your server.</p>
-<div class="cta-row">
-<a class="btn btn-primary" href="/install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Install from source</a>
-<a class="btn btn-secondary" href="/plugins">Browse plugins</a>
-<a class="btn btn-secondary" href="https://github.com/rossinskiy/discord-plus" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.02 1.76 2.68 1.25 3.33.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>GitHub</a>
-</div>
-</div>
-<div>
-<div class="code-block"><pre><code>$ git clone https://github.com/rossinskiy/discord-plus.git
-$ cd discord-plus
-$ pnpm install
-$ pnpm build
-$ pnpm inject</code></pre><button class="icon-btn copy-btn" type="button" aria-label="Copy to clipboard"><svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div>
-<p class="meta">Needs Node.js 22 or newer, pnpm and Git. Restart Discord after injecting. <a href="/install">Full guide</a></p>
-</div>
-</div>
+<section class="pane menu-pane" aria-labelledby="menu-title">
+<h2 class="pane-title" id="menu-title">Plugins</h2>
+<ul class="rows" id="plugin-menu" role="list"><li><button class="row" type="button" data-help="autoquest" data-toggle data-on="false" aria-pressed="false"><span class="name">AutoQuest</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">Finishes the Discord Quests you have accepted and tries to claim the reward. It breaks the Discord rules, read the warning below.</span></button></li><li><button class="row" type="button" data-help="idle-lounge" data-toggle data-on="false" aria-pressed="false"><span class="name">Idle Lounge</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">A lounge inside Discord for when you want to do nothing.</span></button></li><li><button class="row" type="button" data-help="my-profile" data-toggle data-on="false" aria-pressed="false"><span class="name">MyProfile</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">Your own badges and display name, and Discord+ badges on other people.</span></button></li><li><button class="row" type="button" data-help="lite-mode" data-toggle data-on="false" aria-pressed="false"><span class="name">LiteMode</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">Makes Discord lighter on CPU, GPU and RAM.</span></button></li><li><button class="row" type="button" data-help="reminders" data-toggle data-on="false" aria-pressed="false"><span class="name">Reminders</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">Remind yourself about a message or anything else.</span></button></li><li><button class="row" type="button" data-help="message-archive" data-toggle data-on="false" aria-pressed="false"><span class="name">MessageArchive</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span><span class="blurb">Keeps edited and deleted messages visible in chat.</span></button></li><li><button class="row" type="button" data-help="second-account"><span class="name">Second account window</span><span class="val" data-on="true" aria-hidden="true">[Built in]</span><span class="blurb">Flip between two Discord accounts with one shortcut.</span></button></li><li><a class="row" href="/plugins" data-help="more"><span class="name">All plugins and what they do</span><span class="val">[Open]</span></a></li></ul>
+<p class="note">This is a preview, so nothing is installed by clicking here. In Discord every plugin starts off, and you switch on what you want. <span class="value" id="on-count">0 of 6</span> on in this preview.</p>
 </section>
 
-<section class="section" id="highlights">
-<div class="container">
-<div class="section-head">
-<h2>What Discord+ adds</h2>
-<p>Everything from Vencord keeps working. These are the parts written for Discord+.</p>
-</div>
-<div class="grid grid-2">
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-<h3>Two accounts, one keystroke</h3>
-<p>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>2</kbd> inside Discord to flip between your accounts. The second account has its own login and window. Both stay connected and keep receiving messages, and the second window never shows in Alt+Tab.</p>
-</div>
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9M10 13h4"/></svg></div>
-<h3>Message archive</h3>
-<p>Edited and deleted messages are saved locally on your own computer and shown right in the chat, the way MessageLogger shows them. Entries expire after 7 days, or earlier when you clear them from the plugin settings.</p>
-</div>
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/></svg></div>
-<h3>Tags and private notes on people</h3>
-<p>Give anyone your own tags and a note that only you can see. Tags appear next to the person's name in chat, and you can filter everyone you have tagged by tag.</p>
-</div>
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22V4M4 4h13l-2 4 2 4H4"/></svg></div>
-<h3>Quests on autopilot</h3>
-<p>AutoQuest completes the Discord Quests you have accepted and tries to claim the reward. It breaks Discord's rules and puts your account at risk, so read the <a href="#risk">warning</a> first.</p>
-</div>
-</div>
-<p class="meta"><a href="/plugins">See all 7 plugins and what each one does</a></p>
-</div>
+<div class="side">
+<section class="pane help" aria-labelledby="help-pane-title">
+<h2 class="pane-title" id="help-pane-title">Item Specific Help</h2>
+<div id="help-live" aria-live="polite"><h3 id="help-title" class="title">AutoQuest</h3>
+<div id="help-body"></div></div>
+<div class="help-src" id="help-autoquest" data-title="AutoQuest"><p>Finishes the Discord Quests you have accepted and tries to claim the reward.</p><div class="mock" role="img" aria-label="Drawn illustration of AutoQuest"><div class="mock-l"><span class="dim">Quest</span> Play a game for 15 minutes</div><div class="mock-l"><progress value="8" max="15"></progress> 8 of 15 min</div><div class="mock-l"><span class="dim">Status</span> <span class="ok">running, claims the reward when due</span></div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>nothing</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd class="risk">high, breaks Discord&#x27;s rules</dd></dl></div>
+<div class="help-src" id="help-idle-lounge" data-title="Idle Lounge"><p>A lounge inside Discord for when you want to do nothing.</p><div class="mock" role="img" aria-label="Drawn illustration of Idle Lounge"><div class="mock-l"><span class="dim">Garden</span> 4.32K coins, 3.3 per second</div><div class="mock-l"><span class="dim">Fishing</span> Caught a trout and 2 more</div><div class="mock-l"><span class="dim">Bricks</span> Level 5, 12 balls</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>a file on your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-my-profile" data-title="MyProfile"><p>Your own badges and display name, and Discord+ badges on other people.</p><div class="mock" role="img" aria-label="Drawn illustration of MyProfile"><div class="mock-l">yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22"></div><div class="mock-l dim">Discord+ OG #7, since October 22, 2026</div><div class="mock-l"><span class="dim">Display name</span> only you see this one</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>your PC</dd><dt>Discord+ server</dt><dd>optional lookups, they send user IDs</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-lite-mode" data-title="LiteMode"><p>Makes Discord lighter on CPU, GPU and RAM.</p><div class="mock" role="img" aria-label="Drawn illustration of LiteMode"><div class="mock-l"><span class="dim">Animations</span> On, then Off</div><div class="mock-l"><span class="dim">Blur behind menus</span> On, then Off</div><div class="mock-l"><span class="dim">Animated avatars</span> On, then Still</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>settings only</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-reminders" data-title="Reminders"><p>Remind yourself about a message or anything else.</p><div class="mock" role="img" aria-label="Drawn illustration of Reminders"><div class="mock-l"><span class="dim">&gt;</span> /remind in:10m about:call back</div><div class="mock-l"><span class="value">Reminder</span> call back, with a chime</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-message-archive" data-title="MessageArchive"><p>Keeps edited and deleted messages visible in chat.</p><div class="mock" role="img" aria-label="Drawn illustration of MessageArchive"><div class="mock-l"><span class="risk">deleted</span> see you at 8</div><div class="mock-l">see you at 9 <span class="dim">(edited)</span></div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>your PC, 7 days</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-second-account" data-title="Second account window"><p>Flip between two Discord accounts with one shortcut.</p><div class="mock" role="img" aria-label="Drawn illustration of Second account window"><div class="mock-l"><span class="value">Ctrl+Shift+2</span> Account 1 and Account 2</div><div class="mock-l dim">Both stay connected</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><dl><dt>Saves data</dt><dd>a separate login on your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="help-src" id="help-more" data-title="All plugins"><p>Eleven plugins were written for Discord+, plus the second account window. The catalog explains each one and lets you search it.</p><p class="dim">Every plugin from Vencord is still there in the same settings page.</p></div>
 </section>
 
-<section class="section" id="backend">
-<div class="container">
-<div class="section-head">
-<h2>Your data stays on your server</h2>
-<p>Four plugins keep history: MessageArchive, NicknameHistory, LastSeen and UserTags. They write to a small server that you run. It is a single Node.js app with a SQLite file, and there is no account and no third party involved.</p>
-</div>
-<div class="flow">
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-<h3>Discord+ on your PC</h3>
-<p>The plugins watch what your own client sees: edits, deletes, name changes, presence.</p>
-</div>
-<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01"/></svg></div>
-<h3>Your server</h3>
-<p>Express and SQLite behind HTTPS. Every request needs your secret token.</p>
-</div>
-<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-<div class="card">
-<div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-<h3>Only you</h3>
-<p>History is available while your PC is off, but it only holds what your client saw while it was running.</p>
-</div>
-</div>
-<p class="meta"><a href="/install#server">How to set up the server</a></p>
+<section class="pane install" aria-labelledby="install-title">
+<h2 class="pane-title" id="install-title">Install</h2>
+<p>One command, in PowerShell on Windows:</p>
+<div class="gap8"></div>
+<div class="cmd"><code><span class="prompt"></span><span class="seg">irm https://discordplus.karatel.win/<wbr>install.ps1</span> <span class="seg">| iex</span></code><button class="btn" type="button" data-copy id="install-copy">Copy<span class="fkey"> (F10)</span></button></div>
+<p class="sub">Needs Git and Node.js 22 or newer. It asks which Discord to patch.</p>
+<p class="sub risk-line">Client mods break Discord's rules, and AutoQuest is the riskiest part. <a href="#warn-title">Read the warning</a>.</p>
+<div class="actions">
+<a class="btn alt" href="/install.ps1">Read the script first</a>
+<a class="btn alt" href="/install">Step by step</a>
 </div>
 </section>
+</div>
+</div>
 
-<section class="section" id="risk">
-<div class="container">
-<div class="notice" role="note">
-<strong>Read this before you install</strong>
-<p>Client mods, Discord+ included, go against Discord's terms of service. AutoQuest is the riskiest part: other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use it on an account you can afford to lose, or leave that plugin off. You use Discord+ at your own risk.</p>
-</div>
-</div>
+<div class="block">
+<section class="pane" aria-labelledby="storage-title">
+<h2 class="pane-title" id="storage-title">Storage Configuration</h2>
+<p class="lead70">Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is the MyProfile lookup, which sends user IDs, and you can switch it off.</p>
+<div class="table"><div class="tr th"><span>Plugin</span><span>Kept on</span><span class="c3">Sent to the Discord+ server</span></div><div class="tr"><span>MessageArchive</span><span>your PC, 7 days</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>NicknameHistory</span><span>your PC</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>LastSeen</span><span>your PC</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>UserTags</span><span>your PC</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>Reminders</span><span>your PC</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>Idle Lounge</span><span>a file on your PC</span><span class="g c3" data-label="Sent to the Discord+ server: ">never</span></div><div class="tr"><span>MyProfile</span><span>your PC</span><span class="r c3" data-label="Sent to the Discord+ server: ">badge lookups with user IDs, if on</span></div></div>
 </section>
 
-<section class="section" id="faq">
-<div class="container">
-<div class="section-head">
-<h2>Questions</h2>
-</div>
-<div class="faq"><details><summary>Is it free?</summary><div class="answer"><p>Yes. Discord+ is released under the GNU General Public License v3.0, the same license as Vencord. You can read, change and share the code.</p></div></details><details><summary>Do I need my own server?</summary><div class="answer"><p>Only for MessageArchive, NicknameHistory, LastSeen and UserTags. BulkExport, AutoLeaveEmptyVC, AutoQuest and the second-account window work without one.</p></div></details><details><summary>Can I get banned?</summary><div class="answer"><p>It is possible. Any client mod breaks Discord's terms of service, and automating Quests carries extra risk. I cannot give you odds, so decide based on how much the account matters to you.</p></div></details><details><summary>Which systems does it run on?</summary><div class="answer"><p>It is built and tested on Windows with the stable Discord desktop app. Other desktop systems may work because the installer comes from Vencord, but they are untested. There is no mobile version.</p></div></details><details><summary>Can I run it next to Vencord?</summary><div class="answer"><p>No. Discord+ replaces the Vencord loader, so you use one or the other. Vencord's own plugins are included.</p></div></details><details><summary>How do I update?</summary><div class="answer"><p>Run <code class="inline">git pull</code> and <code class="inline">pnpm build</code> in the project folder, then restart Discord. After a Discord update, pull again if something breaks.</p></div></details><details><summary>Is it affiliated with Discord or Vencord?</summary><div class="answer"><p>No. It is an independent fork. Vencord is made by Vendicated and contributors, and Discord is a trademark of Discord Inc.</p></div></details></div>
-</div>
+<section class="pane warn" aria-labelledby="warn-title">
+<h2 class="pane-title" id="warn-title">Warning</h2>
+<p class="lead76">Client mods, Discord+ included, go against Discord's terms of service. AutoQuest is the riskiest part: other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use it on an account you can afford to lose, or leave that plugin off. You use Discord+ at your own risk.</p>
 </section>
 
+<section class="pane faq" aria-labelledby="faq-title">
+<h2 class="pane-title" id="faq-title">Questions</h2>
+<details><summary>Is Discord+ safe to use?</summary><div class="answer"><p>It is open source, so every line can be read, and nothing it saves leaves your PC apart from the MyProfile lookups in the table above.</p><p>Client mods, Discord+ included, go against Discord&#x27;s terms of service and Discord may act against accounts that use them. AutoQuest raises that risk. You use Discord+ at your own risk.</p></div></details><details><summary>Which systems does it run on?</summary><div class="answer"><p>It is tested on Windows with the stable Discord desktop app. Installing from source on macOS or Linux may work, but nothing there has been tested.</p></div></details><details><summary>Do I have to remove Vencord first?</summary><div class="answer"><p>You do not need to uninstall it by hand. The installer points Discord at Discord+ instead. Discord+ reads the same settings folder as Vencord, so your existing Vencord settings carry over.</p></div></details><details><summary>What is the member number?</summary><div class="answer"><p>If MyProfile is on, Discord+ gives your account a number in order of arrival and records the date you joined. Other Discord+ users see it as a badge on your profile. It is a setting you can turn off, and then nothing is sent.</p></div></details><details><summary>What does it cost?</summary><div class="answer"><p>Nothing. It is free software under the GNU General Public License v3.0.</p></div></details><details><summary>How do I update or remove it?</summary><div class="answer"><p>Run the install command again to update. To remove it, run <code>pnpm uninject</code> inside the Discord+ folder. The <a href="/install">install page</a> has the details.</p></div></details>
+</section>
+</div>
+</div>
 </main>
-<footer class="site-footer">
-<div class="container">
-<div class="footer-grid">
-<div>
-<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
-<p class="footer-note">A free, open-source fork of Vencord for the Discord desktop app. Not affiliated with Discord Inc. or the Vencord project.</p>
+<footer>
+<div class="notice" id="notice" role="region" aria-label="Notice">
+<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
+<button class="btn" type="button">Got it</button>
 </div>
-<div>
-<h2>Project</h2>
-<ul>
-<li><a href="/plugins">Plugins</a></li>
-<li><a href="/install">Install</a></li>
-<li><a href="/install#server">Self-hosting</a></li>
-</ul>
+<div class="wrap foot">
+<div class="links">
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source on GitHub</a>
+<a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a>
+<a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a>
+<a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a>
 </div>
-<div>
-<h2>Source</h2>
-<ul>
-<li><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a></li>
-<li><a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a></li>
-<li><a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a></li>
-<li><a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a></li>
-</ul>
-</div>
-<div>
-<h2>Legal</h2>
-<ul>
-<li><a href="/privacy">Privacy policy</a></li>
-<li><a href="/terms">Terms</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</div>
+<p>Discord+ is a free, open-source fork of Vencord for the Discord desktop app. It is not affiliated with Discord Inc. or the Vencord project.</p>
+<p>&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</p>
 </div>
 </footer>
-<button class="icon-btn to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<div class="cookie" role="region" aria-label="Notice" hidden>
-<p>This site sets no cookies and has no analytics. It remembers your theme choice and this notice in your browser's local storage. <a href="/privacy">Details</a></p>
-<button class="btn btn-primary" type="button">Got it</button>
+<div class="dock">
+<div class="keys"><div class="wrap"><span><span class="hint-keys"><kbd>Up</kbd><kbd>Down</kbd>Select item</span></span><span><span class="hint-keys"><kbd>Enter</kbd>Switch on or off</span></span><span><span class="hint-keys"><kbd>F10</kbd>Copy install command</span></span><span><span class="hint-keys"><kbd>Esc</kbd>Reset the preview</span></span></div></div>
 </div>
+<button class="btn to-top" type="button" aria-label="Back to the top">Top</button>
 </body>
 </html>

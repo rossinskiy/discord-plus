@@ -1,91 +1,74 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found | Discord+</title>
-<meta name="description" content="The page you were looking for does not exist on the Discord+ website.">
+<meta name="description" content="This page does not exist. Go back to the Discord+ home page, the plugin list or the install guide.">
+<meta name="theme-color" content="#0000aa">
 <link rel="canonical" href="https://discordplus.karatel.win/404">
-<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
 <meta property="og:title" content="Page not found | Discord+">
-<meta property="og:description" content="The page you were looking for does not exist on the Discord+ website.">
+<meta property="og:description" content="This page does not exist. Go back to the Discord+ home page, the plugin list or the install guide.">
 <meta property="og:url" content="https://discordplus.karatel.win/404">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="https://discordplus.karatel.win/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/theme.js"></script>
 <script src="/assets/app.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-<div class="container header-inner">
-<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
-<button class="icon-btn menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-<nav class="nav" id="site-nav" aria-label="Main">
-<a href="/plugins">Plugins</a>
-<a href="/install">Install</a>
-<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a>
-<button class="icon-btn theme-toggle" type="button" aria-label="Switch between dark and light theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-</nav>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<div class="wrap">
+<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/><path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+ Setup Utility</span></a>
+<nav id="tabs" class="tabs" aria-label="Main"><a href="/">Main</a><a href="/plugins">Plugins</a><a href="/install">Install</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">Theme: Dark</button></nav>
+<button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
 </div>
 </header>
+<div class="progress" aria-hidden="true"><i></i></div>
 <main id="main">
-
-<section class="not-found">
-<div class="container">
-<div class="code">404</div>
-<h1>This page does not exist</h1>
-<p class="lead">The link may be old or mistyped. Try one of these instead.</p>
-<div class="cta-row">
-<a class="btn btn-primary" href="/">Go to the home page</a>
-<a class="btn btn-secondary" href="/plugins">Browse plugins</a>
-<a class="btn btn-secondary" href="/install">Install guide</a>
-</div>
+<div class="wrap">
+<div class="block">
+<section class="pane warn" aria-labelledby="nf">
+<h2 class="pane-title" id="nf">Fatal error</h2>
+<p class="display big">404</p>
+<p class="lead60">No page lives at this address. The link may be old or mistyped. Pick where to go next:</p>
+<div class="actions">
+<a class="btn" href="/">Main</a>
+<a class="btn alt" href="/plugins">Plugins</a>
+<a class="btn alt" href="/install">Install</a>
 </div>
 </section>
-
+</div>
+</div>
 </main>
-<footer class="site-footer">
-<div class="container">
-<div class="footer-grid">
-<div>
-<a class="logo" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0f172a"/><path d="M16 7v18M7 16h18" stroke="#22c55e" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+</span></a>
-<p class="footer-note">A free, open-source fork of Vencord for the Discord desktop app. Not affiliated with Discord Inc. or the Vencord project.</p>
+<footer>
+<div class="notice" id="notice" role="region" aria-label="Notice">
+<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
+<button class="btn" type="button">Got it</button>
 </div>
-<div>
-<h2>Project</h2>
-<ul>
-<li><a href="/plugins">Plugins</a></li>
-<li><a href="/install">Install</a></li>
-<li><a href="/install#server">Self-hosting</a></li>
-</ul>
+<div class="wrap foot">
+<div class="links">
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source on GitHub</a>
+<a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a>
+<a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a>
+<a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a>
 </div>
-<div>
-<h2>Source</h2>
-<ul>
-<li><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">GitHub</a></li>
-<li><a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Report a problem</a></li>
-<li><a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GPL-3.0 license</a></li>
-<li><a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a></li>
-</ul>
-</div>
-<div>
-<h2>Legal</h2>
-<ul>
-<li><a href="/privacy">Privacy policy</a></li>
-<li><a href="/terms">Terms</a></li>
-</ul>
-</div>
-</div>
-<div class="footer-bottom">&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</div>
+<p>Discord+ is a free, open-source fork of Vencord for the Discord desktop app. It is not affiliated with Discord Inc. or the Vencord project.</p>
+<p>&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</p>
 </div>
 </footer>
-<button class="icon-btn to-top" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<div class="cookie" role="region" aria-label="Notice" hidden>
-<p>This site sets no cookies and has no analytics. It remembers your theme choice and this notice in your browser's local storage. <a href="/privacy">Details</a></p>
-<button class="btn btn-primary" type="button">Got it</button>
+<div class="dock">
+<div class="keys"><div class="wrap"><span><span>Nothing here</span></span></div></div>
 </div>
+<button class="btn to-top" type="button" aria-label="Back to the top">Top</button>
 </body>
 </html>
