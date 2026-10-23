@@ -2,6 +2,8 @@
 
 Discord+ is a desktop Discord client mod with its own plugins, built on the Vencord plugin framework. Install it and look through the plugin list in Discord's settings to see what it adds.
 
+Website, plugin list and one-command install: [discordplus.karatel.win](https://discordplus.karatel.win).
+
 It is a fork of [Vencord](https://github.com/Vendicated/Vencord) and is licensed under GPL-3.0, the same license as Vencord. See [Credits and license](#credits-and-license).
 
 ## Installing
