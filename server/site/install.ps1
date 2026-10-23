@@ -8,6 +8,10 @@
 #   4. Installs the dependencies and builds Discord+.
 #   5. Runs "pnpm inject", which asks which Discord to patch.
 #
+# After that, Discord+ keeps itself up to date: while Discord is open it checks this repository
+# every half hour, downloads a new version, builds it and asks you to restart. It only ever
+# follows the "release" branch, and it goes back to the working version if a build fails.
+#
 # It changes nothing outside that folder and Discord's own install. To undo it, run "pnpm uninject"
 # inside the folder. Read this file before you run it, that is what it is here for.
 
@@ -63,7 +67,13 @@ if (Test-Path (Join-Path $dir ".git")) {
     Write-Host "Found $dir, updating it."
     Run "git" @("-C", $dir, "pull", "--ff-only")
 } else {
-    Run "git" @("clone", "--depth", "1", $repo, $dir)
+    # Every install follows the release branch, which is where updates are published.
+    # It falls back to the default branch if that branch does not exist yet.
+    & git clone --depth 1 --branch release $repo $dir
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "No release branch yet, using the default branch."
+        Run "git" @("clone", "--depth", "1", $repo, $dir)
+    }
 }
 Set-Location $dir
 
