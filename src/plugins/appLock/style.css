@@ -1,0 +1,96 @@
+.vc-applock {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111214;
+    color: #f2f3f5;
+    font-family: var(--font-primary, sans-serif);
+}
+
+.vc-applock-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(320px, calc(100vw - 32px));
+}
+
+.vc-applock-box h1 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.vc-applock-input {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #3f4147;
+    border-radius: 4px;
+    background: #1e1f22;
+    color: inherit;
+    font-size: 16px;
+}
+
+.vc-applock-input:focus-visible {
+    outline: 2px solid #5865f2;
+    outline-offset: 1px;
+}
+
+.vc-applock-error {
+    min-height: 20px;
+    margin: 0;
+    font-size: 14px;
+    color: #f5898b;
+}
+
+.vc-applock-button {
+    height: 40px;
+    border: 0;
+    border-radius: 4px;
+    background: #5865f2;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.vc-applock-button:hover:not(:disabled) {
+    background: #4752c4;
+}
+
+.vc-applock-button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.vc-applock-shake {
+    animation: vc-applock-shake 0.3s;
+}
+
+@keyframes vc-applock-shake {
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.vc-applock-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 320px;
+}
+
+.vc-applock-settings input {
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--input-border, #3f4147);
+    border-radius: 4px;
+    background: var(--input-background, #1e1f22);
+    color: var(--text-default, inherit);
+}
+
+.vc-applock-msg {
+    min-height: 18px;
+    font-size: 13px;
+}
