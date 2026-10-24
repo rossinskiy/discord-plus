@@ -8,7 +8,7 @@ import * as DataStore from "@api/DataStore";
 
 import { DiskSave, flushDiskWrite, readDisk, scheduleDiskWrite } from "./disk";
 import {
-    ACHIEVEMENT_BONUS, ACHIEVEMENTS, BOUNTY_KINDS, BOUNTY_MINUTES, BountyKind, COMPANIONS, Ctx, LINE_COSTS, MAX_LINES, SEED_UPGRADES, UPGRADES
+    ACHIEVEMENT_BONUS, ACHIEVEMENTS, BOUNTY_KINDS, BOUNTY_MINUTES, BountyKind, COMPANIONS, Ctx, DAILY_GOALS, LINE_COSTS, MAX_LINES, SEED_UPGRADES, UPGRADES
 } from "./progress";
 import { allStats, restoreStats, setStatListener } from "./storage";
 
@@ -156,6 +156,20 @@ export interface Bounty {
     start: number;
 }
 
+export interface DailyQuest {
+    kind: BountyKind;
+    goal: number;
+    start: number;
+    done: boolean;
+}
+
+export interface Daily {
+    day: string;
+    quests: DailyQuest[];
+    streak: number;
+    streakDay: string;
+}
+
 export interface Save {
     coins: number;
     runEarned: number;
@@ -185,6 +199,7 @@ export interface Save {
     magnet: number;
     auto: number;
     bounties: Bounty[];
+    daily: Daily;
     lastTick: number;
 }
 
@@ -218,6 +233,7 @@ function freshSave(): Save {
         magnet: 0,
         auto: 0,
         bounties: [],
+        daily: { day: "", quests: [], streak: 0, streakDay: "" },
         lastTick: Date.now()
     };
 }
@@ -602,6 +618,62 @@ function checkBounties() {
     });
 }
 
+const dayStamp = (t = Date.now()) => {
+    const d = new Date(t);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+export const DAILY_QUEST_MINUTES = 45;
+
+export function dailyQuestReward() {
+    return Math.max(5000, baseCps() * DAILY_QUEST_MINUTES * 60);
+}
+
+export function dailyStreakReward(streak: number) {
+    return Math.max(20_000, baseCps() * 3600 * Math.min(streak, 7));
+}
+
+// Streak shown to the player: it only counts if they finished a day yesterday or today.
+export function currentStreak() {
+    const d = state.daily;
+    return d.streakDay === dayStamp() || d.streakDay === dayStamp(Date.now() - 86_400_000) ? d.streak : 0;
+}
+
+function checkDaily() {
+    const today = dayStamp();
+    const d = state.daily;
+    if (d.day !== today || d.quests.length !== 3) {
+        const kinds = [...BOUNTY_KINDS].sort(() => Math.random() - 0.5).slice(0, 3);
+        d.day = today;
+        d.quests = kinds.map(k => ({ kind: k.kind, goal: DAILY_GOALS[k.kind], start: bountyStat(k.kind), done: false }));
+        dirty = true;
+        return;
+    }
+    let finished = 0;
+    for (const q of d.quests) {
+        if (!q.done && Math.max(0, bountyStat(q.kind) - q.start) >= q.goal) {
+            q.done = true;
+            const reward = dailyQuestReward();
+            earn(reward);
+            dirty = true;
+            achievementHandler?.(`Daily quest done: +${formatNumber(reward)} coins`);
+        }
+        if (q.done) finished++;
+    }
+    if (finished === d.quests.length && d.streakDay !== today) {
+        d.streak = d.streakDay === dayStamp(Date.now() - 86_400_000) ? d.streak + 1 : 1;
+        d.streakDay = today;
+        const bonus = dailyStreakReward(d.streak);
+        earn(bonus);
+        dirty = true;
+        achievementHandler?.(`All daily quests done, day ${d.streak} in a row: +${formatNumber(bonus)} coins`);
+    }
+}
+
+export function dailyProgress(q: DailyQuest) {
+    return q.done ? q.goal : Math.min(q.goal, Math.max(0, bountyStat(q.kind) - q.start));
+}
+
 export function buyUpgrade(id: string) {
     const u = UPGRADES.find(x => x.id === id);
     if (!u || hasUpgrade(id) || state.coins < u.cost) return false;
@@ -682,6 +754,7 @@ function tick() {
     if (gain > 0) earn(gain);
     if (hasUpgrade("sprinkler") && efficiency === 1) earn(clickValue() * 5 * (dt / 1000));
     checkBounties();
+    checkDaily();
     checkAchievements();
     emit();
 }
@@ -729,6 +802,14 @@ function sanitize(raw: Partial<Save> | undefined) {
         bounties: Array.isArray(raw.bounties)
             ? raw.bounties.filter(b => b && BOUNTY_KINDS.some(k => k.kind === b.kind) && typeof b.goal === "number" && typeof b.start === "number")
             : [],
+        daily: {
+            day: typeof raw.daily?.day === "string" ? raw.daily.day : "",
+            quests: Array.isArray(raw.daily?.quests)
+                ? raw.daily.quests.filter(q => q && BOUNTY_KINDS.some(k => k.kind === q.kind) && typeof q.goal === "number" && typeof q.start === "number").map(q => ({ kind: q.kind, goal: q.goal, start: q.start, done: !!q.done }))
+                : [],
+            streak: num(raw.daily?.streak, 0),
+            streakDay: typeof raw.daily?.streakDay === "string" ? raw.daily.streakDay : ""
+        },
         lastTick: num(raw.lastTick, Date.now())
     } satisfies Save;
 }

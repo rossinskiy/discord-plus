@@ -6,7 +6,7 @@
 
 import {
     achievementContext, bountyProgress, bountyReward, buyCompanion, buySeedUpgrade, buyUpgrade, companionCost, companionLevel,
-    formatNumber, hasSeedUpgrade, hasUpgrade, seedsAvailable, state
+currentStreak, dailyProgress, dailyQuestReward, dailyStreakReward, formatNumber, hasSeedUpgrade, hasUpgrade, seedsAvailable, state
 } from "./game";
 import { ACHIEVEMENT_BONUS, ACHIEVEMENTS, BOUNTY_KINDS, COMPANIONS, SEED_UPGRADES, UPGRADES } from "./progress";
 import { useGame } from "./useGame";
@@ -29,6 +29,31 @@ export function Goals() {
 
             <div className="vc-lounge-fishing">
                 <div>
+                    <div className="vc-lounge-section">Daily quests</div>
+                    <p className="vc-lounge-muted">
+                        New ones every day. Finish all three for a streak bonus; each day in a row makes it bigger, up to 7.
+                        Streak: {currentStreak()} {currentStreak() === 1 ? "day" : "days"}, next bonus {formatNumber(dailyStreakReward(currentStreak() + 1))} coins.
+                    </p>
+                    <div className="vc-lounge-list">
+                        {state.daily.quests.map((q, i) => {
+                            const def = BOUNTY_KINDS.find(k => k.kind === q.kind)!;
+                            const done = dailyProgress(q);
+                            return (
+                                <div className="vc-lounge-row" key={i} style={{ opacity: q.done ? 0.6 : 1 }}>
+                                    <div>
+                                        <div className="vc-lounge-row-title">{q.done ? "Done: " : ""}{def.label(q.goal)}</div>
+                                        <div className="vc-lounge-muted">
+                                            {formatNumber(done)}/{formatNumber(q.goal)}, pays {formatNumber(dailyQuestReward())} coins
+                                        </div>
+                                        <div className="vc-lounge-bar" aria-hidden="true">
+                                            <div style={{ width: `${(done / q.goal) * 100}%` }} />
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
                     <div className="vc-lounge-section">Bounties</div>
                     <p className="vc-lounge-muted">Finish them for a payout of garden income. New ones show up right away.</p>
                     <div className="vc-lounge-list">

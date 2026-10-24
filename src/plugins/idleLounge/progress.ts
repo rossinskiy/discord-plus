@@ -198,5 +198,8 @@ export const BOUNTY_KINDS: { kind: BountyKind; label: (n: number) => string; goa
     { kind: "bought", label: n => `Buy ${n} buildings`, goals: [10, 25, 60] }
 ];
 
+// Daily quests: bigger goals than bounties, three a day, picked fresh each morning.
+export const DAILY_GOALS: Record<BountyKind, number> = { clicks: 400, fish: 30, butterflies: 3, bricks: 250, bought: 20 };
+
 // Minutes of garden income each tier of bounty pays out.
 export const BOUNTY_MINUTES = [10, 25, 50];
