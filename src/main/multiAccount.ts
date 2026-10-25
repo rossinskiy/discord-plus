@@ -40,6 +40,9 @@ let mainWindow: BrowserWindow | null = null;
 let secondWindow: BrowserWindow | null = null;
 let isQuitting = false;
 let creatingSecondWindow = false;
+// Which account is on screen. Tracked here instead of asking isFocused(), which
+// is unreliable right after a hide()/show() and made the shortcut do nothing.
+let secondIsActive = false;
 
 function createSecondWindow() {
     creatingSecondWindow = true;
@@ -87,6 +90,8 @@ function createSecondWindow() {
         if (isQuitting) return;
         e.preventDefault();
         win.hide();
+        secondIsActive = false;
+        if (mainWindow && !mainWindow.isDestroyed()) mainWindow.show();
     });
 
     return win;
@@ -99,10 +104,9 @@ function toggleActiveAccount() {
         secondWindow = createSecondWindow();
     }
 
-    const secondIsActive = secondWindow.isVisible() && secondWindow.isFocused();
-
     if (secondIsActive) {
         secondWindow.hide();
+        if (mainWindow.isMinimized()) mainWindow.restore();
         mainWindow.show();
         mainWindow.focus();
     } else {
@@ -110,6 +114,7 @@ function toggleActiveAccount() {
         secondWindow.show();
         secondWindow.focus();
     }
+    secondIsActive = !secondIsActive;
 }
 
 export function initMultiAccount() {
@@ -119,7 +124,15 @@ export function initMultiAccount() {
     // always end up pointing at the real main window.
     app.on("browser-window-created", (_e, win) => {
         if (creatingSecondWindow) return;
-        mainWindow = win;
+        // Only the real Discord window counts. Pop-outs, DevTools and the splash
+        // screen used to replace it here, and the shortcut then hid the wrong window.
+        const claim = () => {
+            if (win.isDestroyed() || win === secondWindow) return;
+            const url = win.webContents.getURL();
+            if (/^https:\/\/([a-z]+\.)?discord\.com\/(app|channels|login)/.test(url)) mainWindow = win;
+        };
+        win.webContents.on("did-navigate", claim);
+        win.webContents.on("did-finish-load", claim);
 
         win.webContents.on("before-input-event", (event, input) => {
             if (isToggleShortcut(input)) {
