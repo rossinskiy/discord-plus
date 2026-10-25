@@ -8,7 +8,7 @@ import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import * as DataStore from "@api/DataStore";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { ChannelStore, FluxDispatcher, UserStore } from "@webpack/common";
+import { ChannelStore, FluxDispatcher, SelectedChannelStore, UserStore } from "@webpack/common";
 
 const STORE_KEY = "PersonalStats_data";
 const TICK_MS = 30_000;
@@ -134,6 +134,7 @@ export default definePlugin({
         const stored = await DataStore.get<Data>(STORE_KEY);
         if (stored) data = { ...data, ...stored };
         lastTick = Date.now();
+        inVoice = !!SelectedChannelStore.getVoiceChannelId();
         FluxDispatcher.subscribe("MESSAGE_CREATE", onMessage);
         FluxDispatcher.subscribe("VOICE_STATE_UPDATES", onVoice);
         tickTimer = setInterval(flushVoice, TICK_MS);
