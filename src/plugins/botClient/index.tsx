@@ -14,6 +14,7 @@ import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Paragraph } from "@components/Paragraph";
+import { BotLoginSetting } from "@plugins/botClient/components/BotLoginSetting";
 import { getCurrentChannel, getCurrentGuild } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
@@ -244,6 +245,10 @@ const EditMessageEditor = msg => {
 };
 
 const settings = definePluginSettings({
+    botLogin: {
+        type: OptionType.COMPONENT,
+        component: BotLoginSetting,
+    },
     showMemberList: {
         description: "Allow fetching member list sidebar",
         type: OptionType.BOOLEAN,
