@@ -1119,10 +1119,6 @@ export default definePlugin({
             user.bot = false;
             user.desktop = true;
             user.mobile = true;
-            user.premiumState = {
-                premiumSubscriptionType: 4,
-                premiumSource: 1,
-            };
             user.purchasedFlags = 3; // https://docs.discord.food/resources/user#purchased-flags
             user.premiumType = 2; // https://docs.discord.food/resources/user#premium-type
             user.premiumUsageFlags = 4;
