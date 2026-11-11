@@ -1114,7 +1114,8 @@ export default definePlugin({
         const originalGetCurrentUser = UserStorePatch.getCurrentUser;
         UserStorePatch.getCurrentUser = function (this: any) {
             if (!isBotMode()) return originalGetCurrentUser.call(this);
-            const user = UserStorePatch.getUsers()[GetApplicationId.getId()] as any;
+            // keep the real User instance (it carries methods the client calls); only patch fields on it
+            const user = originalGetCurrentUser.call(this) as any;
             if (!user) return user;
             user.bot = false;
             user.desktop = true;
