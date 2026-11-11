@@ -7,7 +7,7 @@
 import { Button } from "@components/Button";
 import { Paragraph } from "@components/Paragraph";
 import { enterBotMode, getBotInfo } from "@plugins/botClient/utils/botMode";
-import { RegExToken } from "@plugins/botClient/utils/common";
+import { originalSessionStorage, RegExToken } from "@plugins/botClient/utils/common";
 import { showToast } from "@plugins/botClient/utils/toast";
 import { findByPropsLazy } from "@webpack";
 import { TextInput, useState } from "@webpack/common";
@@ -28,7 +28,7 @@ export function BotLoginSetting() {
             setBusy(false);
             return showToast({ text: `Login Failure: ${info.message}`, variant: "critical" });
         }
-        sessionStorage.setItem("currentShard", "0");
+        originalSessionStorage.setItem("currentShard", "0");
         enterBotMode();
         LoginToken.loginToken(value);
     }
