@@ -790,8 +790,8 @@ export default definePlugin({
         {
             find: ",canUseIncreasedMessageLength:function(",
             replacement: {
-                match: /,canUseIncreasedMessageLength:function\(\w+\)\{return/,
-                replace: ",canUseIncreasedMessageLength:function(){if($self.isBotMode())return false;return",
+                match: /(,canUseIncreasedMessageLength:function(w+){)return/,
+                replace: "$1if($self.isBotMode())return false;return",
             },
         },
         ...applicationEmojiPatches,
