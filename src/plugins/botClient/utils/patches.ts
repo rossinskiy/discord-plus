@@ -249,7 +249,7 @@ export function handleDispatchPatch(data: any, eventName: string, n: any, receiv
         // Experiments are not available for bots
         data.guild_experiments = [];
         data.experiments = [];
-        data.apex_experiments = [];
+        data.apex_experiments = { assignments: {} };
         data.auth_session_id_hash = btoa("aiko-chan-ai/DiscordBotClient");
         data.static_client_session_id = crypto.randomUUID();
         data.users = data.users || [];
