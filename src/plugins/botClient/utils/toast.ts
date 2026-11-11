@@ -4,10 +4,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Toasts } from "@webpack/common";
+import { Logger } from "@utils/Logger";
+import { Alerts, Toasts } from "@webpack/common";
 
-// The upstream plugin targets a newer showToast({ text, variant }) API; Discord+ uses Toasts.show
+const logger = new Logger("BotClient");
+
+// Toasts.show can fail to resolve after Discord updates; fall back to an alert so errors stay visible
 export function showToast({ text, variant = "default" }: { text: string; variant?: string; position?: string; }) {
-    const type = variant === "critical" ? Toasts.Type.FAILURE : variant === "success" ? Toasts.Type.SUCCESS : Toasts.Type.MESSAGE;
-    Toasts.show({ message: text, type, id: Toasts.genId() });
+    logger.log(`[${variant}] ${text}`);
+    try {
+        const type = variant === "critical" ? Toasts.Type.FAILURE : variant === "success" ? Toasts.Type.SUCCESS : Toasts.Type.MESSAGE;
+        Toasts.show({ message: text, type, id: Toasts.genId() });
+    } catch {
+        if (variant === "critical") Alerts.show({ title: "BotClient", body: text });
+    }
 }
