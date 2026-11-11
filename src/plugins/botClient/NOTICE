@@ -1,0 +1,20 @@
+BotClient (experimental bot-token login)
+
+Ported from VencordDBCPlugin (revision 6b2ee93a749b9a2c32d9fbc80d75dcf52e1cd48f)
+https://github.com/aiko-chan-ai/VencordDBCPlugin
+and the DiscordBotClient application it was built for
+https://github.com/aiko-chan-ai/DiscordBotClient
+
+Original authors: Elysia (aiko-chan-ai) and contributors.
+License: GPL-3.0 (see LICENSE in this folder), same as Discord+ / Vencord.
+
+Changes made for Discord+:
+- Dexie storage replaced by @api/DataStore.
+- window.BotClientNative / window.protoAPI (Electron preload bridges) replaced by renderer code:
+  bot info is fetched with "Authorization: Bot <token>", settings protos live in DataStore.
+- The ~134 user-only REST routes served by DiscordBotClient's local Express server are
+  answered in the renderer (utils/restStubs.ts); only the routes needed so far are ported.
+- Electron-shell only patches (custom title bar, tray, flashFrame) and the separate-window
+  message editor were removed; only the legacy Embed Editor remains.
+- Every behaviour change is gated by "bot mode", which is switched on only when a token is
+  submitted in the plugin's login box, so regular user sessions are not touched.
