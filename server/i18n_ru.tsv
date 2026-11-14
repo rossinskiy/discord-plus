@@ -1,0 +1,337 @@
+# English inner HTML <TAB> Russian inner HTML. Inline tags and entities must match the English text.
+&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.	&copy; <span data-year>2026</span> Discord+. Распространяется под лицензией GNU General Public License v3.0.
+22 or newer	22 или новее
+<kbd>Enter</kbd>Switch on or off	<kbd>Enter</kbd>Включить или выключить
+<kbd>Esc</kbd>Clear the search	<kbd>Esc</kbd>Очистить поиск
+<kbd>Esc</kbd>Close the menu	<kbd>Esc</kbd>Закрыть меню
+<kbd>Esc</kbd>Reset the preview	<kbd>Esc</kbd>Сбросить предпросмотр
+<kbd>F10</kbd>Copy install command	<kbd>F10</kbd>Скопировать команду установки
+<kbd>Up</kbd><kbd>Down</kbd>Select item	<kbd>Up</kbd><kbd>Down</kbd>Выбрать пункт
+<progress value="8" max="15"></progress> 8 of 15 min	<progress value="8" max="15"></progress> 8 из 15 мин
+<span class="dim">&gt;</span> /remind in:10m about:call back	<span class="dim">&gt;</span> /remind in:10m about:позвонить
+<span class="dim">Animated avatars</span> On, then Still	<span class="dim">Анимированные аватары</span> Были включены, стали неподвижными
+<span class="dim">Animations</span> On, then Off	<span class="dim">Анимации</span> Были включены, стали выключены
+<span class="dim">Because</span> sent a message	<span class="dim">Причина</span> отправил сообщение
+<span class="dim">Blur behind menus</span> On, then Off	<span class="dim">Размытие за меню</span> Было включено, стало выключено
+<span class="dim">Bricks</span> Level 5, 12 balls	<span class="dim">Кирпичи</span> Уровень 5, 12 шаров
+<span class="dim">Channel</span> general	<span class="dim">Канал</span> general
+<span class="dim">Display name</span> only you see this one	<span class="dim">Отображаемое имя</span> видите только вы
+<span class="dim">Fishing</span> Caught a trout and 2 more	<span class="dim">Рыбалка</span> Поймана форель и ещё 2
+<span class="dim">Garden</span> 4.32K coins, 3.3 per second	<span class="dim">Сад</span> 4,32 тыс. монет, 3,3 в секунду
+<span class="dim">Last seen</span> today 21:40	<span class="dim">Был в сети</span> сегодня в 21:40
+<span class="dim">Oct 12</span> tsar_old	<span class="dim">12 окт.</span> tsar_old
+<span class="dim">Oct 17</span> tsar	<span class="dim">17 окт.</span> tsar
+<span class="dim">Oct 22</span> Tsar	<span class="dim">22 окт.</span> Tsar
+<span class="dim">Quest</span> Play a game for 15 minutes	<span class="dim">Задание</span> Играть в игру 15 минут
+<span class="dim">Saved to</span> general.json	<span class="dim">Сохранено в</span> general.json
+<span class="risk">deleted</span> see you at 8	<span class="risk">удалено</span> увидимся в 8
+<span class="title">Remove.</span> Inside the Discord+ folder run <code class="value">pnpm uninject</code> and restart Discord. It goes back to normal.	<span class="title">Удаление.</span> В папке Discord+ выполните <code class="value">pnpm uninject</code> и перезапустите Discord. Он вернётся в обычное состояние.
+<span class="title">Update.</span> You do not have to do anything. Discord+ checks for a new version every half hour while Discord is open, downloads it, builds it and shows a notice. Restart Discord when it appears. If a new version fails to build, Discord+ goes back to the version that worked. Running the one command again also updates it.	<span class="title">Обновление.</span> Ничего делать не нужно. Пока Discord открыт, Discord+ каждые полчаса проверяет новую версию, скачивает и собирает её и показывает уведомление. Когда оно появится, перезапустите Discord. Если новая версия не собралась, Discord+ вернётся к версии, которая работала. Обновить можно и повторным запуском той же команды.
+<span class="title">Windows.</span> Press the Windows key, type PowerShell, press Enter, and paste:	<span class="title">Windows.</span> Нажмите клавишу Windows, введите PowerShell, нажмите Enter и вставьте:
+<span class="title">macOS and Linux.</span> Open Terminal and paste. Tested on Linux (Arch), not yet on macOS. If it fails <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">tell me what it printed</a>:	<span class="title">macOS и Linux.</span> Откройте Терминал и вставьте. Проверено на Linux (Arch), на macOS пока нет. Если не получится, <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">напишите, что он вывел</a>:
+<span class="value">Ctrl+Shift+2</span> Account 1 and Account 2	<span class="value">Ctrl+Shift+2</span> Аккаунт 1 и аккаунт 2
+<span class="value">Reminder</span> call back, with a chime	<span class="value">Напоминание</span> позвонить, со звуком
+A button in the plugin settings clears it all at once.	Кнопка в настройках плагина очищает всё сразу.
+A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and eleven more were written for it: quests on autopilot, a game lounge, your own profile badges and a lighter Discord. What it saves stays on your PC.<span class="caret" aria-hidden="true"></span>	Бесплатный форк Vencord для приложения Discord на компьютере. Все плагины Vencord работают, и ещё одиннадцать написаны специально: задания на автопилоте, игровая комната, свои значки в профиле и более лёгкий Discord. Всё, что он сохраняет, остаётся на вашем ПК.<span class="caret" aria-hidden="true"></span>
+A lounge inside Discord for when you want to do nothing.	Комната внутри Discord для тех, кто хочет ничего не делать.
+Add it to Discord	Добавить в Discord
+All plugins	Все плагины
+All plugins and what they do	Все плагины и что они делают
+An idle garden that keeps earning while you chat, fishing with a collection of 30 fish, a brick game that plays itself, a fidget board, knife flipping, running in circles, rooftop parkour, and eight calm scenes such as an aquarium, a fireplace and a rainy window.	Сад, который приносит доход, пока вы общаетесь, рыбалка с коллекцией из 30 рыб, игра в кирпичи, которая играет сама, антистресс-доска, бросок ножа, бег по кругу, паркур по крышам и восемь спокойных сцен вроде аквариума, камина и окна под дождём.
+Any amount, on Boosty or to one of the wallets.	Любая сумма: через Boosty или на один из кошельков.
+Appearance	Внешний вид
+AutoLeaveEmptyVC <span class="dim">Leaves a voice channel when you are the only one there.</span>	AutoLeaveEmptyVC <span class="dim">Выходит из голосового канала, когда вы там один.</span>
+AutoQuest	AutoQuest
+AutoQuest <span class="dim">Finishes the Discord Quests you have accepted and tries to claim the reward.</span>	AutoQuest <span class="dim">Выполняет принятые вами задания Discord и пытается забрать награду.</span>
+Back to the top	Наверх
+Bitcoin	Bitcoin
+Bitcoin network only	Только сеть Bitcoin
+Boosty handles the payment for you, you do not need a crypto wallet.	Платёж проводит Boosty, криптокошелёк не нужен.
+Both stay connected	Оба остаются подключёнными
+Build it	Соберите
+Built in	Встроено
+BulkExport <span class="dim">Exports a channel or DM to a JSON file.</span>	BulkExport <span class="dim">Экспортирует канал или личную переписку в файл JSON.</span>
+Changes	Изменения
+Chat history	История чатов
+Check the address first	Сначала проверьте адрес
+Click a row to open it	Нажмите на строку, чтобы открыть
+Client mods and automation tools go against Discord's terms of service, and Discord may act against accounts that use them. This applies to Discord+ and especially to the AutoQuest plugin. You decide whether to use them and you accept that risk.	Клиентские моды и средства автоматизации нарушают условия использования Discord, и Discord может принимать меры против аккаунтов, которые ими пользуются. Это относится к Discord+ и особенно к плагину AutoQuest. Вы сами решаете, пользоваться ими или нет, и принимаете этот риск.
+Client mods break Discord's rules, and AutoQuest is the riskiest part. <a href="#warn-title">Read the warning</a>.	Клиентские моды нарушают правила Discord, а AutoQuest самая рискованная часть. <a href="#warn-title">Прочитайте предупреждение</a>.
+Client mods, Discord+ included, go against Discord&#x27;s terms of service and Discord may act against accounts that use them. AutoQuest raises that risk. You use Discord+ at your own risk.	Клиентские моды, включая Discord+, нарушают условия использования Discord, и Discord может принимать меры против аккаунтов, которые ими пользуются. AutoQuest повышает этот риск. Вы используете Discord+ на свой страх и риск.
+Client mods, Discord+ included, go against Discord's terms of service. AutoQuest is the riskiest part: other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use it on an account you can afford to lose, or leave that plugin off. You use Discord+ at your own risk.	Клиентские моды, включая Discord+, нарушают условия использования Discord. AutoQuest самая рискованная часть: пользователи сообщают о временной блокировке заданий за то, что Discord называет недобросовестным выполнением заданий. Используйте его на аккаунте, который не жалко потерять, или оставьте этот плагин выключенным. Вы используете Discord+ на свой страх и риск.
+Close Discord completely, including the tray icon, then run it again. Only the stable Discord desktop app is supported.	Полностью закройте Discord, включая значок в трее, и запустите снова. Поддерживается только стабильная версия Discord для компьютера.
+Close Discord first. Pick your Discord when asked.	Сначала закройте Discord. Когда спросят, выберите свой Discord.
+Close Discord first. When it asks which Discord to patch, choose the stable one. On macOS and Linux it may ask for your password, because it writes into Discord's own folder.	Сначала закройте Discord. Когда спросят, какой Discord патчить, выберите стабильный. В macOS и Linux может понадобиться пароль, потому что установщик пишет в папку самого Discord.
+Closing the second window hides it instead of closing it.	Закрытие второго окна не закрывает его, а прячет.
+Contact	Контакты
+Copy	Копировать
+Copy an address and check it against the repository	Скопируйте адрес и сверьте его с репозиторием
+Copy<span class="fkey"> (F10)</span>	Копировать<span class="fkey"> (F10)</span>
+Copying a command greys out its step	Когда команда скопирована, её шаг гаснет
+Crypto wallets	Криптокошельки
+Deleted messages stay in chat, marked as deleted, and clicking (edited) opens the old versions. Everything is saved on your own PC for 7 days.	Удалённые сообщения остаются в чате с пометкой «удалено», а нажатие на (изменено) открывает старые версии. Всё хранится на вашем ПК 7 дней.
+Disconnects you from a voice channel after you have been the only person left for a while. The wait is 30 seconds by default and you can change it.	Отключает вас от голосового канала, если вы какое-то время остаётесь там один. По умолчанию ждёт 30 секунд, время можно изменить.
+Discord	Discord
+Discord changed something inside the app. Update Discord+ (see above) and restart Discord.	Discord что-то изменил внутри приложения. Обновите Discord+ (см. выше) и перезапустите Discord.
+Discord+ OG #7, since October 22, 2026	Discord+ OG №7, с 22 октября 2026
+Discord+ Setup Utility	Discord+ Setup Utility
+Discord+ also updates itself. While Discord is open it asks GitHub, about every half hour, whether the repository has a newer version, and downloads it when there is one. GitHub sees your IP address like any website, and nothing else about you is sent. The update comes from the Discord+ repository on GitHub, not from the Discord+ server.	Discord+ также обновляется сам. Пока Discord открыт, примерно каждые полчаса он спрашивает у GitHub, есть ли в репозитории новая версия, и скачивает её. GitHub видит ваш IP-адрес, как любой сайт, больше о вас ничего не отправляется. Обновление приходит из репозитория Discord+ на GitHub, а не с сервера Discord+.
+Discord+ home	Главная Discord+
+Discord+ is a free Vencord fork for the Discord desktop app with eleven extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.	Discord+ это бесплатный форк Vencord для приложения Discord на компьютере с одиннадцатью дополнительными плагинами: AutoQuest, Idle Lounge, значки MyProfile, LiteMode и другие. Ваши данные остаются на вашем ПК.
+Discord+ is a free, open-source fork of Vencord for the Discord desktop app. It is not affiliated with Discord Inc. or the Vencord project.	Discord+ это бесплатный форк Vencord с открытым кодом для приложения Discord на компьютере. Он не связан с Discord Inc. и проектом Vencord.
+Discord+ is an independent project. It is not made, sponsored or endorsed by Discord Inc. or by the Vencord project. Discord is a trademark of Discord Inc.	Discord+ независимый проект. Он не создан, не спонсируется и не одобрен компанией Discord Inc. или проектом Vencord. Discord является товарным знаком Discord Inc.
+Discord+ is free and stays free. If it saves you time and you want to chip in, the money pays for the server and the hours that go into the project. Everyone who donates, in any amount, gets the Discord+ Supporter badge on their profile.	Discord+ бесплатный и таким и останется. Если он экономит вам время и вы хотите помочь, деньги идут на сервер и на время, которое уходит на проект. Каждый, кто поддержал проект любой суммой, получает значок Discord+ Supporter в профиле.
+Discord+ is free software released under the <a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GNU General Public License v3.0</a>. You may use, study, change and share it under that license. It is based on <a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a> by Vendicated and contributors.	Discord+ это свободное программное обеспечение под лицензией <a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">GNU General Public License v3.0</a>. Вы можете использовать, изучать, изменять и распространять его на условиях этой лицензии. Он основан на <a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a> от Vendicated и других участников.
+Discord+ is installed from source, and the script below does the typing for you. It takes a few minutes.	Discord+ ставится из исходного кода, а скрипт ниже сделает всё за вас. Это займёт несколько минут.
+Discord+ runs on your own computer. Apart from the badge lookup described below, it does not send anything to the author or to any service run by the author.	Discord+ работает на вашем компьютере. Кроме описанной ниже проверки значков, он ничего не отправляет ни автору, ни в какие-либо сервисы автора.
+Discord+ server	Сервер Discord+
+Discord+ updates itself. While Discord is open it checks for a new version every half hour, downloads and builds it, and shows a notice. You restart Discord once and you are on the new version.	Discord+ обновляется сам. Пока Discord открыт, он каждые полчаса проверяет новую версию, скачивает и собирает её и показывает уведомление. Вы один раз перезапускаете Discord и оказываетесь на новой версии.
+Discord+ | Vencord fork with quests, a game lounge, profile badges and more	Discord+ | Форк Vencord с заданиями, игровой комнатой, значками профиля и не только
+Discord<span class="plus">+</span>	Discord<span class="plus">+</span>
+Do I have to remove Vencord first?	Нужно ли сначала удалять Vencord?
+Do not use the installers on vencord.dev. They install stock Vencord, not Discord+.	Не используйте установщики с vencord.dev. Они ставят обычный Vencord, а не Discord+.
+Donate	Поддержать
+Donate on Boosty	Поддержать на Boosty
+Donate online	Поддержать онлайн
+Drawn illustration of AutoLeaveEmptyVC	Нарисованная иллюстрация AutoLeaveEmptyVC
+Drawn illustration of AutoQuest	Нарисованная иллюстрация AutoQuest
+Drawn illustration of BulkExport	Нарисованная иллюстрация BulkExport
+Drawn illustration of Idle Lounge	Нарисованная иллюстрация Idle Lounge
+Drawn illustration of LastSeen	Нарисованная иллюстрация LastSeen
+Drawn illustration of LiteMode	Нарисованная иллюстрация LiteMode
+Drawn illustration of MessageArchive	Нарисованная иллюстрация MessageArchive
+Drawn illustration of MyProfile	Нарисованная иллюстрация MyProfile
+Drawn illustration of NicknameHistory	Нарисованная иллюстрация NicknameHistory
+Drawn illustration of Reminders	Нарисованная иллюстрация Reminders
+Drawn illustration of Second account window	Нарисованная иллюстрация окна второго аккаунта
+Drawn illustration of UserTags	Нарисованная иллюстрация UserTags
+Eleven plugins were written for Discord+, plus the second account window. The catalog explains each one and lets you search it.	Для Discord+ написано одиннадцать плагинов и окно второго аккаунта. Каталог объясняет каждый из них и позволяет искать по нему.
+Eleven plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on.	Одиннадцать плагинов, написанных для Discord+, и окно второго аккаунта. Все плагины Vencord по-прежнему работают на той же странице настроек. Все плагины Discord+ выключены, пока вы их не включите.
+Ethereum	Ethereum
+Ethereum network only, also takes ERC-20 tokens	Только сеть Ethereum, также принимает токены ERC-20
+Every part has its own switch in the plugin settings.	У каждой части свой переключатель в настройках плагина.
+Every plugin from Vencord is still there in the same settings page.	Все плагины Vencord на месте, на той же странице настроек.
+Every plugin written for Discord+ and what it does: AutoQuest, Idle Lounge, MyProfile, LiteMode, Reminders, MessageArchive and more.	Все плагины, написанные для Discord+, и что они делают: AutoQuest, Idle Lounge, MyProfile, LiteMode, Reminders, MessageArchive и другие.
+Fatal error	Критическая ошибка
+Finishes the Discord Quests you have accepted and tries to claim the reward.	Выполняет принятые вами задания Discord и пытается забрать награду.
+Finishes the Discord Quests you have accepted and tries to claim the reward. It breaks the Discord rules, read the warning below.	Выполняет принятые вами задания Discord и пытается забрать награду. Это нарушает правила Discord, прочитайте предупреждение ниже.
+Flip between two Discord accounts with one shortcut.	Переключайтесь между двумя аккаунтами Discord одним сочетанием клавиш.
+For video Quests it reports your progress, for game Quests it tells Discord a game is running, and for activity Quests it keeps the session alive. It paces itself like a person and finishes when the Quest is due, not later.	Для видеозаданий он сообщает ваш прогресс, для игровых говорит Discord, что игра запущена, а для заданий с активностью поддерживает сеанс. Он действует с темпом человека и заканчивает к сроку задания, не позже.
+Four plugins (MessageArchive, NicknameHistory, LastSeen and UserTags) keep their data in your local browser storage (IndexedDB), on your own computer only. The data can include message contents, attachment links, user and channel IDs, names and nicknames, presence changes and your own tags and notes. None of it is sent anywhere, and clearing it from the plugin settings or uninstalling Discord+ removes it for good.	Четыре плагина (MessageArchive, NicknameHistory, LastSeen и UserTags) хранят данные в локальном хранилище браузера (IndexedDB) только на вашем компьютере. В данных могут быть тексты сообщений, ссылки на вложения, ID пользователей и каналов, имена и ники, смены статуса и ваши теги и заметки. Ничего из этого никуда не отправляется, а очистка в настройках плагина или удаление Discord+ стирает данные насовсем.
+Fun	Развлечения
+GPL-3.0 license	Лицензия GPL-3.0
+Get the code	Получите код
+Get your Supporter badge	Получите значок Supporter
+Git	Git
+Give yourself badges and a display name that only you see, even ones that look like Discord&#x27;s own. Discord+ users also get a member number: the lower it is, the earlier they joined. Others with Discord+ see it as a badge on the profile.	Ставьте себе значки и отображаемое имя, которые видите только вы, даже похожие на настоящие значки Discord. Пользователи Discord+ также получают номер участника: чем он меньше, тем раньше человек присоединился. Другие пользователи Discord+ видят его значком в профиле.
+Got it	Понятно
+Handy when you forget to leave a call.	Удобно, когда забываете выйти из звонка.
+Hover a tag to read your note	Наведите на тег, чтобы прочитать заметку
+How do I update or remove it?	Как обновить или удалить?
+I check the donation by hand and add the badge within 24 hours. People who run Discord+ with MyProfile switched on then see it on your profile.	Я проверяю пожертвование вручную и выдаю значок в течение 24 часов. Тогда люди, у которых Discord+ запущен с включённым MyProfile, увидят его в вашем профиле.
+I installed the installer from vencord.dev	Я поставил установщик с vencord.dev
+Idle Lounge	Idle Lounge
+Idle Lounge <span class="dim">A lounge inside Discord for when you want to do nothing.</span>	Idle Lounge <span class="dim">Комната внутри Discord для тех, кто хочет ничего не делать.</span>
+If MyProfile is on, Discord+ gives your account a number in order of arrival and records the date you joined. Other Discord+ users see it as a badge on your profile. It is a setting you can turn off, and then nothing is sent.	Если MyProfile включён, Discord+ присваивает вашему аккаунту номер по порядку прихода и записывает дату вступления. Другие пользователи Discord+ видят его значком в вашем профиле. Это настройка, её можно отключить, и тогда ничего не отправляется.
+If something goes wrong	Если что-то пошло не так
+Illustration, not a screenshot.	Иллюстрация, а не скриншот.
+Install	Установка
+Install Discord+ on Windows with one PowerShell command, on macOS or Linux with one Terminal command, or step by step from source. Requires Git and Node.js 22 or newer.	Установите Discord+ одной командой PowerShell в Windows, одной командой в Терминале в macOS или Linux, либо по шагам из исходного кода. Нужны Git и Node.js 22 или новее.
+Install the dependencies	Установите зависимости
+Install | Discord+	Установка | Discord+
+Is Discord+ safe to use?	Безопасно ли пользоваться Discord+?
+It cannot be on together with AlwaysAnimate, because they do opposite things to the same code.	Его нельзя включать вместе с AlwaysAnimate: они делают противоположное с одним и тем же кодом.
+It does not solve captchas.	Он не решает капчи.
+It is all just games. Nothing in it is sent anywhere.	Это просто игры. Ничего из них никуда не отправляется.
+It is open source, so every line can be read, and nothing it saves leaves your PC apart from the MyProfile lookups in the table above.	Код открыт, поэтому можно прочитать каждую строку, и ничего из сохранённого не покидает ваш ПК, кроме запросов MyProfile из таблицы выше.
+It is tested on Windows with the stable Discord desktop app. It also works on Linux (tested on Arch with the official Discord package). The macOS installer exists but has not been tested yet, so open an issue if it breaks.	Проверено в Windows со стабильным приложением Discord. Также работает в Linux (проверено на Arch с официальным пакетом Discord). Установщик для macOS есть, но его ещё не проверяли, поэтому если он сломается, создайте обращение.
+It only knows what your client saw while it was running.	Он знает только то, что видел ваш клиент, пока работал.
+It replaces MessageLogger, so you cannot run both.	Он заменяет MessageLogger, поэтому оба сразу запускать нельзя.
+Item Specific Help	Справка по пункту
+Joining the member list sends your own user ID once. That is a setting too, and it is on by default once you enable the plugin.	Вступление в список участников один раз отправляет ваш ID пользователя. Это тоже настройка, и она включена по умолчанию, когда вы включаете плагин.
+Keeps edited and deleted messages visible in chat.	Сохраняет изменённые и удалённые сообщения видимыми в чате.
+Kept on	Остаётся включённым
+Last updated October 17, 2026	Последнее обновление: 17 октября 2026
+Last updated October 23, 2026	Последнее обновление: 23 октября 2026
+LastSeen	LastSeen
+LastSeen <span class="dim">Remembers when someone was last seen, and what showed it.</span>	LastSeen <span class="dim">Помнит, когда человека видели в последний раз, и по чему это стало ясно.</span>
+Leaving in 30 seconds	Выход через 30 секунд
+License	Лицензия
+Like any web server, this one may keep standard access logs (your IP address, the page requested, the time and your browser's user agent) for security and troubleshooting. These logs are not shared or used for profiling.	Как и любой веб-сервер, этот может вести стандартные журналы доступа (ваш IP-адрес, запрошенная страница, время и user agent браузера) для безопасности и поиска неисправностей. Эти журналы никому не передаются и не используются для составления профилей.
+Linux	Linux
+LiteMode	LiteMode
+LiteMode <span class="dim">Makes Discord lighter on CPU, GPU and RAM.</span>	LiteMode <span class="dim">Снижает нагрузку Discord на процессор, видеокарту и память.</span>
+Litecoin	Litecoin
+Litecoin network only	Только сеть Litecoin
+Main	Главная
+Makes Discord lighter on CPU, GPU and RAM.	Снижает нагрузку Discord на процессор, видеокарту и память.
+Menu	Меню
+Message me on Telegram	Напишите мне в Telegram
+MessageArchive	MessageArchive
+MessageArchive <span class="dim">Keeps edited and deleted messages visible in chat.</span>	MessageArchive <span class="dim">Сохраняет изменённые и удалённые сообщения видимыми в чате.</span>
+MyProfile	MyProfile
+MyProfile <span class="dim">Your own badges and display name, and Discord+ badges on other people.</span>	MyProfile <span class="dim">Ваши значки и отображаемое имя, а также значки Discord+ у других людей.</span>
+Needs Git and Node.js 22 or newer. It asks which Discord to patch. macOS or Linux? The <a href="/install">install page</a> has a Terminal command. Tested on Linux, not yet on macOS.	Нужны Git и Node.js 22 или новее. Установщик спросит, какой Discord патчить. macOS или Linux? На <a href="/install">странице установки</a> есть команда для Терминала. Проверено на Linux, на macOS пока нет.
+NicknameHistory	NicknameHistory
+NicknameHistory <span class="dim">Records name changes over time.</span>	NicknameHistory <span class="dim">Записывает смены имён со временем.</span>
+No affiliation	Нет связи с Discord
+No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a>	Без cookie и аналитики. В этом браузере сохраняется только выбранная тема. <a href="/privacy">Подробнее</a>
+No page lives at this address. The link may be old or mistyped. Pick where to go next:	По этому адресу страницы нет. Ссылка могла устареть или в ней опечатка. Выберите, куда перейти:
+No plugin matches that. Clear the search to see them all.	Подходящих плагинов нет. Очистите поиск, чтобы увидеть все.
+No warranty	Без гарантий
+Nobody else can see your tags or notes.	Ваши теги и заметки больше никто не видит.
+Node.js	Node.js
+Nothing here	Здесь ничего нет
+Nothing. It is free software under the GNU General Public License v3.0.	Ничего. Это свободное ПО под лицензией GNU General Public License v3.0.
+Notice	Уведомление
+One command, in PowerShell on Windows:	Одна команда в PowerShell в Windows:
+Only changes your client saw are recorded, starting from when you switch it on.	Записываются только изменения, которые видел ваш клиент, начиная с момента включения.
+Only one window is visible at a time, and the second one does not appear in Alt+Tab.	Одновременно видно только одно окно, а второе не появляется в Alt+Tab.
+Only works on Quests you accepted yourself.	Работает только с заданиями, которые вы приняли сами.
+Open Settings, then Plugins, and switch on what you want.	Откройте «Настройки», затем «Плагины» и включите нужное.
+Open an issue on GitHub and say what you did and what happened. A crash helps most with the red error from the console (Ctrl+Shift+I).	Создайте обращение на GitHub и опишите, что вы делали и что произошло. При сбое больше всего поможет красная ошибка из консоли (Ctrl+Shift+I).
+Open it from the button in the chat bar or with the /lounge command.	Откройте её кнопкой в панели чата или командой /lounge.
+Option A: one command	Вариант А: одна команда
+Option B: step by step	Вариант Б: по шагам
+Other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use an account you can afford to lose, or leave it off.	Пользователи сообщают о временной блокировке заданий за то, что Discord называет недобросовестным выполнением заданий. Используйте аккаунт, который не жалко потерять, или оставьте плагин выключенным.
+Page not found | Discord+	Страница не найдена | Discord+
+Pick your Discord	Выберите свой Discord
+Plugin	Плагин
+Plugins	Плагины
+Plugins | Discord+	Плагины | Discord+
+Press Ctrl+Shift+2 while a Discord window is focused. The second account runs in its own window with a separate login, and both stay connected, so messages and notifications arrive on both.	Нажмите Ctrl+Shift+2, когда окно Discord в фокусе. Второй аккаунт работает в своём окне с отдельным входом, и оба остаются подключёнными, поэтому сообщения и уведомления приходят на оба.
+Press Top to go back up	Нажмите «Наверх», чтобы вернуться вверх
+Privacy	Конфиденциальность
+Privacy policy	Политика конфиденциальности
+Privacy | Discord+	Конфиденциальность | Discord+
+Progress is saved in a file on your PC, so it survives a reinstall.	Прогресс хранится в файле на вашем ПК и переживает переустановку.
+Questions	Вопросы
+Questions about this policy can be sent through an issue on <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">GitHub</a>.	Вопросы по этой политике можно задать через обращение на <a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">GitHub</a>.
+Read the script first	Сначала прочитайте скрипт
+Remind yourself about a message or anything else.	Напомните себе о сообщении или о чём угодно.
+Reminders	Reminders
+Reminders <span class="dim">Remind yourself about a message or anything else.</span>	Reminders <span class="dim">Напомните себе о сообщении или о чём угодно.</span>
+Reminders survive a restart.	Напоминания переживают перезапуск.
+Report a problem	Сообщить о проблеме
+Requirements	Требования
+Restart Discord	Перезапустите Discord
+Right-click a message and choose Remind Me About This, or use the /remind command with a time like 10m, 2h30m or 1d. When it fires you get a notification with a chime, and a click takes you back to the message.	Нажмите правой кнопкой на сообщение и выберите Remind Me About This либо используйте команду /remind со временем вроде 10m, 2h30m или 1d. Когда оно наступит, придёт уведомление со звуком, а клик вернёт вас к сообщению.
+Right-click a person and choose Last Seen. It logs when they went offline, idle or do not disturb, each message they sent and when they started typing.	Нажмите правой кнопкой на человека и выберите Last Seen. Плагин записывает, когда он ушёл в офлайн, стал неактивен или включил «Не беспокоить», каждое его сообщение и когда он начал печатать.
+Right-click a person and choose Tags and Notes. Tags show next to their name in chat, and hovering one shows your note. The settings have a list of everyone you tagged, with a filter by tag.	Нажмите правой кнопкой на человека и выберите Tags and Notes. Теги показываются рядом с именем в чате, а при наведении на тег видна ваша заметка. В настройках есть список всех, кого вы пометили, с фильтром по тегу.
+Risk	Риск
+Run the installer	Запустите установщик
+Saves data	Что сохраняет
+Saves the full message history of a channel or conversation as one JSON file you can keep, search or process.	Сохраняет всю историю сообщений канала или переписки одним файлом JSON, который можно хранить, искать в нём или обрабатывать.
+Search	Поиск
+Second account window	Окно второго аккаунта
+Second account window <span class="dim">Flip between two Discord accounts with one shortcut.</span>	Окно второго аккаунта <span class="dim">Переключайтесь между двумя аккаунтами Discord одним сочетанием клавиш.</span>
+Sent to the Discord+ server	Что уходит на сервер Discord+
+Separate from Discord&#x27;s built-in notes, which stay as they are.	Отдельно от встроенных заметок Discord, они остаются как есть.
+Settings or a window crashes after a Discord update	Настройки или окно падают после обновления Discord
+Skip to content	Перейти к содержимому
+Solana	Solana
+Solana network only, also takes SPL tokens	Только сеть Solana, также принимает токены SPL
+Someone in invisible mode looks the same as offline.	Человек в режиме «Невидимка» выглядит так же, как офлайн.
+Something else is wrong	Другая проблема
+Source	Код
+Source on GitHub	Исходный код на GitHub
+Start Discord, open Settings, then Plugins, and switch on the Discord+ plugins you want. They all start off.	Запустите Discord, откройте «Настройки», затем «Плагины» и включите нужные плагины Discord+. Все они по умолчанию выключены.
+Status	Состояние
+Step by step	По шагам
+Storage Configuration	Хранение данных
+Support	Поддержка
+Support Discord+ with a donation and get the Discord+ Supporter badge. The project is free and stays free, donations pay for the server and the time that goes into it.	Поддержите Discord+ пожертвованием и получите значок Discord+ Supporter. Проект бесплатный и останется таким, пожертвования идут на сервер и на время работы над ним.
+Support the project	Поддержать проект
+Support | Discord+	Поддержка | Discord+
+Switch between dark and light theme	Переключить тёмную и светлую тему
+Switch plugins on	Включите плагины
+TON	TON
+TON network only, also takes USDT on TON	Только сеть TON, также принимает USDT в сети TON
+TRON network (TRC20) only	Только сеть TRON (TRC20)
+Terms	Условия
+Terms | Discord+	Условия | Discord+
+That one installs stock Vencord, not Discord+. Use the steps on this page instead.	Он ставит обычный Vencord, а не Discord+. Используйте шаги с этой страницы.
+The Discord+ badges (Dev, Tester, Supporter, Founder, Bug Hunter, Artist) are handed out by the Discord+ team. You cannot give them to yourself.	Значки Discord+ (Dev, Tester, Supporter, Founder, Bug Hunter, Artist) выдаёт команда Discord+. Выдать их себе самому нельзя.
+The Discord+ client	Клиент Discord+
+The MyProfile plugin can show Discord+ badges on other people's profiles. To do that it asks the Discord+ server which of the users you look at have a badge. The request contains the Discord user IDs of those users, and the server sees your IP address like any web server does. Nothing else is sent: not your messages, not your account details and not your own Discord ID. The server stores only a list of which user IDs were given which badge. The standard access logs described above can include these requests, with the IDs in the address. You can turn the lookup off with the &ldquo;Show Discord+ badges&rdquo; setting of the plugin, or by disabling the plugin. Your own badges and display name stay on your computer.	Плагин MyProfile может показывать значки Discord+ в профилях других людей. Для этого он спрашивает у сервера Discord+, у кого из просматриваемых вами пользователей есть значок. В запросе содержатся Discord ID этих пользователей, а сервер видит ваш IP-адрес, как любой веб-сервер. Больше ничего не отправляется: ни ваши сообщения, ни данные аккаунта, ни ваш собственный Discord ID. Сервер хранит только список того, каким ID какие значки выданы. Стандартные журналы доступа, описанные выше, могут содержать эти запросы с ID в адресе. Проверку можно отключить настройкой плагина &ldquo;Show Discord+ badges&rdquo; или выключением самого плагина. Ваши собственные значки и отображаемое имя остаются на вашем компьютере.
+The installer says it cannot find Discord	Установщик пишет, что не может найти Discord
+The plugin settings list your upcoming reminders and let you cancel them.	В настройках плагина виден список будущих напоминаний, их можно отменить.
+The same addresses are listed in the project repository, in <a href="https://github.com/rossinskiy/discord-plus/blob/main/server/donate.json" rel="noopener">server/donate.json</a>. Compare them with the ones above before you send anything, so a tampered page cannot send your money somewhere else.	Те же адреса указаны в репозитории проекта, в <a href="https://github.com/rossinskiy/discord-plus/blob/main/server/donate.json" rel="noopener">server/donate.json</a>. Сверьте их с адресами выше, прежде чем что-то отправлять, чтобы подменённая страница не увела ваши деньги в другое место.
+The same plugin can put you on the Discord+ user list. If you leave the &ldquo;Join the Discord+ user list&rdquo; setting on, your own Discord user ID is sent to the server once, and the server stores it together with a member number and the date you joined. Other Discord+ users can see that number and date as a badge on your profile. Nothing else is sent. Turn the setting off and nothing is sent. To be taken off the list after you joined, open an issue on GitHub and the entry will be deleted.	Тот же плагин может внести вас в список пользователей Discord+. Если оставить включённой настройку &ldquo;Join the Discord+ user list&rdquo;, ваш Discord ID один раз отправляется на сервер, и сервер хранит его вместе с номером участника и датой вступления. Другие пользователи Discord+ видят этот номер и дату значком в вашем профиле. Больше ничего не отправляется. Если выключить настройку, не отправляется ничего. Чтобы вас убрали из списка после вступления, создайте обращение на GitHub, и запись будет удалена.
+The script checks Git and Node.js, installs pnpm if needed, downloads Discord+ into <span class="value">%USERPROFILE%\discord-plus</span> (<span class="value">~/discord-plus</span> on macOS and Linux), builds it and runs the Discord installer. It changes nothing else. Read it first, it is short: <a href="/install.ps1">install.ps1</a> for Windows, <a href="/install.sh">install.sh</a> for macOS and Linux.	Скрипт проверяет Git и Node.js, при необходимости ставит pnpm, скачивает Discord+ в <span class="value">%USERPROFILE%\discord-plus</span> (<span class="value">~/discord-plus</span> в macOS и Linux), собирает его и запускает установщик в Discord. Больше он ничего не меняет. Прочитайте его сначала, он короткий: <a href="/install.ps1">install.ps1</a> для Windows, <a href="/install.sh">install.sh</a> для macOS и Linux.
+The shortcut only works while a Discord+ window is focused. It is never a system-wide hotkey.	Сочетание клавиш работает только когда в фокусе окно Discord+. Системной горячей клавишей оно никогда не становится.
+The software and this website are provided as they are, without warranty of any kind. The author is not liable for any loss or damage from using them, including lost data, broken Discord installs or action taken against your Discord account.	Программа и этот сайт предоставляются «как есть», без каких-либо гарантий. Автор не отвечает за любые потери и ущерб от их использования, включая потерю данных, поломку установки Discord и меры, принятые против вашего аккаунта Discord.
+The terms of using Discord+: GPL-3.0 license, no warranty, your responsibility and no affiliation with Discord or Vencord.	Условия использования Discord+: лицензия GPL-3.0, отсутствие гарантий, ваша ответственность и отсутствие связи с Discord и Vencord.
+Theme: Dark	Тема: тёмная
+There is nothing to switch on, it is part of Discord+.	Включать ничего не нужно, это часть Discord+.
+These are plain crypto wallets that the author controls, with no middleman and no account. Send only the coin on the network named next to each address. Money sent on a different network is lost.	Это обычные криптокошельки, которыми управляет автор, без посредников и аккаунтов. Отправляйте только монету в той сети, которая указана рядом с адресом. Деньги, отправленные в другой сети, будут потеряны.
+These terms may change as the project does. The date above shows the last update.	Эти условия могут меняться вместе с проектом. Дата выше показывает последнее обновление.
+This is a preview, so nothing is installed by clicking here. In Discord every plugin starts off, and you switch on what you want. <span class="value" id="on-count">0 of 6</span> on in this preview.	Это предпросмотр, поэтому нажатия здесь ничего не устанавливают. В Discord все плагины по умолчанию выключены, и вы включаете нужные. В предпросмотре включено: <span class="value" id="on-count">0 из 6</span>.
+This is not a read receipt. Discord does not give clients that, so LastSeen only knows what your own client saw.	Это не отметка о прочтении. Discord не отдаёт её клиентам, поэтому LastSeen знает только то, что видел ваш клиент.
+This page does not exist. Go back to the Discord+ home page, the plugin list or the install guide.	Такой страницы нет. Вернитесь на главную Discord+, к списку плагинов или к инструкции по установке.
+This website	Этот сайт
+This website is a set of static pages. It has no accounts, no forms, no analytics, no advertising and no third-party scripts, fonts or trackers. It sets no cookies.	Этот сайт состоит из статичных страниц. На нём нет аккаунтов, форм, аналитики, рекламы, сторонних скриптов, шрифтов и трекеров. Он не устанавливает cookie.
+To remove it, run <code>pnpm uninject</code> inside the Discord+ folder. The <a href="/install">install page</a> has the details.	Чтобы удалить его, выполните <code>pnpm uninject</code> в папке Discord+. Подробности на <a href="/install">странице установки</a>.
+To show badges it asks the Discord+ server about people whose profiles you look at, which sends their user IDs. You can turn that off in the plugin settings.	Чтобы показывать значки, он спрашивает у сервера Discord+ о людях, чьи профили вы смотрите, и для этого отправляет их ID. Это можно отключить в настройках плагина.
+Tools	Инструменты
+Top	Наверх
+Tracks usernames, display names and per-server nicknames. Right-click a person and choose View Name History.	Отслеживает имена пользователей, отображаемые имена и ники на серверах. Нажмите правой кнопкой на человека и выберите View Name History.
+Tsar <span class="value">[work]</span> <span class="value">[owes money]</span>	Tsar <span class="value">[работа]</span> <span class="value">[должен денег]</span>
+Turns off animations and the blur behind menus, stops elements from reserving GPU layers, and shows still images instead of animated avatars, emoji, banners and name effects. Typing feels less laggy on slower PCs.	Отключает анимации и размытие за меню, не даёт элементам резервировать слои видеокарты и показывает неподвижные картинки вместо анимированных аватаров, эмодзи, баннеров и эффектов имён. На слабых ПК печатать становится приятнее.
+Type a name or what you want to do	Введите название или то, что хотите сделать
+USDT and TRX	USDT и TRX
+Update and remove	Обновление и удаление
+UserTags	UserTags
+UserTags <span class="dim">Your own tags and a private note on anyone.</span>	UserTags <span class="dim">Ваши теги и личная заметка о любом человеке.</span>
+Vencord	Vencord
+Wait for the badge	Дождитесь значка
+Warning	Предупреждение
+What does it cost?	Сколько это стоит?
+What is the member number?	Что такое номер участника?
+What the Discord+ website and client do with your data: no cookies, no analytics, optional badge lookups and an optional member number.	Что сайт и клиент Discord+ делают с вашими данными: без cookie и аналитики, необязательная проверка значков и необязательный номер участника.
+When you use Discord with Discord+, Discord's own terms and privacy policy still apply to your account and your data.	Когда вы используете Discord с Discord+, к вашему аккаунту и данным по-прежнему применяются условия и политика конфиденциальности самого Discord.
+Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is the MyProfile lookup, which sends user IDs, and you can switch it off.	Где каждый плагин хранит данные и что отправляет наружу. Аккаунта и слежки нет. Единственный контакт с сервером Discord+ это проверка MyProfile, которая отправляет ID пользователей, и её можно выключить.
+Which systems does it run on?	На каких системах он работает?
+Windows	Windows
+Works for global display names too, not only server nicknames.	Работает и для глобальных отображаемых имён, а не только для ников на серверах.
+Works from the right-click menu of a channel or conversation.	Работает из меню правой кнопки на канале или переписке.
+Write to <a href="https://t.me/jreinject" rel="noopener">@jreinject</a> and send this, with your own details filled in:	Напишите <a href="https://t.me/jreinject" rel="noopener">@jreinject</a> и отправьте вот это, подставив свои данные:
+You are responsible for how you use the plugins. Do not use them to harass people, to collect data you have no right to keep or to break the law.	Вы отвечаете за то, как используете плагины. Не используйте их, чтобы преследовать людей, собирать данные, которые вы не вправе хранить, или нарушать закон.
+You are the only one here	Вы здесь один
+You do not need to uninstall it by hand. The installer points Discord at Discord+ instead. Discord+ reads the same settings folder as Vencord, so your existing Vencord settings carry over.	Удалять его вручную не нужно. Установщик направляет Discord на Discord+. Discord+ читает ту же папку настроек, что и Vencord, поэтому ваши настройки Vencord сохраняются.
+Your Discord ID is a long number, not your username. In Discord open Settings, then Advanced, switch on Developer Mode, right-click your own name and choose Copy User ID.	Ваш Discord ID это длинное число, а не имя пользователя. В Discord откройте «Настройки», затем «Расширенные», включите режим разработчика, нажмите правой кнопкой на своё имя и выберите «Копировать ID пользователя».
+Your browser's local storage keeps two small values on your device: your light or dark theme choice, and whether you dismissed the notice at the bottom of the page. They never leave your browser.	Локальное хранилище браузера держит на вашем устройстве два небольших значения: выбранную светлую или тёмную тему и то, закрыли ли вы уведомление внизу страницы. Они никогда не покидают ваш браузер.
+Your own badges and display name never leave your PC.	Ваши собственные значки и отображаемое имя никогда не покидают ваш ПК.
+Your own badges and display name, and Discord+ badges on other people.	Ваши значки и отображаемое имя, а также значки Discord+ у других людей.
+Your responsibility	Ваша ответственность
+[Built in]	[Встроено]
+[Disabled]	[Выкл.]
+[Open]	[Открыть]
+[built in]	[встроено]
+[local file]	[локальный файл]
+[local]	[локально]
+[optional lookup]	[необязательная проверка]
+[risk]	[риск]
+a file on your PC	файл на вашем ПК
+a file you choose	файл на ваш выбор
+a separate login on your PC	отдельный вход на вашем ПК
+any recent version	любая свежая версия
+badge lookups with user IDs, if on	проверка значков по ID пользователей, если включена
+high, breaks Discord&#x27;s rules	высокий, нарушает правила Discord
+installed for you	ставится за вас
+macOS	macOS
+never	никогда
+none	нет
+not tested yet	пока не проверено
+nothing	ничего
+optional lookups, they send user IDs	необязательные проверки, отправляют ID пользователей
+pnpm	pnpm
+running, claims the reward when due	работает, заберёт награду, когда придёт срок
+see you at 9 <span class="dim">(edited)</span>	увидимся в 9 <span class="dim">(изменено)</span>
+settings only	только настройки
+stable desktop app	стабильное приложение для компьютера
+tested	проверено
+tested on Arch	проверено на Arch
+your PC	ваш ПК
+your PC, 7 days	ваш ПК, 7 дней
+yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22">	yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22">

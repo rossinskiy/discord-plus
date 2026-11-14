@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discord+ | Форк Vencord с заданиями, игровой комнатой, значками профиля и не только</title>
+<meta name="description" content="Discord+ это бесплатный форк Vencord для приложения Discord на компьютере с одиннадцатью дополнительными плагинами: AutoQuest, Idle Lounge, значки MyProfile, LiteMode и другие. Ваши данные остаются на вашем ПК.">
+<meta name="theme-color" content="#0000aa">
+<link rel="canonical" href="https://discordplus.karatel.win/ru">
+<link rel="alternate" hreflang="en" href="https://discordplus.karatel.win/">
+<link rel="alternate" hreflang="ru" href="https://discordplus.karatel.win/ru/">
+<link rel="alternate" hreflang="x-default" href="https://discordplus.karatel.win/">
+<link rel="icon" href="/assets/favicon.svg?v=a872b06a" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Discord+">
+<meta property="og:title" content="Discord+ | Форк Vencord с заданиями, игровой комнатой, значками профиля и не только">
+<meta property="og:description" content="Discord+ это бесплатный форк Vencord для приложения Discord на компьютере с одиннадцатью дополнительными плагинами: AutoQuest, Idle Lounge, значки MyProfile, LiteMode и другие. Ваши данные остаются на вашем ПК.">
+<meta property="og:url" content="https://discordplus.karatel.win/ru">
+<meta property="og:image" content="https://discordplus.karatel.win/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css?v=ac7c339c">
+<script src="/assets/theme.js?v=6ca03193"></script>
+<script src="/assets/app.js?v=77a3610e" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к содержимому</a>
+<header class="top">
+<div class="wrap">
+<a class="brand" href="/ru/" aria-label="Главная Discord+"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/><path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+ Setup Utility</span></a>
+<nav id="tabs" class="tabs" aria-label="Главная"><a href="/ru/" aria-current="page">Главная</a><a href="/ru/plugins">Плагины</a><a href="/ru/install">Установка</a><a href="/ru/support">Поддержка</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Код</a><a class="lang" href="/" hreflang="en" lang="en" aria-label="English version of the site">EN</a><button class="tool" id="theme" type="button" aria-label="Переключить тёмную и светлую тему">Тема: тёмная</button></nav>
+<button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Меню</button>
+</div>
+</header>
+<div class="progress" aria-hidden="true"><i></i></div>
+<!--
+THESIS: The website is the setup utility of your Discord: plugins are menu items you switch on. It refuses the dev-tool landing page (hero, card grid, feature icons).
+OWN-WORLD: Firmware setup screen. Blue text-mode field, grey title bar and tabs, white text, cyan frame titles, yellow values, double-line frames, selection as an inverse bar. One bitmap face (VT323) at two sizes on a character cell grid. Light theme is a pale UEFI sheet with navy bars.
+STORY: A visitor learns that Discord+ is a Vencord fork with plugins nobody else ships, sees they are all off until switched on, sees every byte stays on their PC except one named lookup, and copies one command.
+FIRST VIEWPORT: Left, the Discord+ wordmark at display size with a two-line promise, then the plugin menu as firmware options. Right, the help pane for the selected item and the install command with its Copy button beneath it. Key hints along the bottom bar.
+FORM: Firmware setup utility, candidate 4 of my grounded list, seed key 175bc1b0 (assigned by the roll).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
+<main id="main">
+<div class="wrap">
+<div class="screen">
+<div class="intro">
+<h1 class="display">Discord<span class="plus">+</span></h1>
+<p class="lede">Бесплатный форк Vencord для приложения Discord на компьютере. Все плагины Vencord работают, и ещё одиннадцать написаны специально: задания на автопилоте, игровая комната, свои значки в профиле и более лёгкий Discord. Всё, что он сохраняет, остаётся на вашем ПК.<span class="caret" aria-hidden="true"></span></p>
+</div>
+
+<section class="pane menu-pane" aria-labelledby="menu-title">
+<h2 class="pane-title" id="menu-title">Плагины</h2>
+<ul class="rows" id="plugin-menu" role="list"><li><button class="row" type="button" data-help="autoquest" data-toggle data-on="false" aria-pressed="false"><span class="name">AutoQuest</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Выполняет принятые вами задания Discord и пытается забрать награду. Это нарушает правила Discord, прочитайте предупреждение ниже.</span></button></li><li><button class="row" type="button" data-help="idle-lounge" data-toggle data-on="false" aria-pressed="false"><span class="name">Idle Lounge</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Комната внутри Discord для тех, кто хочет ничего не делать.</span></button></li><li><button class="row" type="button" data-help="my-profile" data-toggle data-on="false" aria-pressed="false"><span class="name">MyProfile</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Ваши значки и отображаемое имя, а также значки Discord+ у других людей.</span></button></li><li><button class="row" type="button" data-help="lite-mode" data-toggle data-on="false" aria-pressed="false"><span class="name">LiteMode</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Снижает нагрузку Discord на процессор, видеокарту и память.</span></button></li><li><button class="row" type="button" data-help="reminders" data-toggle data-on="false" aria-pressed="false"><span class="name">Reminders</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Напомните себе о сообщении или о чём угодно.</span></button></li><li><button class="row" type="button" data-help="message-archive" data-toggle data-on="false" aria-pressed="false"><span class="name">MessageArchive</span><span class="val" data-on="false" aria-hidden="true">[Выкл.]</span><span class="blurb">Сохраняет изменённые и удалённые сообщения видимыми в чате.</span></button></li><li><button class="row" type="button" data-help="second-account"><span class="name">Окно второго аккаунта</span><span class="val" data-on="true" aria-hidden="true">[Встроено]</span><span class="blurb">Переключайтесь между двумя аккаунтами Discord одним сочетанием клавиш.</span></button></li><li><a class="row" href="/ru/plugins" data-help="more"><span class="name">Все плагины и что они делают</span><span class="val">[Открыть]</span></a></li></ul>
+<p class="note">Это предпросмотр, поэтому нажатия здесь ничего не устанавливают. В Discord все плагины по умолчанию выключены, и вы включаете нужные. В предпросмотре включено: <span class="value" id="on-count">0 из 6</span>.</p>
+</section>
+
+<div class="side">
+<section class="pane help" aria-labelledby="help-pane-title">
+<h2 class="pane-title" id="help-pane-title">Справка по пункту</h2>
+<div id="help-live" aria-live="polite"><h3 id="help-title" class="title">AutoQuest</h3>
+<div id="help-body"></div></div>
+<div class="help-src" id="help-autoquest" data-title="AutoQuest"><p>Выполняет принятые вами задания Discord и пытается забрать награду.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация AutoQuest"><div class="mock-l"><span class="dim">Задание</span> Играть в игру 15 минут</div><div class="mock-l"><progress value="8" max="15"></progress> 8 из 15 мин</div><div class="mock-l"><span class="dim">Состояние</span> <span class="ok">работает, заберёт награду, когда придёт срок</span></div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>ничего</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd class="risk">высокий, нарушает правила Discord</dd></dl></div>
+<div class="help-src" id="help-idle-lounge" data-title="Idle Lounge"><p>Комната внутри Discord для тех, кто хочет ничего не делать.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация Idle Lounge"><div class="mock-l"><span class="dim">Сад</span> 4,32 тыс. монет, 3,3 в секунду</div><div class="mock-l"><span class="dim">Рыбалка</span> Поймана форель и ещё 2</div><div class="mock-l"><span class="dim">Кирпичи</span> Уровень 5, 12 шаров</div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>файл на вашем ПК</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-my-profile" data-title="MyProfile"><p>Ваши значки и отображаемое имя, а также значки Discord+ у других людей.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация MyProfile"><div class="mock-l">yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22"></div><div class="mock-l dim">Discord+ OG №7, с 22 октября 2026</div><div class="mock-l"><span class="dim">Отображаемое имя</span> видите только вы</div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>ваш ПК</dd><dt>Сервер Discord+</dt><dd>необязательные проверки, отправляют ID пользователей</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-lite-mode" data-title="LiteMode"><p>Снижает нагрузку Discord на процессор, видеокарту и память.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация LiteMode"><div class="mock-l"><span class="dim">Анимации</span> Были включены, стали выключены</div><div class="mock-l"><span class="dim">Размытие за меню</span> Было включено, стало выключено</div><div class="mock-l"><span class="dim">Анимированные аватары</span> Были включены, стали неподвижными</div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>только настройки</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-reminders" data-title="Reminders"><p>Напомните себе о сообщении или о чём угодно.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация Reminders"><div class="mock-l"><span class="dim">&gt;</span> /remind in:10m about:позвонить</div><div class="mock-l"><span class="value">Напоминание</span> позвонить, со звуком</div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>ваш ПК</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-message-archive" data-title="MessageArchive"><p>Сохраняет изменённые и удалённые сообщения видимыми в чате.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация MessageArchive"><div class="mock-l"><span class="risk">удалено</span> увидимся в 8</div><div class="mock-l">увидимся в 9 <span class="dim">(изменено)</span></div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>ваш ПК, 7 дней</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-second-account" data-title="Окно второго аккаунта"><p>Переключайтесь между двумя аккаунтами Discord одним сочетанием клавиш.</p><div class="mock" role="img" aria-label="Нарисованная иллюстрация окна второго аккаунта"><div class="mock-l"><span class="value">Ctrl+Shift+2</span> Аккаунт 1 и аккаунт 2</div><div class="mock-l dim">Оба остаются подключёнными</div><div class="mock-l dim cap">Иллюстрация, а не скриншот.</div></div><dl><dt>Что сохраняет</dt><dd>отдельный вход на вашем ПК</dd><dt>Сервер Discord+</dt><dd>нет</dd><dt>Риск</dt><dd>нет</dd></dl></div>
+<div class="help-src" id="help-more" data-title="Все плагины"><p>Для Discord+ написано одиннадцать плагинов и окно второго аккаунта. Каталог объясняет каждый из них и позволяет искать по нему.</p><p class="dim">Все плагины Vencord на месте, на той же странице настроек.</p></div>
+</section>
+
+<section class="pane install" aria-labelledby="install-title">
+<h2 class="pane-title" id="install-title">Установка</h2>
+<p>Одна команда в PowerShell в Windows:</p>
+<div class="gap8"></div>
+<div class="cmd"><code><span class="prompt"></span><span class="seg">irm https://discordplus.karatel.win/<wbr>install.ps1</span> <span class="seg">| iex</span></code><button class="btn" type="button" data-copy id="install-copy">Копировать<span class="fkey"> (F10)</span></button></div>
+<p class="sub">Нужны Git и Node.js 22 или новее. Установщик спросит, какой Discord патчить. macOS или Linux? На <a href="/ru/install">странице установки</a> есть команда для Терминала. Проверено на Linux, на macOS пока нет.</p>
+<p class="sub risk-line">Клиентские моды нарушают правила Discord, а AutoQuest самая рискованная часть. <a href="#warn-title">Прочитайте предупреждение</a>.</p>
+<div class="actions">
+<a class="btn alt" href="/install.ps1">Сначала прочитайте скрипт</a>
+<a class="btn alt" href="/ru/install">По шагам</a>
+</div>
+</section>
+</div>
+</div>
+
+<div class="block">
+<section class="pane" aria-labelledby="storage-title">
+<h2 class="pane-title" id="storage-title">Хранение данных</h2>
+<p class="lead70">Где каждый плагин хранит данные и что отправляет наружу. Аккаунта и слежки нет. Единственный контакт с сервером Discord+ это проверка MyProfile, которая отправляет ID пользователей, и её можно выключить.</p>
+<div class="table"><div class="tr th"><span>Плагин</span><span>Остаётся включённым</span><span class="c3">Что уходит на сервер Discord+</span></div><div class="tr"><span>MessageArchive</span><span>ваш ПК, 7 дней</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>NicknameHistory</span><span>ваш ПК</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>LastSeen</span><span>ваш ПК</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>UserTags</span><span>ваш ПК</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>Reminders</span><span>ваш ПК</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>Idle Lounge</span><span>файл на вашем ПК</span><span class="g c3" data-label="Sent to the Discord+ server: ">никогда</span></div><div class="tr"><span>MyProfile</span><span>ваш ПК</span><span class="r c3" data-label="Sent to the Discord+ server: ">проверка значков по ID пользователей, если включена</span></div></div>
+</section>
+
+<section class="pane warn" aria-labelledby="warn-title">
+<h2 class="pane-title" id="warn-title">Предупреждение</h2>
+<p class="lead76">Клиентские моды, включая Discord+, нарушают условия использования Discord. AutoQuest самая рискованная часть: пользователи сообщают о временной блокировке заданий за то, что Discord называет недобросовестным выполнением заданий. Используйте его на аккаунте, который не жалко потерять, или оставьте этот плагин выключенным. Вы используете Discord+ на свой страх и риск.</p>
+</section>
+
+<section class="pane faq" aria-labelledby="faq-title">
+<h2 class="pane-title" id="faq-title">Вопросы</h2>
+<details><summary>Безопасно ли пользоваться Discord+?</summary><div class="answer"><p>Код открыт, поэтому можно прочитать каждую строку, и ничего из сохранённого не покидает ваш ПК, кроме запросов MyProfile из таблицы выше.</p><p>Клиентские моды, включая Discord+, нарушают условия использования Discord, и Discord может принимать меры против аккаунтов, которые ими пользуются. AutoQuest повышает этот риск. Вы используете Discord+ на свой страх и риск.</p></div></details><details><summary>На каких системах он работает?</summary><div class="answer"><p>Проверено в Windows со стабильным приложением Discord. Также работает в Linux (проверено на Arch с официальным пакетом Discord). Установщик для macOS есть, но его ещё не проверяли, поэтому если он сломается, создайте обращение.</p></div></details><details><summary>Нужно ли сначала удалять Vencord?</summary><div class="answer"><p>Удалять его вручную не нужно. Установщик направляет Discord на Discord+. Discord+ читает ту же папку настроек, что и Vencord, поэтому ваши настройки Vencord сохраняются.</p></div></details><details><summary>Что такое номер участника?</summary><div class="answer"><p>Если MyProfile включён, Discord+ присваивает вашему аккаунту номер по порядку прихода и записывает дату вступления. Другие пользователи Discord+ видят его значком в вашем профиле. Это настройка, её можно отключить, и тогда ничего не отправляется.</p></div></details><details><summary>Сколько это стоит?</summary><div class="answer"><p>Ничего. Это свободное ПО под лицензией GNU General Public License v3.0.</p></div></details><details><summary>Как обновить или удалить?</summary><div class="answer"><p>Discord+ обновляется сам. Пока Discord открыт, он каждые полчаса проверяет новую версию, скачивает и собирает её и показывает уведомление. Вы один раз перезапускаете Discord и оказываетесь на новой версии.</p><p>Чтобы удалить его, выполните <code>pnpm uninject</code> в папке Discord+. Подробности на <a href="/ru/install">странице установки</a>.</p></div></details>
+</section>
+</div>
+</div>
+</main>
+<footer>
+<div class="notice" id="notice" role="region" aria-label="Уведомление">
+<p>Без cookie и аналитики. В этом браузере сохраняется только выбранная тема. <a href="/ru/privacy">Подробнее</a></p>
+<button class="btn" type="button">Понятно</button>
+</div>
+<div class="wrap foot">
+<div class="links">
+<a href="/ru/privacy">Конфиденциальность</a>
+<a href="/ru/terms">Условия</a>
+<a href="/ru/support">Поддержать проект</a>
+<a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Исходный код на GitHub</a>
+<a href="https://github.com/rossinskiy/discord-plus/issues" rel="noopener">Сообщить о проблеме</a>
+<a href="https://github.com/rossinskiy/discord-plus/blob/main/LICENSE" rel="noopener">Лицензия GPL-3.0</a>
+<a href="https://github.com/Vendicated/Vencord" rel="noopener">Vencord</a>
+</div>
+<p>Discord+ это бесплатный форк Vencord с открытым кодом для приложения Discord на компьютере. Он не связан с Discord Inc. и проектом Vencord.</p>
+<p>&copy; <span data-year>2026</span> Discord+. Распространяется под лицензией GNU General Public License v3.0.</p>
+</div>
+</footer>
+<div class="dock">
+<div class="keys"><div class="wrap"><span><span class="hint-keys"><kbd>Up</kbd><kbd>Down</kbd>Выбрать пункт</span></span><span><span class="hint-keys"><kbd>Enter</kbd>Включить или выключить</span></span><span><span class="hint-keys"><kbd>F10</kbd>Скопировать команду установки</span></span><span><span class="hint-keys"><kbd>Esc</kbd>Сбросить предпросмотр</span></span></div></div>
+</div>
+<button class="btn to-top" type="button" aria-label="Наверх">Наверх</button>
+</body>
+</html>

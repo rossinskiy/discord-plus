@@ -6,6 +6,14 @@
     font-display: swap;
 }
 
+/* VT323 has no Cyrillic. Russian text falls back to a system monospace face, scaled so it sits on the same character grid. */
+@font-face {
+    font-family: "VT323 Cyrillic";
+    src: local("Consolas"), local("Cascadia Mono"), local("DejaVu Sans Mono"), local("Liberation Mono"), local("Menlo");
+    unicode-range: U+0400-04FF;
+    size-adjust: 74%;
+}
+
 /* A firmware setup screen. Dark is the classic blue field, light is a pale UEFI sheet.
    Everything sits on character cells: one bitmap face, two sizes, double-line frames. */
 :root {
@@ -26,7 +34,7 @@
     --focus: #ffff55;
     --value-ink: #000000;
     --code: #000070;
-    --font: "VT323", "Cascadia Mono", Consolas, "Lucida Console", monospace;
+    --font: "VT323", "VT323 Cyrillic", "Cascadia Mono", Consolas, "Lucida Console", monospace;
     --cell: 22px;
     color-scheme: dark;
 }
@@ -544,3 +552,9 @@ progress::-moz-progress-bar { background: var(--ok); }
 .wallet { margin-top: 16px; }
 .wallet-name { margin-bottom: 4px; }
 .wallet .cmd code { font-size: inherit; }
+
+/* a long value (Russian text is longer) wraps under the name on a narrow screen instead of pushing the page sideways */
+@media (max-width: 700px) {
+    html[lang="ru"] .row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    html[lang="ru"] .row .val { white-space: normal; }
+}

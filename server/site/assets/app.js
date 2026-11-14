@@ -1,6 +1,7 @@
 (function () {
     "use strict";
 
+    var RU = document.documentElement.lang === "ru";
     var $ = function (sel, root) { return (root || document).querySelector(sel); };
     var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
     var store = {
@@ -19,7 +20,7 @@
         return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     }
     function paintThemeLabel() {
-        if (themeBtn) themeBtn.textContent = "Theme: " + (currentTheme() === "light" ? "Light" : "Dark");
+        if (themeBtn) themeBtn.textContent = (RU ? "Тема: " : "Theme: ") + (currentTheme() === "light" ? (RU ? "светлая" : "Light") : (RU ? "тёмная" : "Dark"));
     }
     if (themeBtn) {
         paintThemeLabel();
@@ -110,9 +111,9 @@
     $$("[data-copy]").forEach(function (btn) {
         btn.addEventListener("click", function () {
             copy(commandText(btn)).then(function () {
-                flash(btn, "Copied");
+                flash(btn, RU ? "Скопировано" : "Copied");
                 markStep(btn);
-            }, function () { flash(btn, "Select it and press Ctrl+C"); });
+            }, function () { flash(btn, RU ? "Выделите и нажмите Ctrl+C" : "Select it and press Ctrl+C"); });
         });
     });
 
@@ -140,13 +141,13 @@
         };
         var paint = function () {
             var on = toggles.filter(function (r) { return r.dataset.on === "true"; }).length;
-            if (count) count.textContent = on + " of " + toggles.length;
+            if (count) count.textContent = on + (RU ? " из " : " of ") + toggles.length;
         };
         var setState = function (row, on) {
             row.dataset.on = String(on);
             row.setAttribute("aria-pressed", String(on));
             var val = $(".val", row);
-            val.textContent = on ? "[Enabled]" : "[Disabled]";
+            val.textContent = on ? (RU ? "[Вкл.]" : "[Enabled]") : (RU ? "[Выкл.]" : "[Disabled]");
             val.dataset.on = String(on);
         };
 
@@ -220,7 +221,7 @@
             $$(".group", catalog).forEach(function (g) {
                 g.hidden = !$$(".item", g).some(function (i) { return !i.hidden; });
             });
-            shown.textContent = n + " of " + items.length + " shown";
+            shown.textContent = RU ? "Показано " + n + " из " + items.length : n + " of " + items.length + " shown";
             empty.hidden = n !== 0;
         };
         input.addEventListener("input", apply);

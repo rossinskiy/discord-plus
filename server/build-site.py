@@ -8,6 +8,10 @@ wallets, a Support page and its links are built too, otherwise there is none.
 import html as H
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from localize import localize  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, "site")
@@ -586,9 +590,40 @@ def support_page():
             + top("support") + body + bottom(['<span>Copy an address and check it against the repository</span>']))
 
 
-def write(name, content):
-    with open(os.path.join(SITE, name), "w", encoding="utf-8", newline="\n") as f:
+PATHS = {"index.html": "/", "plugins.html": "/plugins", "install.html": "/install", "privacy.html": "/privacy",
+         "terms.html": "/terms", "support.html": "/support"}
+MISSING = set()
+NL = chr(10)
+
+
+def write_raw(name, content):
+    full = os.path.join(SITE, name)
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    with open(full, "w", encoding="utf-8", newline=NL) as f:
         f.write(content)
+
+
+def write(name, content):
+    """Writes the English page and its Russian twin under /ru, each with a link to the other language."""
+    path = PATHS.get(name)
+    if path:
+        alt = NL.join([f'<link rel="alternate" hreflang="en" href="{ORIGIN}{path}">',
+                       f'<link rel="alternate" hreflang="ru" href="{ORIGIN}/ru{path}">',
+                       f'<link rel="alternate" hreflang="x-default" href="{ORIGIN}{path}">', ""])
+        content = content.replace('<link rel="icon"', alt + '<link rel="icon"', 1)
+    en_page = content
+    ru_page = localize(content, path or "", MISSING)
+    if path:
+        en_link = f'<a class="lang" href="/ru{"" if path == "/" else path}" hreflang="ru" lang="ru" aria-label="Русская версия сайта">RU</a>'
+        ru_link = f'<a class="lang" href="{path}" hreflang="en" lang="en" aria-label="English version of the site">EN</a>'
+        marker = '<button class="tool" id="theme"'
+        en_page = en_page.replace(marker, en_link + marker, 1)
+        ru_page = ru_page.replace(marker, ru_link + marker, 1)
+        ru_url = ORIGIN + ("/ru" if path == "/" else "/ru" + path)
+        ru_page = ru_page.replace(f'<link rel="canonical" href="{ORIGIN}{path}">', f'<link rel="canonical" href="{ru_url}">', 1)
+        ru_page = ru_page.replace(f'<meta property="og:url" content="{ORIGIN}{path}">', f'<meta property="og:url" content="{ru_url}">', 1)
+    write_raw(name, en_page)
+    write_raw("ru/" + name, ru_page)
 
 
 priv = extract_prose("privacy")
@@ -608,6 +643,23 @@ if HAS_SUPPORT:
 # the sitemap lists exactly the pages that exist
 pages = ["/", "/plugins", "/install", "/privacy", "/terms"] + (["/support"] if HAS_SUPPORT else [])
 NL = chr(10)
-urls = "".join("  <url><loc>" + ORIGIN + path + "</loc></url>" + NL for path in pages)
-write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>' + NL + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + NL + urls + "</urlset>" + NL)
+
+
+def sitemap_entry(path):
+    ru_path = "/ru" + ("/" if path == "/" else path)
+    links = (f'<xhtml:link rel="alternate" hreflang="en" href="{ORIGIN}{path}"/>'
+             f'<xhtml:link rel="alternate" hreflang="ru" href="{ORIGIN}{ru_path}"/>')
+    return "".join(f"  <url><loc>{ORIGIN}{loc}</loc>{links}</url>" + NL for loc in (path, ru_path))
+
+
+urls = "".join(sitemap_entry(path) for path in pages)
+write_raw("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>' + NL + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">' + NL + urls + "</urlset>" + NL)
+if MISSING:
+    out = os.path.join(HERE, "i18n_missing.txt")
+    with open(out, "w", encoding="utf-8", newline=NL) as f:
+        for key in sorted(MISSING):
+            f.write(key.replace(NL, " ") + NL)
+    print(f"{len(MISSING)} strings have no Russian translation yet, see server/i18n_missing.txt")
+elif os.path.exists(os.path.join(HERE, "i18n_missing.txt")):
+    os.remove(os.path.join(HERE, "i18n_missing.txt"))
 print("built")
