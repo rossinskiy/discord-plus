@@ -59,9 +59,9 @@ function getTaskType(quest: any): TaskType | undefined {
 function findPendingQuest() {
     const quests: any[] = [...QuestsStore.quests.values()];
     for (const q of quests) {
-        if (q.userStatus?.enrolledAt && !q.userStatus?.completedAt && !getTaskType(q) && !warnedQuests.has(q.id)) {
+        if (q.userStatus?.enrolledAt && !q.userStatus?.completedAt && !getTaskType(q) && !warnedQuests.has(q.id) && !Object.keys(q?.config?.taskConfigV2?.tasks ?? {}).some(k => k.startsWith("ACHIEVEMENT_IN_ACTIVITY"))) {
             warnedQuests.add(q.id);
-            console.warn("[AutoQuest] unsupported quest task types", q.id, Object.keys(q?.config?.taskConfigV2?.tasks ?? {}));
+            console.warn("[AutoQuest] unsupported quest task types", q.id, JSON.stringify(Object.keys(q?.config?.taskConfigV2?.tasks ?? {})));
         }
     }
     return quests.find(q =>
@@ -186,6 +186,7 @@ async function completeDesktopGame(quest: any, task: TaskType) {
         store.getGameForPID = (p: number) => fakeGames.find(g => g.pid === p);
         FluxDispatcher.dispatch({ type: "RUNNING_GAMES_CHANGE", removed: realGames, added: [fakeGame], games: fakeGames });
     };
+    console.log(`[AutoQuest] faking "${app.name}" (${exeName}, app ${applicationId}) for quest ${quest.id}`);
     assertFakeGame();
     const reassert = setInterval(assertFakeGame, 4000);
 
@@ -212,6 +213,7 @@ async function completeDesktopGame(quest: any, task: TaskType) {
                 if (progress >= needed) done();
             };
             // No progress for 4 minutes means Discord is not counting the fake game; give up so the next quest can run.
+            const onHeartbeatFailure = (data: any) => console.warn("[AutoQuest] heartbeat failed", JSON.stringify(data)?.slice(0, 300));
             const poll = setInterval(() => {
                 if (stopped) done();
                 else if (Date.now() - lastChange > 240_000) { cleanup(); reject(new Error("no progress for 4 minutes")); }
@@ -224,9 +226,11 @@ async function completeDesktopGame(quest: any, task: TaskType) {
                 clearInterval(poll);
                 clearTimeout(timeout);
                 FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", onHeartbeat);
+                FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_FAILURE", onHeartbeatFailure);
             };
             const done = () => { cleanup(); resolve(); };
             FluxDispatcher.subscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", onHeartbeat);
+            FluxDispatcher.subscribe("QUESTS_SEND_HEARTBEAT_FAILURE", onHeartbeatFailure);
         });
     } finally {
         restore();
@@ -288,6 +292,7 @@ async function runNext() {
     const name = quest.config.messages?.questName ?? quest.config.application?.name ?? "quest";
 
     running = true;
+    console.log(`[AutoQuest] starting "${name}" (${quest.id}), task ${task}`);
     toast(`Auto Quest: working on "${name}"`);
 
     try {
