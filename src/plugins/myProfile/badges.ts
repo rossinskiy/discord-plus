@@ -99,7 +99,7 @@ export function imageToBadge(file: File): Promise<string> {
 }
 
 // What the server says about other people, cached for a while.
-const CACHE_MS = 10 * 60_000;
+const CACHE_MS = 60_000;
 const cache = new Map<string, { ids: string[]; uid?: number; joined?: number; at: number; }>();
 const queue = new Set<string>();
 let flushTimer: ReturnType<typeof setTimeout> | undefined;
