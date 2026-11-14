@@ -133,6 +133,7 @@ export default definePlugin({
     authors: [Devs.Tsar],
     description: "Put your own badges and display name on your profile, visible only to you, and show Discord+ badges (handed out by the server owner) on other Discord+ users.",
     tags: ["Appearance", "Customisation"],
+    required: true,
     settings,
 
     async start() {
