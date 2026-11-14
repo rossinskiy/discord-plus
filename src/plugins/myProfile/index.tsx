@@ -15,7 +15,7 @@ import {
     cachedOfficialBadges, cachedProfile, clearBadgeCache, configureRemote, loadLocalBadges, loadSelf, localBadges, officialById,
     registerSelf, requestBadges, uidBadgeInfo
 } from "./badges";
-import { settings } from "./settings";
+import { DEFAULT_SERVER, settings } from "./settings";
 
 // UserStore.getCurrentUser() ends up calling getUser(), which this plugin wraps, so the id has to be
 // looked up with a guard against calling itself and then remembered.
@@ -52,7 +52,7 @@ const endBadges = localBadgeFor("end");
 const officialBadges: ProfileBadge = {
     id: "myprofile-official",
     position: BadgePosition.START,
-    shouldShow: () => settings.store.showOfficialBadges,
+    shouldShow: () => true,
     getBadges: ({ userId }: BadgeUserArgs) => cachedOfficialBadges(userId)
         .map(officialById)
         .filter(b => !!b)
@@ -63,7 +63,7 @@ const officialBadges: ProfileBadge = {
 const uidBadge: ProfileBadge = {
     id: "myprofile-uid",
     position: BadgePosition.END,
-    shouldShow: () => settings.store.showOfficialBadges,
+    shouldShow: () => true,
     getBadges: ({ userId }: BadgeUserArgs) => {
         const { uid, joined } = cachedProfile(userId);
         if (!uid) return [];
@@ -120,7 +120,7 @@ function installNameOverride() {
 
 function joinList() {
     const id = UserStore.getCurrentUser()?.id;
-    if (id && settings.store.joinUserList) registerSelf(id);
+    if (id) registerSelf(id);
 }
 
 const onMessages = ({ messages }: { messages?: { author?: { id: string; }; }[]; }) =>
@@ -139,7 +139,7 @@ export default definePlugin({
     async start() {
         await loadLocalBadges();
         await loadSelf();
-        configureRemote(settings.store.serverUrl, settings.store.showOfficialBadges);
+        configureRemote(DEFAULT_SERVER, true);
 
         addProfileBadge(startBadges);
         addProfileBadge(endBadges);

@@ -11,7 +11,7 @@ import { OptionType } from "@utils/types";
 import { Forms, React, useEffect, useState } from "@webpack/common";
 
 import {
-    addLocalBadge, clearBadgeCache, configureRemote, imageToBadge, localBadges,
+    addLocalBadge, imageToBadge, localBadges,
 mySelf, removeLocalBadge, subscribe,
 uidBadgeInfo } from "./badges";
 import { StaffPanel } from "./StaffPanel";
@@ -96,7 +96,6 @@ function MyUid() {
     const [, force] = useState(0);
     useEffect(() => subscribe(() => force(n => n + 1)), []);
 
-    if (!settings.store.joinUserList) return <Forms.FormText>{t("You are not on the Discord+ user list.")}</Forms.FormText>;
     if (!mySelf) return <Forms.FormText>{t("Not signed up yet. This happens by itself the next time you start Discord with the plugin on.")}</Forms.FormText>;
 
     const info = uidBadgeInfo(mySelf.uid, mySelf.joined);
@@ -120,33 +119,10 @@ export const settings = definePluginSettings({
         description: t("Your username (the one without the nickname, like in @mentions and the profile) as you see it. Only you see it. Press Ctrl+R after changing it."),
         default: ""
     },
-    showOfficialBadges: {
-        type: OptionType.BOOLEAN,
-        description: t("Show Discord+ badges on other people's profiles. This asks the Discord+ server which of the users you look at have one, sending their user IDs."),
-        default: true,
-        onChange: () => {
-            clearBadgeCache();
-            configureRemote(settings.store.serverUrl, settings.store.showOfficialBadges);
-        }
-    },
-    joinUserList: {
-        type: OptionType.BOOLEAN,
-        description: "Join the Discord+ user list: you get a member number, and others with Discord+ see a badge on your profile saying that you use it and since when. This sends your Discord user ID to the Discord+ server once. Turn it off to stay off the list.",
-        default: true
-    },
     uid: {
         type: OptionType.COMPONENT,
         description: t("Your member number"),
         component: MyUid
-    },
-    serverUrl: {
-        type: OptionType.STRING,
-        description: t("Address of the Discord+ server that keeps the badge list"),
-        default: DEFAULT_SERVER,
-        onChange: () => {
-            clearBadgeCache();
-            configureRemote(settings.store.serverUrl, settings.store.showOfficialBadges);
-        }
     },
     adminToken: {
         type: OptionType.STRING,
