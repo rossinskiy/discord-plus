@@ -5,6 +5,7 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { Modal, openModal, useEffect, useRef, useState } from "@webpack/common";
 
@@ -17,13 +18,13 @@ import { Goals } from "./Goals";
 import { Play } from "./Play";
 
 const TABS = [
-    { id: "farm", label: "Garden" },
-    { id: "fishing", label: "Fishing" },
-    { id: "bricks", label: "Bricks" },
-    { id: "goals", label: "Goals" },
-    { id: "play", label: "Play" },
-    { id: "fidget", label: "Fidget" },
-    { id: "chill", label: "Chill" }
+    { id: "farm", label: t("Garden") },
+    { id: "fishing", label: t("Fishing") },
+    { id: "bricks", label: t("Bricks") },
+    { id: "goals", label: t("Goals") },
+    { id: "play", label: t("Play") },
+    { id: "fidget", label: t("Fidget") },
+    { id: "chill", label: t("Chill") }
 ] as const;
 
 type TabId = typeof TABS[number]["id"];
@@ -56,7 +57,7 @@ function LoungeModal({ modalProps }: { modalProps: RenderModalProps; }) {
     }, []);
 
     return (
-        <Modal {...modalProps} size="xl" title="Idle Lounge">
+        <Modal {...modalProps} size="xl" title={t("Idle Lounge")}>
             <div className="vc-lounge" ref={rootRef}>
                 <div className="vc-lounge-tabs" role="tablist">
                     {TABS.map(t => (

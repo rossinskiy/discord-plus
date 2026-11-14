@@ -6,6 +6,7 @@
 
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { Forms, Modal, openModal, showToast, TextArea, TextInput, Toasts, UserStore,useState } from "@webpack/common";
@@ -49,9 +50,9 @@ function TagsModal({ modalProps, userId }: { modalProps: RenderModalProps; userI
 
     return (
         <Modal {...modalProps} size="md" title={`Tags & Notes: ${user?.globalName ?? user?.username ?? userId}`}>
-            <Forms.FormTitle>Tags</Forms.FormTitle>
+            <Forms.FormTitle>{t("Tags")}</Forms.FormTitle>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }} className={Margins.bottom8}>
-                {tags.length === 0 && <Forms.FormText>No tags yet.</Forms.FormText>}
+                {tags.length === 0 && <Forms.FormText>{t("No tags yet.")}</Forms.FormText>}
                 {tags.map(tag => (
                     <Button key={tag} size="small" variant="secondary" onClick={() => setTags(tags.filter(t => t !== tag))}>
                         {tag} ×
@@ -61,7 +62,7 @@ function TagsModal({ modalProps, userId }: { modalProps: RenderModalProps; userI
             <div style={{ display: "flex", gap: 8 }} className={Margins.bottom16}>
                 <TextInput
                     value={draft}
-                    placeholder="Add a tag and press Enter"
+                    placeholder={t("Add a tag and press Enter")}
                     onChange={setDraft}
                     onKeyDown={(e: React.KeyboardEvent) => {
                         if (e.key === "Enter") {
@@ -73,19 +74,19 @@ function TagsModal({ modalProps, userId }: { modalProps: RenderModalProps; userI
                 <Button size="small" onClick={addTag}>Add</Button>
             </div>
 
-            <Forms.FormTitle>Private note</Forms.FormTitle>
+            <Forms.FormTitle>{t("Private note")}</Forms.FormTitle>
             <TextArea
                 value={note}
                 onChange={setNote}
                 rows={5}
                 maxLength={2000}
-                placeholder="Only you can see this"
+                placeholder={t("Only you can see this")}
                 className={Margins.bottom16}
             />
 
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
-                <Button variant="secondary" onClick={modalProps.onClose}>Cancel</Button>
-                <Button variant="primary" disabled={saving} onClick={save}>Save</Button>
+                <Button variant="secondary" onClick={modalProps.onClose}>{t("Cancel")}</Button>
+                <Button variant="primary" disabled={saving} onClick={save}>{t("Save")}</Button>
             </div>
         </Modal>
     );

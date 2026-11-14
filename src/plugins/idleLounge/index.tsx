@@ -11,6 +11,7 @@ import { ApplicationCommandInputType } from "@api/Commands";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { React, showToast, Toasts } from "@webpack/common";
 
@@ -40,9 +41,9 @@ function Controls() {
 
     return (
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-            <Button size="small" onClick={openLoungeModal}>Open the lounge</Button>
+            <Button size="small" onClick={openLoungeModal}>{t("Open the lounge")}</Button>
             {diskAvailable() && (
-                <Button size="small" variant="secondary" onClick={() => revealSavePath()}>Show save file</Button>
+                <Button size="small" variant="secondary" onClick={() => revealSavePath()}>{t("Show save file")}</Button>
             )}
             <Button
                 size="small"
@@ -63,7 +64,7 @@ function Controls() {
 const settings = definePluginSettings({
     controls: {
         type: OptionType.COMPONENT,
-        description: "Open the lounge or wipe your save",
+        description: t("Open the lounge or wipe your save"),
         component: Controls
     }
 });
@@ -98,7 +99,7 @@ export default definePlugin({
     commands: [
         {
             name: "lounge",
-            description: "Open the Idle Lounge",
+            description: t("Open the Idle Lounge"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute() {
                 openLoungeModal();

@@ -26,6 +26,7 @@ import { HeadingSecondary } from "@components/Heading";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
@@ -44,8 +45,8 @@ function VesktopSection() {
     return (
         <Flex className={Margins.bottom20} flexDirection="column" gap="1em">
             <Card variant="info">
-                <HeadingSecondary>Vesktop & Vencord</HeadingSecondary>
-                <Paragraph>Vesktop and Vencord are two separate things. This updater is for Vencord.</Paragraph>
+                <HeadingSecondary>{t("Vesktop & Vencord")}</HeadingSecondary>
+                <Paragraph>{t("Vesktop and Vencord are two separate things. This updater is for Vencord.")}</Paragraph>
                 <Paragraph className={Margins.top8}>
                     You receive separate popups for Vesktop updates. You can also manually update by installing the <Link href="https://vesktop.dev/install">latest version</Link>.
                 </Paragraph>
@@ -53,10 +54,10 @@ function VesktopSection() {
 
             {isVesktopOutdated && (
                 <Card variant="warning">
-                    <HeadingSecondary>Vesktop Outdated</HeadingSecondary>
+                    <HeadingSecondary>{t("Vesktop Outdated")}</HeadingSecondary>
                     <Flex flexDirection="column" gap="0.5em">
-                        <Paragraph>Your version of Vesktop is outdated!</Paragraph>
-                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>Open Vesktop Updater</Button>
+                        <Paragraph>{t("Your version of Vesktop is outdated!")}</Paragraph>
+                        <Button variant="link" onClick={() => VesktopNative.app.openUpdater()}>{t("Open Vesktop Updater")}</Button>
                     </Flex>
                 </Card>
             )}
@@ -83,29 +84,29 @@ function Updater() {
 
             <div className="vc-settings-switches">
                 <FormSwitch
-                    title="Automatically update"
-                    description="Always on in Discord+. New versions are downloaded and built on their own, then you restart once."
+                    title={t("Automatically update")}
+                    description={t("Always on in Discord+. New versions are downloaded and built on their own, then you restart once.")}
                     value={true}
                     onChange={() => { }}
                     disabled
                     hideBorder
                 />
                 <FormSwitch
-                    title="Get notified when an automatic update completes"
-                    description="Show a notification when Discord+ has updated itself"
+                    title={t("Get notified when an automatic update completes")}
+                    description={t("Show a notification when Discord+ has updated itself")}
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
                     hideBorder
                 />
             </div>
 
-            <Forms.FormTitle tag="h5" className={Margins.top20}>Repo</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.top20}>{t("Repo")}</Forms.FormTitle>
 
             <Forms.FormText>
                 {repoPending
                     ? repo
                     : err
-                        ? "Failed to retrieve - check console"
+                        ? t("Failed to retrieve - check console")
                         : (
                             <Link href={repo}>
                                 {repo.split("/").slice(-2).join("/")}
@@ -118,7 +119,7 @@ function Updater() {
 
             <Divider className={classes(Margins.top16, Margins.bottom16)} />
 
-            <Forms.FormTitle tag="h5">Updates</Forms.FormTitle>
+            <Forms.FormTitle tag="h5">{t("Updates")}</Forms.FormTitle>
 
             {isNewer
                 ? <Newer {...commonProps} />

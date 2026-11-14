@@ -21,6 +21,7 @@ import { BackupRestoreIcon, CloudIcon, MainSettingsIcon, PaintbrushIcon, PatchHe
 import { BackupAndRestoreTab, CloudTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
 import { isTruthy } from "@utils/guards";
+import { t } from "@utils/i18n";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
 import { waitFor } from "@webpack";
 import { React } from "@webpack/common";
@@ -80,19 +81,19 @@ interface SettingsLayoutBuilder {
 const settings = definePluginSettings({
     settingsLocation: {
         type: OptionType.SELECT,
-        description: "Where to put the Vencord settings section",
+        description: t("Where to put the Vencord settings section"),
         options: [
-            { label: "At the very top", value: "top" },
-            { label: "Above the Nitro section", value: "aboveNitro", default: true },
-            { label: "Below the Nitro section", value: "belowNitro" },
-            { label: "Above Activity Settings", value: "aboveActivity" },
-            { label: "Below Activity Settings", value: "belowActivity" },
-            { label: "At the very bottom", value: "bottom" },
+            { label: t("At the very top"), value: "top" },
+            { label: t("Above the Nitro section"), value: "aboveNitro", default: true },
+            { label: t("Below the Nitro section"), value: "belowNitro" },
+            { label: t("Above Activity Settings"), value: "aboveActivity" },
+            { label: t("Below Activity Settings"), value: "belowActivity" },
+            { label: t("At the very bottom"), value: "bottom" },
         ] as { label: string; value: SettingsLocation; default?: boolean; }[]
     },
     includeVencordInfoWhenCopying: {
         type: OptionType.BOOLEAN,
-        description: "Also copy Vencord info (Vencord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
+        description: t("Also copy Vencord info (Vencord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page"),
         default: true
     }
 });
@@ -177,39 +178,39 @@ export default definePlugin({
             }),
             buildEntry({
                 key: "vencord_plugins",
-                title: "Plugins",
+                title: t("Plugins"),
                 Component: PluginsTab,
                 Icon: PluginsIcon
             }),
             buildEntry({
                 key: "vencord_themes",
-                title: "Themes",
+                title: t("Themes"),
                 Component: ThemesTab,
                 Icon: PaintbrushIcon
             }),
             !IS_UPDATER_DISABLED && UpdaterTab && buildEntry({
                 key: "vencord_updater",
-                title: "Updater",
+                title: t("Updater"),
                 panelTitle: "Discord+ Updater",
                 Component: UpdaterTab,
                 Icon: UpdaterIcon
             }),
             buildEntry({
                 key: "vencord_cloud",
-                title: "Cloud",
+                title: t("Cloud"),
                 panelTitle: "Discord+ Cloud",
                 Component: CloudTab,
                 Icon: CloudIcon
             }),
             buildEntry({
                 key: "vencord_backup_restore",
-                title: "Backup & Restore",
+                title: t("Backup & Restore"),
                 Component: BackupAndRestoreTab,
                 Icon: BackupRestoreIcon
             }),
             !IS_STANDALONE && PatchHelperTab && buildEntry({
                 key: "vencord_patch_helper",
-                title: "Patch Helper",
+                title: t("Patch Helper"),
                 Component: PatchHelperTab,
                 Icon: PatchHelperIcon
             }),

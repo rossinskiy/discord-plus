@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useRef, useState } from "@webpack/common";
 
 import { held } from "./input";
@@ -346,11 +347,11 @@ export function Parkour() {
     return (
         <div>
             <div className="vc-lounge-stats">
-                <span className="vc-lounge-coins">Rooftop run</span>
+                <span className="vc-lounge-coins">{t("Rooftop run")}</span>
                 <span className="vc-lounge-muted">best {stats.best} m, {stats.deaths} falls</span>
             </div>
             <div className="vc-lounge-playfield">
-                <canvas ref={ref} className="vc-lounge-arena" aria-label="Rooftop parkour" />
+                <canvas ref={ref} className="vc-lounge-arena" aria-label={t("Rooftop parkour")} />
             </div>
             <p className="vc-lounge-muted">
                 A and D or the arrows to run, Space or W to jump (tap for a short hop). Flags save your spot. Brown roofs crumble, blue ones move, mind the spikes.

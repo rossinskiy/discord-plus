@@ -27,6 +27,7 @@ import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/vencordUserAgent";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
+import { t, tPluginDescription } from "@utils/i18n";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
@@ -107,7 +108,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
     function renderSettings() {
         const { settings } = plugin;
         if (!hasSettings || !settings)
-            return <Forms.FormText>There are no settings for this plugin.</Forms.FormText>;
+            return <Forms.FormText>{t("There are no settings for this plugin.")}</Forms.FormText>;
 
         const options = Object.entries(settings.def).map(([key, setting]) => {
             if (setting.type === OptionType.CUSTOM) return null;
@@ -183,7 +184,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                 onClick={() => pluginSettings.isFavorite = !pluginSettings.isFavorite}
                             />
                             <WebsiteButton
-                                text="View more info"
+                                text={t("View more info")}
                                 href={
                                     isOwnPlugin
                                         ? `https://discordplus.karatel.win/plugins#${plugin.name.toLowerCase()}`
@@ -191,7 +192,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                 }
                             />
                             <GithubButton
-                                text="View source code"
+                                text={t("View source code")}
                                 href={`https://github.com/${gitRemote}/tree/main/src/plugins/${pluginMeta.folderName}`}
                             />
                         </div>
@@ -201,7 +202,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
             subtitle={
                 <div className={cl("info")}>
                     <div>
-                        <Forms.FormText>{plugin.description}</Forms.FormText>
+                        <Forms.FormText>{tPluginDescription(plugin.name, plugin.description)}</Forms.FormText>
                         {!!plugin.tags?.length && <PluginTags tags={plugin.tags} />}
                     </div>
                 </div>
@@ -209,7 +210,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
         >
             <div className={"vc-settings-modal-content"}>
                 <section>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>{t("Authors")}</Text>
                     <div style={{ width: "fit-content" }}>
                         <ErrorBoundary noop>
                             <UserSummaryItem
@@ -240,7 +241,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 {!!plugin.settingsAboutComponent && (
                     <div className={Margins.top16}>
                         <section>
-                            <ErrorBoundary message="An error occurred while rendering this plugin's custom Info Component">
+                            <ErrorBoundary message={t("An error occurred while rendering this plugin's custom Info Component")}>
                                 <plugin.settingsAboutComponent />
                             </ErrorBoundary>
                         </section>
@@ -248,7 +249,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 )}
 
                 <section>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>{t("Settings")}</Text>
                     {renderSettings()}
                 </section>
             </div>

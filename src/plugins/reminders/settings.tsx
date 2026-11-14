@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
 
@@ -22,17 +23,17 @@ function ViewButton() {
 export const settings = definePluginSettings({
     showToasts: {
         type: OptionType.BOOLEAN,
-        description: "Show a toast when a reminder is set and when it fires",
+        description: t("Show a toast when a reminder is set and when it fires"),
         default: true
     },
     playSound: {
         type: OptionType.BOOLEAN,
-        description: "Play a short chime when a reminder fires",
+        description: t("Play a short chime when a reminder fires"),
         default: true
     },
     view: {
         type: OptionType.COMPONENT,
-        description: "See and cancel upcoming reminders",
+        description: t("See and cancel upcoming reminders"),
         component: ViewButton
     }
 });

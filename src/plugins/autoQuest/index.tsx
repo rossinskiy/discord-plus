@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin, { OptionType } from "@utils/types";
 import { findStoreLazy } from "@webpack";
 import { ChannelStore, FluxDispatcher, RestAPI, RunningGameStore, showToast, Toasts } from "@webpack/common";
@@ -15,17 +16,17 @@ const QuestsStore = findStoreLazy("QuestStore");
 const settings = definePluginSettings({
     showToasts: {
         type: OptionType.BOOLEAN,
-        description: "Show a toast when a quest starts and when it finishes",
+        description: t("Show a toast when a quest starts and when it finishes"),
         default: true
     },
     autoClaim: {
         type: OptionType.BOOLEAN,
-        description: "Automatically claim the reward once a quest is completed (some rewards need a captcha or extra info and must be claimed by hand)",
+        description: t("Automatically claim the reward once a quest is completed (some rewards need a captcha or extra info and must be claimed by hand)"),
         default: true
     },
     checkMinutes: {
         type: OptionType.NUMBER,
-        description: "How often to look for newly accepted quests (minutes)",
+        description: t("How often to look for newly accepted quests (minutes)"),
         default: 5
     }
 });

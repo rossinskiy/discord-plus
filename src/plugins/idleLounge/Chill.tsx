@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useEffect, useState } from "@webpack/common";
 
 import { SPECIES, Species, state } from "./game";
@@ -13,14 +14,14 @@ import { Draw, useCanvas } from "./useCanvas";
 type Scene = "aquarium" | "fireplace" | "aurora" | "rain" | "zen" | "fireflies" | "lava" | "galaxy";
 
 const SCENES: { id: Scene; label: string; }[] = [
-    { id: "aquarium", label: "Aquarium" },
-    { id: "fireplace", label: "Fireplace" },
-    { id: "aurora", label: "Aurora" },
-    { id: "rain", label: "Rainy window" },
-    { id: "zen", label: "Zen garden" },
-    { id: "fireflies", label: "Fireflies" },
-    { id: "lava", label: "Lava lamp" },
-    { id: "galaxy", label: "Galaxy" }
+    { id: "aquarium", label: t("Aquarium") },
+    { id: "fireplace", label: t("Fireplace") },
+    { id: "aurora", label: t("Aurora") },
+    { id: "rain", label: t("Rainy window") },
+    { id: "zen", label: t("Zen garden") },
+    { id: "fireflies", label: t("Fireflies") },
+    { id: "lava", label: t("Lava lamp") },
+    { id: "galaxy", label: t("Galaxy") }
 ];
 
 const HINTS: Record<Scene, string> = {

@@ -11,6 +11,7 @@ import { Link } from "@components/Link";
 import { DevsById } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { fetchUserProfile } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { classes, pluralise } from "@utils/misc";
 import { RenderModalProps, User } from "@vencord/discord-types";
 import { Forms, Modal, openModal, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
@@ -101,7 +102,7 @@ function ContributorModal({ user, modalProps }: { user: User; modalProps: Render
                             key={p.name}
                             plugin={p}
                             disabled={p.required ?? false}
-                            onRestartNeeded={() => showToast("Restart to apply changes!")}
+                            onRestartNeeded={() => showToast(t("Restart to apply changes!"))}
                         />
                     )}
                 </div>

@@ -7,6 +7,7 @@
 import { useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { IS_MAC } from "@utils/constants";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { Forms, Select } from "@webpack/common";
@@ -18,14 +19,14 @@ export function MacOSVibrancySettings() {
 
     return (
         <ErrorBoundary noop>
-            <Forms.FormTitle tag="h5">MacOS Window vibrancy style (requires restart)</Forms.FormTitle>
+            <Forms.FormTitle tag="h5">{t("MacOS Window vibrancy style (requires restart)")}</Forms.FormTitle>
             <Select
                 className={Margins.bottom20}
-                placeholder="Window vibrancy style"
+                placeholder={t("Window vibrancy style")}
                 options={[
                     // Sorted from most opaque to most transparent
                     {
-                        label: "No vibrancy", value: undefined
+                        label: t("No vibrancy"), value: undefined
                     },
                     {
                         label: "Under Page (window tinting)",

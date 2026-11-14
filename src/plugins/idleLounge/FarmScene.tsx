@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useRef } from "@webpack/common";
 
 import { click, clickValue, formatNumber, owned } from "./game";
@@ -444,7 +445,7 @@ export function FarmCanvas() {
             ref={canvasRef}
             className="vc-lounge-farmcanvas"
             onPointerDown={onPointerDown}
-            aria-label="Your farm. Click anywhere to water it."
+            aria-label={t("Your farm. Click anywhere to water it.")}
         />
     );
 }

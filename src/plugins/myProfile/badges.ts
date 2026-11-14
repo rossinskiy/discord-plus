@@ -5,6 +5,7 @@
  */
 
 import * as DataStore from "@api/DataStore";
+import { t } from "@utils/i18n";
 import type { PluginNative } from "@utils/types";
 
 import { BADGE_ICONS, UID_ICONS } from "./badgeIcons";
@@ -23,12 +24,12 @@ export interface OfficialBadge {
 // The only badges other people can ever see. They are handed out by the server
 // owner, so nobody can claim one for themselves. The ids must match the server.
 export const OFFICIAL_BADGES: OfficialBadge[] = [
-    { id: "dev", name: "Discord+ Dev", description: "Discord+ Dev", icon: BADGE_ICONS.dev },
-    { id: "tester", name: "Discord+ Tester", description: "Discord+ Tester", icon: BADGE_ICONS.tester },
-    { id: "supporter", name: "Discord+ Supporter", description: "Discord+ Supporter", icon: BADGE_ICONS.supporter },
-    { id: "founder", name: "Discord+ Founder", description: "Discord+ Founder", icon: BADGE_ICONS.founder },
-    { id: "bughunter", name: "Discord+ Bug Hunter", description: "Discord+ Bug Hunter", icon: BADGE_ICONS.bughunter },
-    { id: "artist", name: "Discord+ Artist", description: "Discord+ Artist", icon: BADGE_ICONS.artist }
+    { id: "dev", name: t("Discord+ Dev"), description: t("Discord+ Dev"), icon: BADGE_ICONS.dev },
+    { id: "tester", name: t("Discord+ Tester"), description: t("Discord+ Tester"), icon: BADGE_ICONS.tester },
+    { id: "supporter", name: t("Discord+ Supporter"), description: t("Discord+ Supporter"), icon: BADGE_ICONS.supporter },
+    { id: "founder", name: t("Discord+ Founder"), description: t("Discord+ Founder"), icon: BADGE_ICONS.founder },
+    { id: "bughunter", name: t("Discord+ Bug Hunter"), description: t("Discord+ Bug Hunter"), icon: BADGE_ICONS.bughunter },
+    { id: "artist", name: t("Discord+ Artist"), description: t("Discord+ Artist"), icon: BADGE_ICONS.artist }
 ];
 
 export const officialById = (id: string) => OFFICIAL_BADGES.find(b => b.id === id);

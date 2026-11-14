@@ -6,6 +6,7 @@
 
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { Forms, Modal, openModal, showToast, TextInput, Toasts, useState } from "@webpack/common";
@@ -21,10 +22,10 @@ interface RemindTarget {
 }
 
 const QUICK_OPTIONS: { label: string; ms: number; }[] = [
-    { label: "20 min", ms: 20 * 60_000 },
-    { label: "1 hour", ms: 60 * 60_000 },
-    { label: "3 hours", ms: 3 * 60 * 60_000 },
-    { label: "Tomorrow", ms: 0 } // computed specially below
+    { label: t("20 min"), ms: 20 * 60_000 },
+    { label: t("1 hour"), ms: 60 * 60_000 },
+    { label: t("3 hours"), ms: 3 * 60 * 60_000 },
+    { label: t("Tomorrow"), ms: 0 } // computed specially below
 ];
 
 function tomorrowMorning(): number {
@@ -76,17 +77,17 @@ function RemindModal({ modalProps, target }: { modalProps: RenderModalProps; tar
     }
 
     return (
-        <Modal {...modalProps} size="small" title="Remind Me">
-            <Forms.FormTitle>What to remind you about</Forms.FormTitle>
+        <Modal {...modalProps} size="small" title={t("Remind Me")}>
+            <Forms.FormTitle>{t("What to remind you about")}</Forms.FormTitle>
             <TextInput
                 value={note}
                 onChange={setNote}
-                placeholder="Reminder text"
+                placeholder={t("Reminder text")}
                 maxLength={500}
                 className={Margins.bottom16}
             />
 
-            <Forms.FormTitle>When</Forms.FormTitle>
+            <Forms.FormTitle>{t("When")}</Forms.FormTitle>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }} className={Margins.bottom16}>
                 {QUICK_OPTIONS.map(opt => (
                     <Button
@@ -101,7 +102,7 @@ function RemindModal({ modalProps, target }: { modalProps: RenderModalProps; tar
                 ))}
             </div>
 
-            <Forms.FormTitle>Or a custom time</Forms.FormTitle>
+            <Forms.FormTitle>{t("Or a custom time")}</Forms.FormTitle>
             <div style={{ display: "flex", gap: 8 }}>
                 <TextInput
                     value={custom}

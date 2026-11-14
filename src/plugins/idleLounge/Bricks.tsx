@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
+
 import {
     autoCost, ballCost, brickLevelUp, buyBrickUpgrade, critCost, earnShards, formatNumber, magnetCost, MAX_AUTO, MAX_BALLS, MAX_CRIT,
     MAX_MAGNET, MAX_SPEED, MAX_SPLASH, powerCost, speedCost, splashCost, state
@@ -226,7 +228,7 @@ function Arena() {
         return draw;
     });
 
-    return <canvas ref={ref} className="vc-lounge-arena" aria-label="Bricks. Click to fire a fireball." />;
+    return <canvas ref={ref} className="vc-lounge-arena" aria-label={t("Bricks. Click to fire a fireball.")} />;
 }
 
 export function Bricks() {

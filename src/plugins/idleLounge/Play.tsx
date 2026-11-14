@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useState } from "@webpack/common";
 
 import { Circle } from "./Circle";
@@ -12,9 +13,9 @@ import { Knife } from "./Knife";
 import { Parkour } from "./Parkour";
 
 const GAMES = [
-    { id: "knife", label: "Knife flip" },
-    { id: "circle", label: "Run in circles" },
-    { id: "parkour", label: "Parkour" }
+    { id: "knife", label: t("Knife flip") },
+    { id: "circle", label: t("Run in circles") },
+    { id: "parkour", label: t("Parkour") }
 ] as const;
 
 type GameId = typeof GAMES[number]["id"];
@@ -25,7 +26,7 @@ export function Play() {
 
     return (
         <div>
-            <div className="vc-lounge-row-actions" role="group" aria-label="Pick a game">
+            <div className="vc-lounge-row-actions" role="group" aria-label={t("Pick a game")}>
                 {GAMES.map(g => (
                     <button
                         key={g.id}

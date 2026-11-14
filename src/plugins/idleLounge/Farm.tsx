@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useEffect, useState } from "@webpack/common";
 
 import { FarmCanvas } from "./FarmScene";
@@ -67,7 +68,7 @@ function Field() {
                     className="vc-lounge-butterfly"
                     style={{ left: `${butterfly.x}%`, top: `${butterfly.y}%` }}
                     onClick={onButterfly}
-                    aria-label="Catch the golden butterfly"
+                    aria-label={t("Catch the golden butterfly")}
                 >
                     <ButterflyIcon />
                 </button>
@@ -110,7 +111,7 @@ export function Farm() {
                         Click the field to water it. A golden butterfly drops by from time to time: catch it for a bonus.
                     </p>
 
-                    <div className="vc-lounge-section">Harvest</div>
+                    <div className="vc-lounge-section">{t("Harvest")}</div>
                     <p className="vc-lounge-muted">
                         Start the farm over for seeds. Each seed is a permanent +5% to everything. You hold {formatNumber(seedsAvailable())}.
                     </p>
@@ -131,8 +132,8 @@ export function Farm() {
                 </div>
 
                 <div className="vc-lounge-list">
-                    <div className="vc-lounge-row-actions" role="group" aria-label="Buy amount">
-                        <span className="vc-lounge-muted">Buy:</span>
+                    <div className="vc-lounge-row-actions" role="group" aria-label={t("Buy amount")}>
+                        <span className="vc-lounge-muted">{t("Buy:")}</span>
                         {[1, 10, 100, 0].map(a => (
                             <button
                                 key={a}

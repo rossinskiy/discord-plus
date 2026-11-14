@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
 
@@ -22,12 +23,12 @@ function BrowseButton() {
 export const settings = definePluginSettings({
     showInMessages: {
         type: OptionType.BOOLEAN,
-        description: "Show a person's tags next to their name in chat",
+        description: t("Show a person's tags next to their name in chat"),
         default: true
     },
     browse: {
         type: OptionType.COMPONENT,
-        description: "Filter everyone you've tagged by tag",
+        description: t("Filter everyone you've tagged by tag"),
         component: BrowseButton
     }
 });

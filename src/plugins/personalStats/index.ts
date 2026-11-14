@@ -7,6 +7,7 @@
 import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import * as DataStore from "@api/DataStore";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import { ChannelStore, FluxDispatcher, SelectedChannelStore, UserStore } from "@webpack/common";
 
@@ -152,7 +153,7 @@ export default definePlugin({
 
     commands: [{
         name: "stats",
-        description: "Show your own Discord activity numbers",
+        description: t("Show your own Discord activity numbers"),
         inputType: ApplicationCommandInputType.BUILT_IN,
         execute(_, ctx) {
             sendBotMessage(ctx.channel.id, { content: buildReport() });

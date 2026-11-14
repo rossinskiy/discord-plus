@@ -1,27 +1,16 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import { saveFile } from "@utils/web";
 import type { Channel } from "@vencord/discord-types";
-import { ChannelStore, Menu, RestAPI, showToast, Toasts, UserStore } from "@webpack/common";
+import { Menu, RestAPI, showToast, Toasts, UserStore } from "@webpack/common";
 
 const PAGE_SIZE = 100;
 let exporting = false;
@@ -59,7 +48,7 @@ async function exportChannel(channel: Channel) {
 
     exporting = true;
     const toastId = Toasts.genId();
-    Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: "Starting export..." });
+    Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: t("Starting export...") });
 
     // The toast UI has a minimum display duration per update, so calling Toasts.show()
     // on every page (which can complete many times a second) queues up a huge backlog
@@ -122,7 +111,7 @@ const ExportMenuItem: NavContextMenuPatchCallback = (children, { channel }: { ch
     group.push(
         <Menu.MenuItem
             id="vc-bulk-export"
-            label="Export Messages"
+            label={t("Export Messages")}
             action={() => exportChannel(channel)}
         />
     );

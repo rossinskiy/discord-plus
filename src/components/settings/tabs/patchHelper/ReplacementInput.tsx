@@ -5,6 +5,7 @@
  */
 
 import { FormSwitch } from "@components/FormSwitch";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { Forms, Parser, TextInput, useEffect, useState } from "@webpack/common";
 
@@ -52,7 +53,7 @@ export function ReplacementInput({ replacement, setReplacement, replacementError
     return (
         <>
             {/* FormTitle adds a class if className is not set, so we set it to an empty string to prevent that */}
-            <Forms.FormTitle className="">Replacement</Forms.FormTitle>
+            <Forms.FormTitle className="">{t("Replacement")}</Forms.FormTitle>
             <TextInput
                 value={replacement?.toString()}
                 onChange={onChange}
@@ -60,7 +61,7 @@ export function ReplacementInput({ replacement, setReplacement, replacementError
             />
             {!isFunc && (
                 <div>
-                    <Forms.FormTitle className={Margins.top8}>Cheat Sheet</Forms.FormTitle>
+                    <Forms.FormTitle className={Margins.top8}>{t("Cheat Sheet")}</Forms.FormTitle>
 
                     {Object.entries(RegexGuide).map(([placeholder, desc]) => (
                         <Forms.FormText key={placeholder}>
@@ -74,7 +75,7 @@ export function ReplacementInput({ replacement, setReplacement, replacementError
                 className={Margins.top16}
                 value={isFunc}
                 onChange={setIsFunc}
-                title={"Treat Replacement as function"}
+                title={t("Treat Replacement as function")}
                 description='"Replacement" will be evaluated as a function if this is enabled'
                 hideBorder
             />

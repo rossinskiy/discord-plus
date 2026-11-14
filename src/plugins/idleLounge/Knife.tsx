@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useRef, useState } from "@webpack/common";
 
 import { tone } from "./sfx";
@@ -246,12 +247,12 @@ export function Knife() {
                 <span className="vc-lounge-muted">{stats.flips} flips landed, best streak {stats.best}</span>
             </div>
             <div className="vc-lounge-playfield">
-                <canvas ref={ref} className="vc-lounge-arena" aria-label="Knife flip" />
+                <canvas ref={ref} className="vc-lounge-arena" aria-label={t("Knife flip")} />
             </div>
             <p className="vc-lounge-muted">
                 Hold the mouse to charge, let go to throw. The bar goes green when the knife will land blade first.
             </p>
-            <div className="vc-lounge-row-actions" role="group" aria-label="Knife skin">
+            <div className="vc-lounge-row-actions" role="group" aria-label={t("Knife skin")}>
                 {SKINS.map((s, i) => (
                     <button
                         key={s.name}

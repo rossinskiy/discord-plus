@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useEffect, useRef, useState } from "@webpack/common";
 
 const COLS = 8;
@@ -90,7 +91,7 @@ function Spinner() {
     }
 
     return (
-        <button className="vc-lounge-spinner" onClick={flick} aria-label="Flick the spinner">
+        <button className="vc-lounge-spinner" onClick={flick} aria-label={t("Flick the spinner")}>
             <svg viewBox="-60 -60 120 120" style={{ transform: `rotate(${angle}deg)` }}>
                 {[0, 120, 240].map(a => (
                     <g key={a} transform={`rotate(${a})`}>
@@ -146,15 +147,15 @@ export function Fidget() {
     return (
         <div className="vc-lounge-fidget">
             <div>
-                <div className="vc-lounge-section">Pop it</div>
+                <div className="vc-lounge-section">{t("Pop it")}</div>
                 <PopIt />
             </div>
             <div>
-                <div className="vc-lounge-section">Spinner</div>
+                <div className="vc-lounge-section">{t("Spinner")}</div>
                 <Spinner />
-                <div className="vc-lounge-section">Switches</div>
+                <div className="vc-lounge-section">{t("Switches")}</div>
                 <Switches />
-                <div className="vc-lounge-section">Button</div>
+                <div className="vc-lounge-section">{t("Button")}</div>
                 <BigButton />
             </div>
         </div>

@@ -23,6 +23,7 @@ import { HeadingTertiary } from "@components/Heading";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { debounce } from "@shared/debounce";
 import { copyWithToast } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { stripIndent } from "@utils/text";
 import { ReplaceFn } from "@utils/types";
@@ -105,7 +106,7 @@ function PatchHelper() {
 
     return (
         <SettingsTab>
-            <HeadingTertiary>Full patch</HeadingTertiary>
+            <HeadingTertiary>{t("Full patch")}</HeadingTertiary>
             <FullPatchInput
                 setFind={onFindChange}
                 setParsedFind={setParsedFind}
@@ -113,7 +114,7 @@ function PatchHelper() {
                 setReplacement={setReplacement}
             />
 
-            <HeadingTertiary className={Margins.top8}>Find</HeadingTertiary>
+            <HeadingTertiary className={Margins.top8}>{t("Find")}</HeadingTertiary>
             <TextInput
                 type="text"
                 value={find}
@@ -121,7 +122,7 @@ function PatchHelper() {
                 error={findError}
             />
 
-            <HeadingTertiary className={Margins.top8}>Match</HeadingTertiary>
+            <HeadingTertiary className={Margins.top8}>{t("Match")}</HeadingTertiary>
             <TextInput
                 type="text"
                 value={match}
@@ -148,14 +149,14 @@ function PatchHelper() {
 
             {!!(find && match && replacement) && (
                 <>
-                    <HeadingTertiary className={Margins.top20}>Code</HeadingTertiary>
+                    <HeadingTertiary className={Margins.top20}>{t("Code")}</HeadingTertiary>
                     <CodeBlock lang="js" content={code} />
                     <Flex className={Margins.top16}>
                         <Button onClick={() => copyWithToast(code)}>
-                            Copy to Clipboard
+                            {t("Copy to Clipboard")}
                         </Button>
                         <Button onClick={() => copyWithToast("```ts\n" + code + "\n```")}>
-                            Copy as Codeblock
+                            {t("Copy as Codeblock")}
                         </Button>
                     </Flex>
                 </>

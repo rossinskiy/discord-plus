@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
+
 import {
     achievementContext, bountyProgress, bountyReward, buyCompanion, buySeedUpgrade, buyUpgrade, companionCost, companionLevel,
 currentStreak, dailyProgress, dailyQuestReward, dailyStreakReward, formatNumber, hasSeedUpgrade, hasUpgrade, seedsAvailable, state
@@ -29,7 +31,7 @@ export function Goals() {
 
             <div className="vc-lounge-fishing">
                 <div>
-                    <div className="vc-lounge-section">Daily quests</div>
+                    <div className="vc-lounge-section">{t("Daily quests")}</div>
                     <p className="vc-lounge-muted">
                         New ones every day. Finish all three for a streak bonus; each day in a row makes it bigger, up to 7.
                         Streak: {currentStreak()} {currentStreak() === 1 ? "day" : "days"}, next bonus {formatNumber(dailyStreakReward(currentStreak() + 1))} coins.
@@ -54,8 +56,8 @@ export function Goals() {
                         })}
                     </div>
 
-                    <div className="vc-lounge-section">Bounties</div>
-                    <p className="vc-lounge-muted">Finish them for a payout of garden income. New ones show up right away.</p>
+                    <div className="vc-lounge-section">{t("Bounties")}</div>
+                    <p className="vc-lounge-muted">{t("Finish them for a payout of garden income. New ones show up right away.")}</p>
                     <div className="vc-lounge-list">
                         {state.bounties.map((b, i) => {
                             const def = BOUNTY_KINDS.find(k => k.kind === b.kind)!;
@@ -76,8 +78,8 @@ export function Goals() {
                         })}
                     </div>
 
-                    <div className="vc-lounge-section">Companions</div>
-                    <p className="vc-lounge-muted">They stay with you through Harvest and keep getting stronger.</p>
+                    <div className="vc-lounge-section">{t("Companions")}</div>
+                    <p className="vc-lounge-muted">{t("They stay with you through Harvest and keep getting stronger.")}</p>
                     <div className="vc-lounge-list">
                         {COMPANIONS.map(c => {
                             const lvl = companionLevel(c.id);
@@ -106,9 +108,9 @@ export function Goals() {
                         })}
                     </div>
 
-                    <div className="vc-lounge-section">Garden upgrades</div>
+                    <div className="vc-lounge-section">{t("Garden upgrades")}</div>
                     <div className="vc-lounge-list">
-                        {shopLeft.length === 0 && <div className="vc-lounge-muted">You bought everything.</div>}
+                        {shopLeft.length === 0 && <div className="vc-lounge-muted">{t("You bought everything.")}</div>}
                         {shopLeft.map(u => (
                             <div className="vc-lounge-row" key={u.id}>
                                 <div>
@@ -125,7 +127,7 @@ export function Goals() {
                     {showSeeds && (
                         <>
                             <div className="vc-lounge-section">Seed shop ({formatNumber(seedsAvailable())} seeds to spend)</div>
-                            <p className="vc-lounge-muted">These stay with you through every Harvest.</p>
+                            <p className="vc-lounge-muted">{t("These stay with you through every Harvest.")}</p>
                             <div className="vc-lounge-list">
                                 {SEED_UPGRADES.map(u => {
                                     const owned = hasSeedUpgrade(u.id);
@@ -155,7 +157,7 @@ export function Goals() {
                 </div>
 
                 <div>
-                    <div className="vc-lounge-section">Achievements</div>
+                    <div className="vc-lounge-section">{t("Achievements")}</div>
                     <p className="vc-lounge-muted">Each one adds {ACHIEVEMENT_BONUS * 100}% to all garden output.</p>
                     <div className="vc-lounge-list">
                         {[...ACHIEVEMENTS]

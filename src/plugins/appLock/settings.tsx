@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { OptionType } from "@utils/types";
 import { Forms, useEffect, useState } from "@webpack/common";
 
@@ -42,14 +43,14 @@ function PasswordSetup() {
     return (
         <div className="vc-applock-settings">
             <Forms.FormText>
-                {has ? "A password is set. To change or remove it, type the current one." : "No password yet. Set one to turn the lock on."}
+                {has ? t("A password is set. To change or remove it, type the current one.") : t("No password yet. Set one to turn the lock on.")}
             </Forms.FormText>
-            {has && <input type="password" placeholder="Current password" aria-label="Current password" value={current} onChange={e => setCurrent(e.target.value)} />}
-            <input type="password" placeholder="New password" aria-label="New password" value={next} onChange={e => setNext(e.target.value)} />
-            <input type="password" placeholder="New password again" aria-label="New password again" value={again} onChange={e => setAgain(e.target.value)} />
+            {has && <input type="password" placeholder={t("Current password")} aria-label={t("Current password")} value={current} onChange={e => setCurrent(e.target.value)} />}
+            <input type="password" placeholder={t("New password")} aria-label={t("New password")} value={next} onChange={e => setNext(e.target.value)} />
+            <input type="password" placeholder={t("New password again")} aria-label={t("New password again")} value={again} onChange={e => setAgain(e.target.value)} />
             <div style={{ display: "flex", gap: 8 }}>
                 <Button size="small" onClick={save}>{has ? "Change password" : "Set password"}</Button>
-                {has && <Button size="small" variant="dangerSecondary" onClick={remove}>Remove password</Button>}
+                {has && <Button size="small" variant="dangerSecondary" onClick={remove}>{t("Remove password")}</Button>}
             </div>
             <span className="vc-applock-msg" role="status">{msg}</span>
         </div>
@@ -63,12 +64,12 @@ export const settings = definePluginSettings({
     },
     lockHotkey: {
         type: OptionType.STRING,
-        description: "Press this to lock Discord at once, for example when someone walks up. Format: Ctrl+Alt+L. Leave empty for no hotkey.",
+        description: t("Press this to lock Discord at once, for example when someone walks up. Format: Ctrl+Alt+L. Leave empty for no hotkey."),
         default: "Ctrl+Alt+L"
     },
     idleMinutes: {
         type: OptionType.NUMBER,
-        description: "Lock after this many minutes without touching the mouse or keyboard. 0 turns it off.",
+        description: t("Lock after this many minutes without touching the mouse or keyboard. 0 turns it off."),
         default: 0
     }
 });

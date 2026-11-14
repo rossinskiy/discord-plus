@@ -1,24 +1,13 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { ClockIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import type { User } from "@vencord/discord-types";
 import { Menu, PresenceStore, UserStore } from "@webpack/common";
@@ -75,7 +64,7 @@ const HistoryMenuItem: NavContextMenuPatchCallback = (children, { user }: { user
     children.push(
         <Menu.MenuItem
             id="vc-last-seen"
-            label="Last Seen"
+            label={t("Last Seen")}
             action={() => openLastSeenModal(user.id)}
             icon={ClockIcon}
             leadingAccessory={{ type: "icon", icon: ClockIcon }}

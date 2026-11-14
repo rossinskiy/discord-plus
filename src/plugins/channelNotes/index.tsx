@@ -8,6 +8,7 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { del, get, set } from "@api/DataStore";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import type { Channel, RenderModalProps } from "@vencord/discord-types";
 import { Forms, Menu, Modal, openModal, showToast, TextArea, Toasts, useEffect, useState } from "@webpack/common";
@@ -24,7 +25,7 @@ function NotesModal({ modalProps, channel }: { modalProps: RenderModalProps; cha
     useEffect(() => {
         get<string>(noteKey(channel.id))
             .then(v => setText(v ?? ""))
-            .catch(() => showToast("Could not load the note", Toasts.Type.FAILURE))
+            .catch(() => showToast(t("Could not load the note"), Toasts.Type.FAILURE))
             .finally(() => setLoaded(true));
     }, [channel.id]);
 
@@ -33,27 +34,27 @@ function NotesModal({ modalProps, channel }: { modalProps: RenderModalProps; cha
             const value = text.trim();
             if (value) await set(noteKey(channel.id), value);
             else await del(noteKey(channel.id));
-            showToast(value ? "Note saved" : "Note removed", Toasts.Type.SUCCESS);
+            showToast(value ? t("Note saved") : t("Note removed"), Toasts.Type.SUCCESS);
             modalProps.onClose();
         } catch {
-            showToast("Could not save the note", Toasts.Type.FAILURE);
+            showToast(t("Could not save the note"), Toasts.Type.FAILURE);
         }
     }
 
     return (
         <Modal
             {...modalProps}
-            title={`Notes for #${channel.name || "channel"}`}
-            actions={[{ text: "Save", variant: "primary", onClick: save, disabled: !loaded }]}
+            title={t("Notes for #{name}", { name: channel.name || "channel" })}
+            actions={[{ text: t("Save"), variant: "primary", onClick: save, disabled: !loaded }]}
         >
             <Forms.FormText style={{ marginBottom: 8 }}>
-                Private to you, stored on this computer only. Empty text deletes the note.
+                {t("Private to you, stored on this computer only. Empty text deletes the note.")}
             </Forms.FormText>
             <TextArea
                 value={text}
                 onChange={(v: string) => setText(v.slice(0, MAX_LENGTH))}
                 rows={8}
-                placeholder="Write a note about this channel"
+                placeholder={t("Write a note about this channel")}
                 disabled={!loaded}
             />
             <Forms.FormText style={{ marginTop: 4, color: "var(--text-muted)" }}>
@@ -69,7 +70,7 @@ const channelContextPatch: NavContextMenuPatchCallback = (children, { channel }:
     children.push(
         <Menu.MenuItem
             id="vc-channel-notes"
-            label="Channel Notes"
+            label={t("Channel Notes")}
             action={() => openModal(props =>
                 <ErrorBoundary>
                     <NotesModal modalProps={props} channel={channel} />

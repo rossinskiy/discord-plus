@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { Patch, ReplaceFn } from "@utils/types";
 import { Forms, TextArea, useEffect, useRef, useState } from "@webpack/common";
@@ -69,7 +70,7 @@ export function FullPatchInput({ setFind, setParsedFind, setMatch, setReplacemen
     return (
         <>
             <Forms.FormText className={Margins.bottom8}>
-                Paste your full JSON patch here to fill out the fields
+                {t("Paste your full JSON patch here to fill out the fields")}
             </Forms.FormText>
             <TextArea
                 inputRef={textAreaRef}

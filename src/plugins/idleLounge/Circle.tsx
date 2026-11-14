@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useRef, useState } from "@webpack/common";
 
 import { held } from "./input";
@@ -186,7 +187,7 @@ export function Circle() {
                 <span className="vc-lounge-muted">{stats.km.toFixed(1)} km all time</span>
             </div>
             <div className="vc-lounge-playfield">
-                <canvas ref={ref} className="vc-lounge-arena" aria-label="Running track" />
+                <canvas ref={ref} className="vc-lounge-arena" aria-label={t("Running track")} />
             </div>
             <p className="vc-lounge-muted">
                 Hold the mouse or Space to sprint. Stamina runs out, so jog to get it back. The ghost is your best lap.

@@ -6,6 +6,7 @@
 
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { Forms, Modal, openModal, useEffect, UserStore,useState } from "@webpack/common";
@@ -35,7 +36,7 @@ function BrowseModal({ modalProps }: { modalProps: RenderModalProps; }) {
     const shown = all.filter(e => !filter || e.tags.includes(filter));
 
     return (
-        <Modal {...modalProps} size="lg" title="Tagged people">
+        <Modal {...modalProps} size="lg" title={t("Tagged people")}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }} className={Margins.bottom16}>
                 <Button size="small" variant={filter === null ? "primary" : "secondary"} onClick={() => setFilter(null)}>
                     All ({all.length})
@@ -47,7 +48,7 @@ function BrowseModal({ modalProps }: { modalProps: RenderModalProps; }) {
                 ))}
             </div>
 
-            {shown.length === 0 && <Forms.FormText>Nobody here yet. Right-click a person and choose Tags & Notes.</Forms.FormText>}
+            {shown.length === 0 && <Forms.FormText>{t("Nobody here yet. Right-click a person and choose Tags & Notes.")}</Forms.FormText>}
 
             <div style={{ maxHeight: 420, overflowY: "auto" }}>
                 {shown.map(entry => <Row key={entry.userId} entry={entry} />)}
@@ -70,7 +71,7 @@ function Row({ entry }: { entry: UserTagEntry; }) {
                 )}
                 {entry.note && <Forms.FormText style={{ whiteSpace: "pre-wrap" }}>{entry.note}</Forms.FormText>}
             </div>
-            <Button size="small" variant="secondary" onClick={() => openTagsModal(entry.userId)}>Edit</Button>
+            <Button size="small" variant="secondary" onClick={() => openTagsModal(entry.userId)}>{t("Edit")}</Button>
         </div>
     );
 }

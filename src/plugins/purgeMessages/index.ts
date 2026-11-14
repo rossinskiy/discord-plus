@@ -6,6 +6,7 @@
 
 import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage } from "@api/Commands";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import { Alerts, ChannelStore, RestAPI, Toasts, UserStore } from "@webpack/common";
 
@@ -119,11 +120,11 @@ export default definePlugin({
     commands: [
         {
             name: "purge",
-            description: "Delete your last N messages in this chat (cannot be undone)",
+            description: t("Delete your last N messages in this chat (cannot be undone)"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [{
                 name: "count",
-                description: "How many of your messages to delete",
+                description: t("How many of your messages to delete"),
                 type: ApplicationCommandOptionType.INTEGER,
                 required: true
             }],
@@ -141,8 +142,8 @@ export default definePlugin({
                 Alerts.show({
                     title: `Delete ${count} of your messages?`,
                     body: `This removes your last ${count} messages in ${channelName(channelId)}, newest first, ${etaText(count)}. Deleted messages cannot be restored. You can stop it any time with /purgecancel, but what was already deleted stays deleted.`,
-                    confirmText: "Delete",
-                    cancelText: "Keep them",
+                    confirmText: t("Delete"),
+                    cancelText: t("Keep them"),
                     onConfirm() {
                         if (job) return;
                         job = { channelId, total: count, deleted: 0, cancelled: false };
@@ -153,7 +154,7 @@ export default definePlugin({
         },
         {
             name: "purgecancel",
-            description: "Stop the running /purge",
+            description: t("Stop the running /purge"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute(_, ctx) {
                 if (!job) {

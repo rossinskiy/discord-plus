@@ -9,6 +9,7 @@ import { definePluginSettings } from "@api/Settings";
 import { managedStyleRootNode } from "@api/Styles";
 import { Devs } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
+import { t } from "@utils/i18n";
 import definePlugin, { OptionType } from "@utils/types";
 
 let style: HTMLStyleElement | undefined;
@@ -56,31 +57,31 @@ function applyCss() {
 const settings = definePluginSettings({
     reduceMotion: {
         type: OptionType.BOOLEAN,
-        description: "Cut UI animations and transitions down to nothing",
+        description: t("Cut UI animations and transitions down to nothing"),
         default: true,
         onChange: applyCss
     },
     freezeAnimatedMedia: {
         type: OptionType.BOOLEAN,
-        description: "Show a still image instead of animating avatars, emoji, banners, name colours and nameplates",
+        description: t("Show a still image instead of animating avatars, emoji, banners, name colours and nameplates"),
         default: true,
         restartNeeded: true
     },
     noBackdropBlur: {
         type: OptionType.BOOLEAN,
-        description: "Turn off frosted-glass blur behind menus, popouts and overlays (a big GPU saver)",
+        description: t("Turn off frosted-glass blur behind menus, popouts and overlays (a big GPU saver)"),
         default: true,
         onChange: applyCss
     },
     releaseGpuLayers: {
         type: OptionType.BOOLEAN,
-        description: "Stop elements from reserving their own GPU layers ahead of time (saves video memory)",
+        description: t("Stop elements from reserving their own GPU layers ahead of time (saves video memory)"),
         default: true,
         onChange: applyCss
     },
     flatShadows: {
         type: OptionType.BOOLEAN,
-        description: "Remove drop shadows. Saves a little more GPU time, but some focus outlines and borders go with them",
+        description: t("Remove drop shadows. Saves a little more GPU time, but some focus outlines and borders go with them"),
         default: false,
         onChange: applyCss
     }

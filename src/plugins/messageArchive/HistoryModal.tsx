@@ -1,23 +1,12 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import type { RenderModalProps } from "@vencord/discord-types";
@@ -56,7 +45,7 @@ function HistoryModal({ modalProps, messageId }: { modalProps: RenderModalProps;
 
     if (error) {
         return (
-            <Modal {...modalProps} title="Message Archive History">
+            <Modal {...modalProps} title={t("Message Archive History")}>
                 <Forms.FormText style={{ color: "var(--text-danger)" }}>{error}</Forms.FormText>
             </Modal>
         );
@@ -64,16 +53,16 @@ function HistoryModal({ modalProps, messageId }: { modalProps: RenderModalProps;
 
     if (history === undefined) {
         return (
-            <Modal {...modalProps} title="Message Archive History">
-                <Forms.FormText>Loading...</Forms.FormText>
+            <Modal {...modalProps} title={t("Message Archive History")}>
+                <Forms.FormText>{t("Loading...")}</Forms.FormText>
             </Modal>
         );
     }
 
     if (history === null) {
         return (
-            <Modal {...modalProps} title="Message Archive History">
-                <Forms.FormText>No archived history found for this message.</Forms.FormText>
+            <Modal {...modalProps} title={t("Message Archive History")}>
+                <Forms.FormText>{t("No archived history found for this message.")}</Forms.FormText>
             </Modal>
         );
     }
@@ -85,7 +74,7 @@ function HistoryModal({ modalProps, messageId }: { modalProps: RenderModalProps;
         <Modal
             {...modalProps}
             size="lg"
-            title="Message Archive History"
+            title={t("Message Archive History")}
         >
             {history.deletedAt && (
                 <Forms.FormText style={{ color: "var(--text-danger)" }} className={Margins.bottom8}>

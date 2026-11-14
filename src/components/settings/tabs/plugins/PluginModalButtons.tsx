@@ -9,6 +9,7 @@ import "./PluginModalButtons.css";
 import { GithubIcon, StarFilled, StarOutlined, WebsiteIcon } from "@components/Icons";
 import { classNameFactory } from "@utils/css";
 import { getTheme, Theme } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { Clickable, MaskedLink, Tooltip } from "@webpack/common";
 
 const cl = classNameFactory("vc-settings-modal-");
@@ -42,7 +43,7 @@ export function FavoriteButton({ isFavorite, onClick }: { isFavorite: boolean; o
     const Icon = isFavorite ? StarFilled : StarOutlined;
 
     return (
-        <Tooltip text={isFavorite ? "Unfavorite plugin" : "Favorite plugin - pins it to the top of the plugin list"}>
+        <Tooltip text={isFavorite ? t("Unfavorite plugin") : t("Favorite plugin - pins it to the top of the plugin list")}>
             {props =>
                 <Clickable {...props} onClick={onClick} className={cl("favorite-button", isFavorite && "favorite-button-active", getThemeClass())}>
                     <Icon aria-hidden className={cl("link-icon", "favorite-icon")} />

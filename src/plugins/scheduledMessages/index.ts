@@ -10,6 +10,7 @@ import { showNotification } from "@api/Notifications";
 import { parseDuration } from "@plugins/reminders/parseDuration";
 import { Devs } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import { ChannelStore, showToast, Toasts } from "@webpack/common";
 import { nanoid } from "nanoid";
@@ -60,7 +61,7 @@ async function tick() {
 
         for (const item of due) {
             if (now - item.dueAt > LATE_LIMIT_MS) {
-                showNotification({ title: "Scheduled message missed", body: `Discord was closed at ${formatWhen(item.dueAt)}. Not sent: ${excerpt(item.content)}` });
+                showNotification({ title: t("Scheduled message missed"), body: `Discord was closed at ${formatWhen(item.dueAt)}. Not sent: ${excerpt(item.content)}` });
                 continue;
             }
             try {
@@ -68,7 +69,7 @@ async function tick() {
                 showToast(`Sent to ${channelName(item.channelId)}`, Toasts.Type.SUCCESS);
             } catch (err) {
                 console.error("[ScheduledMessages] send failed", err);
-                showNotification({ title: "Scheduled message failed", body: `Could not send: ${excerpt(item.content)}` });
+                showNotification({ title: t("Scheduled message failed"), body: `Could not send: ${excerpt(item.content)}` });
             }
         }
     } finally {
@@ -96,11 +97,11 @@ export default definePlugin({
     commands: [
         {
             name: "schedule",
-            description: "Send a message in this channel later",
+            description: t("Send a message in this channel later"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [
-                { name: "in", description: "How long to wait, e.g. 10m, 2h30m, 1d", type: ApplicationCommandOptionType.STRING, required: true },
-                { name: "message", description: "What to send", type: ApplicationCommandOptionType.STRING, required: true }
+                { name: "in", description: t("How long to wait, e.g. 10m, 2h30m, 1d"), type: ApplicationCommandOptionType.STRING, required: true },
+                { name: "message", description: t("What to send"), type: ApplicationCommandOptionType.STRING, required: true }
             ],
             execute(args, ctx) {
                 const inStr: string = findOption(args, "in", "");
@@ -118,10 +119,10 @@ export default definePlugin({
         },
         {
             name: "scheduled",
-            description: "List your scheduled messages, or cancel one by its number",
+            description: t("List your scheduled messages, or cancel one by its number"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [
-                { name: "cancel", description: "Number from the list to cancel", type: ApplicationCommandOptionType.INTEGER, required: false }
+                { name: "cancel", description: t("Number from the list to cancel"), type: ApplicationCommandOptionType.INTEGER, required: false }
             ],
             execute(args, ctx) {
                 const cancel: number = findOption(args, "cancel", 0);

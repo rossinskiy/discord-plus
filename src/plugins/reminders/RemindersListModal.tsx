@@ -6,6 +6,7 @@
 
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { Forms, Modal, openModal, Timestamp, useEffect, useState } from "@webpack/common";
@@ -25,7 +26,7 @@ function RemindersListModal({ modalProps }: { modalProps: RenderModalProps; }) {
     useEffect(() => subscribe(() => force(n => n + 1)), []);
 
     return (
-        <Modal {...modalProps} size="lg" title="Reminders">
+        <Modal {...modalProps} size="lg" title={t("Reminders")}>
             {reminders.length === 0 && (
                 <Forms.FormText>No reminders scheduled. Right-click a message and choose "Remind Me".</Forms.FormText>
             )}

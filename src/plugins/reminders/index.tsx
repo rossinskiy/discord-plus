@@ -9,6 +9,7 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { showNotification } from "@api/Notifications";
 import { ClockIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import type { Message } from "@vencord/discord-types";
 import { ChannelStore, Menu, showToast, Toasts } from "@webpack/common";
@@ -54,7 +55,7 @@ function fireReminder(reminder: Reminder, jump: () => void) {
     if (settings.store.playSound) playChime();
 
     showNotification({
-        title: "Reminder",
+        title: t("Reminder"),
         body: reminder.note,
         onClick: jump
     });
@@ -68,7 +69,7 @@ const MessageMenuItem: NavContextMenuPatchCallback = (children, { message }: { m
     children.push(
         <Menu.MenuItem
             id="vc-remind-me"
-            label="Remind Me About This"
+            label={t("Remind Me About This")}
             icon={ClockIcon}
             action={() => openRemindModal({
                 note: excerpt(message.content),
@@ -102,18 +103,18 @@ export default definePlugin({
     commands: [
         {
             name: "remind",
-            description: "Set a reminder for yourself",
+            description: t("Set a reminder for yourself"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [
                 {
                     name: "in",
-                    description: "When to remind you, e.g. 10m, 2h30m, 1d",
+                    description: t("When to remind you, e.g. 10m, 2h30m, 1d"),
                     type: ApplicationCommandOptionType.STRING,
                     required: true
                 },
                 {
                     name: "about",
-                    description: "What to remind you about",
+                    description: t("What to remind you about"),
                     type: ApplicationCommandOptionType.STRING,
                     required: false
                 }

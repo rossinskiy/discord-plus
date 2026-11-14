@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { useEffect, useRef, useState } from "@webpack/common";
 
 import {
@@ -107,7 +108,7 @@ export function Fishing() {
                     </div>
                 </div>
 
-                <div className="vc-lounge-section">Gear</div>
+                <div className="vc-lounge-section">{t("Gear")}</div>
                 <div className="vc-lounge-list">
                     <div className="vc-lounge-row">
                         <div>
@@ -126,17 +127,17 @@ export function Fishing() {
                     <div className="vc-lounge-row">
                         <div>
                             <div className="vc-lounge-row-title">Fishing lines ({state.lines}/{MAX_LINES})</div>
-                            <div className="vc-lounge-muted">Each line brings in one more fish per cast.</div>
+                            <div className="vc-lounge-muted">{t("Each line brings in one more fish per cast.")}</div>
                         </div>
                         {state.lines < MAX_LINES ? (
                             <button className="vc-lounge-btn" disabled={state.coins < lineCost()} onClick={buyLine}>
                                 Buy {formatNumber(lineCost())}
                             </button>
-                        ) : <span className="vc-lounge-muted">Maxed</span>}
+                        ) : <span className="vc-lounge-muted">{t("Maxed")}</span>}
                     </div>
                     <div className="vc-lounge-row">
                         <div>
-                            <div className="vc-lounge-row-title">Auto-fisher</div>
+                            <div className="vc-lounge-row-title">{t("Auto-fisher")}</div>
                             <div className="vc-lounge-muted">
                                 Casts and reels for you while the lounge is open.
                             </div>

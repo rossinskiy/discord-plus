@@ -1,22 +1,11 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { ChannelStore, Forms, Modal, openModal, PresenceStore, Timestamp, useEffect, useState } from "@webpack/common";
@@ -54,16 +43,16 @@ function LastSeenModal({ modalProps, userId }: { modalProps: RenderModalProps; u
     }, [userId]);
 
     return (
-        <Modal {...modalProps} size="lg" title="Last Seen">
+        <Modal {...modalProps} size="lg" title={t("Last Seen")}>
             {isOnlineNow && (
                 <Forms.FormText className={Margins.bottom8}>Currently online (status: {currentStatus}).</Forms.FormText>
             )}
 
             {error && <Forms.FormText style={{ color: "var(--text-danger)" }}>{error}</Forms.FormText>}
 
-            {data === undefined && !error && <Forms.FormText>Loading...</Forms.FormText>}
+            {data === undefined && !error && <Forms.FormText>{t("Loading...")}</Forms.FormText>}
 
-            {data === null && !isOnlineNow && <Forms.FormText>No last-seen data recorded for this user yet.</Forms.FormText>}
+            {data === null && !isOnlineNow && <Forms.FormText>{t("No last-seen data recorded for this user yet.")}</Forms.FormText>}
 
             {data && (
                 <>
@@ -75,7 +64,7 @@ function LastSeenModal({ modalProps, userId }: { modalProps: RenderModalProps; u
 
                     {data.history.length > 1 && (
                         <>
-                            <Forms.FormTitle tag="h5">History</Forms.FormTitle>
+                            <Forms.FormTitle tag="h5">{t("History")}</Forms.FormTitle>
                             <div style={{ maxHeight: 300, overflowY: "auto" }}>
                                 {data.history.map((row, i) => (
                                     <Forms.FormText key={i} style={{ color: "var(--text-muted)", fontSize: 12 }} className={Margins.bottom8}>

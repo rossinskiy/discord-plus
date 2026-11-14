@@ -5,6 +5,7 @@
  */
 
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { Forms, UserStore, useState } from "@webpack/common";
 
 import { adminCall, forgetBadges, nativeAvailable, OFFICIAL_BADGES } from "./badges";
@@ -52,7 +53,7 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
     const [log, setLog] = useState<AuditRow[]>([]);
 
     if (!nativeAvailable()) {
-        return <Forms.FormText>Handing out badges works in the desktop app only.</Forms.FormText>;
+        return <Forms.FormText>{t("Handing out badges works in the desktop app only.")}</Forms.FormText>;
     }
 
     async function connect() {
@@ -115,13 +116,13 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
                 <input
                     className="vc-myprofile-input"
                     type="password"
-                    placeholder="Your token"
+                    placeholder={t("Your token")}
                     value={token}
                     autoComplete="off"
                     onChange={e => setToken(e.target.value)}
                     style={{ flex: 1 }}
                 />
-                <Button size="small" onClick={connect}>Connect</Button>
+                <Button size="small" onClick={connect}>{t("Connect")}</Button>
             </div>
 
             {me && (
@@ -134,11 +135,11 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
 
                     <input
                         className="vc-myprofile-input"
-                        placeholder="User ID to change"
+                        placeholder={t("User ID to change")}
                         value={userId}
                         onChange={e => setUserId(e.target.value)}
                     />
-                    <div className="vc-myprofile-actions" role="group" aria-label="Badge to hand out">
+                    <div className="vc-myprofile-actions" role="group" aria-label={t("Badge to hand out")}>
                         {OFFICIAL_BADGES.filter(b => me.badges.includes(b.id)).map(b => (
                             <Button key={b.id} size="small" variant={badge === b.id ? "primary" : "secondary"} onClick={() => setBadge(b.id)}>
                                 <img src={b.icon} alt="" width={14} height={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
@@ -147,15 +148,15 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
                         ))}
                     </div>
                     <div className="vc-myprofile-actions">
-                        <Button size="small" disabled={!badge} onClick={() => change("grant")}>Give badge</Button>
-                        <Button size="small" variant="dangerSecondary" disabled={!badge} onClick={() => change("revoke")}>Take it away</Button>
+                        <Button size="small" disabled={!badge} onClick={() => change("grant")}>{t("Give badge")}</Button>
+                        <Button size="small" variant="dangerSecondary" disabled={!badge} onClick={() => change("revoke")}>{t("Take it away")}</Button>
                     </div>
                 </>
             )}
 
             {me?.role === "owner" && (
                 <>
-                    <Forms.FormTitle tag="h5">Moderators</Forms.FormTitle>
+                    <Forms.FormTitle tag="h5">{t("Moderators")}</Forms.FormTitle>
                     <Forms.FormText>
                         Paste a Discord user ID to make that person a moderator. You get a token to send them, shown only once.
                         Moderators can hand out Tester, Supporter, Bug Hunter and Artist, up to 20 an hour. They cannot touch
@@ -165,7 +166,7 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
                     <div className="vc-myprofile-actions">
                         <input
                             className="vc-myprofile-input"
-                            placeholder="Moderator's Discord user ID"
+                            placeholder={t("Moderator's Discord user ID")}
                             value={newMod}
                             onChange={e => setNewMod(e.target.value)}
                             style={{ flex: 1 }}
@@ -180,21 +181,21 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
                             <Forms.FormText>Token for {shownToken.id}. Send it privately. It will not be shown again.</Forms.FormText>
                             <code>{shownToken.token}</code>
                             <div className="vc-myprofile-actions">
-                                <Button size="small" onClick={() => navigator.clipboard.writeText(shownToken.token)}>Copy</Button>
-                                <Button size="small" variant="secondary" onClick={() => setShownToken(null)}>Done</Button>
+                                <Button size="small" onClick={() => navigator.clipboard.writeText(shownToken.token)}>{t("Copy")}</Button>
+                                <Button size="small" variant="secondary" onClick={() => setShownToken(null)}>{t("Done")}</Button>
                             </div>
                         </div>
                     )}
 
                     <div className="vc-myprofile-list">
-                        {mods.length === 0 && <span className="vc-myprofile-muted">No moderators yet.</span>}
+                        {mods.length === 0 && <span className="vc-myprofile-muted">{t("No moderators yet.")}</span>}
                         {mods.map(m => (
                             <div className="vc-myprofile-modrow" key={m.id}>
                                 <span>{m.id} <span className="vc-myprofile-muted">{m.hour} this hour, {m.day} today</span></span>
                                 <div className="vc-myprofile-actions">
-                                    <Button size="small" variant="secondary" onClick={() => modAction(m.id, "newtoken")}>New token</Button>
-                                    <Button size="small" variant="secondary" onClick={() => rollback(m.id)}>Undo last 24h</Button>
-                                    <Button size="small" variant="dangerSecondary" onClick={() => modAction(m.id, "remove")}>Remove</Button>
+                                    <Button size="small" variant="secondary" onClick={() => modAction(m.id, "newtoken")}>{t("New token")}</Button>
+                                    <Button size="small" variant="secondary" onClick={() => rollback(m.id)}>{t("Undo last 24h")}</Button>
+                                    <Button size="small" variant="dangerSecondary" onClick={() => modAction(m.id, "remove")}>{t("Remove")}</Button>
                                 </div>
                             </div>
                         ))}
@@ -204,7 +205,7 @@ export function StaffPanel({ token, setToken }: { token: string; setToken(t: str
                         <Button size="small" variant={me.lockdown ? "primary" : "dangerSecondary"} onClick={() => setLockdown(!me.lockdown)}>
                             {me.lockdown ? "Let moderators work again" : "Pause all moderators now"}
                         </Button>
-                        <Button size="small" variant="secondary" onClick={showLog}>Show recent changes</Button>
+                        <Button size="small" variant="secondary" onClick={showLog}>{t("Show recent changes")}</Button>
                     </div>
                     {log.length > 0 && (
                         <ul className="vc-myprofile-log">

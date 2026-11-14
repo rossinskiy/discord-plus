@@ -17,6 +17,7 @@
 */
 
 import { isSettingDisabled } from "@api/PluginManager";
+import { t } from "@utils/i18n";
 import { OptionType, PluginSettingBigIntDef, PluginSettingNumberDef } from "@utils/types";
 import { React, TextInput, useState } from "@webpack/common";
 
@@ -54,7 +55,7 @@ export function NumberSetting({ setting, pluginSettings, definedSettings, id, on
             <TextInput
                 type="number"
                 pattern="-?[0-9]+"
-                placeholder={setting.placeholder ?? "Enter a number"}
+                placeholder={setting.placeholder ?? t("Enter a number")}
                 value={state}
                 onChange={handleChange}
                 disabled={isSettingDisabled(definedSettings, setting)}

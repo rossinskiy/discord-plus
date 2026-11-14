@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { OptionType } from "@utils/types";
 import { Forms, React, useEffect, useState } from "@webpack/common";
 
@@ -49,25 +50,25 @@ function LocalBadgesEditor() {
                     <div className="vc-myprofile-row" key={b.id}>
                         <img src={b.image} alt="" width={24} height={24} />
                         <span>{b.description} <span className="vc-myprofile-muted">({b.position === "start" ? "start" : "end"})</span></span>
-                        <Button size="small" variant="dangerSecondary" onClick={() => removeLocalBadge(b.id)}>Remove</Button>
+                        <Button size="small" variant="dangerSecondary" onClick={() => removeLocalBadge(b.id)}>{t("Remove")}</Button>
                     </div>
                 ))}
-                {localBadges.length === 0 && <span className="vc-myprofile-muted">No badges yet.</span>}
+                {localBadges.length === 0 && <span className="vc-myprofile-muted">{t("No badges yet.")}</span>}
             </div>
 
             <div className="vc-myprofile-form">
                 <input
                     className="vc-myprofile-input"
-                    placeholder="Name shown when you hover the badge"
+                    placeholder={t("Name shown when you hover the badge")}
                     value={tooltip}
                     maxLength={40}
                     onChange={e => setTooltip(e.target.value)}
                 />
-                <input type="file" accept="image/*" onChange={onFile} aria-label="Badge image" />
+                <input type="file" accept="image/*" onChange={onFile} aria-label={t("Badge image")} />
                 {image && <img src={image} alt="Badge preview" width={32} height={32} />}
                 <div className="vc-myprofile-actions">
-                    <Button size="small" variant={position === "start" ? "primary" : "secondary"} onClick={() => setPosition("start")}>First</Button>
-                    <Button size="small" variant={position === "end" ? "primary" : "secondary"} onClick={() => setPosition("end")}>Last</Button>
+                    <Button size="small" variant={position === "start" ? "primary" : "secondary"} onClick={() => setPosition("start")}>{t("First")}</Button>
+                    <Button size="small" variant={position === "end" ? "primary" : "secondary"} onClick={() => setPosition("end")}>{t("Last")}</Button>
                     <Button
                         size="small"
                         disabled={!tooltip.trim() || !image}
@@ -95,8 +96,8 @@ function MyUid() {
     const [, force] = useState(0);
     useEffect(() => subscribe(() => force(n => n + 1)), []);
 
-    if (!settings.store.joinUserList) return <Forms.FormText>You are not on the Discord+ user list.</Forms.FormText>;
-    if (!mySelf) return <Forms.FormText>Not signed up yet. This happens by itself the next time you start Discord with the plugin on.</Forms.FormText>;
+    if (!settings.store.joinUserList) return <Forms.FormText>{t("You are not on the Discord+ user list.")}</Forms.FormText>;
+    if (!mySelf) return <Forms.FormText>{t("Not signed up yet. This happens by itself the next time you start Discord with the plugin on.")}</Forms.FormText>;
 
     const info = uidBadgeInfo(mySelf.uid, mySelf.joined);
     return (
@@ -111,17 +112,17 @@ function MyUid() {
 export const settings = definePluginSettings({
     customName: {
         type: OptionType.STRING,
-        description: "Your display name as you see it, in chat and on your profile. Only you see it. Press Ctrl+R after changing it.",
+        description: t("Your display name as you see it, in chat and on your profile. Only you see it. Press Ctrl+R after changing it."),
         default: ""
     },
     customUsername: {
         type: OptionType.STRING,
-        description: "Your username (the one without the nickname, like in @mentions and the profile) as you see it. Only you see it. Press Ctrl+R after changing it.",
+        description: t("Your username (the one without the nickname, like in @mentions and the profile) as you see it. Only you see it. Press Ctrl+R after changing it."),
         default: ""
     },
     showOfficialBadges: {
         type: OptionType.BOOLEAN,
-        description: "Show Discord+ badges on other people's profiles. This asks the Discord+ server which of the users you look at have one, sending their user IDs.",
+        description: t("Show Discord+ badges on other people's profiles. This asks the Discord+ server which of the users you look at have one, sending their user IDs."),
         default: true,
         onChange: () => {
             clearBadgeCache();
@@ -135,12 +136,12 @@ export const settings = definePluginSettings({
     },
     uid: {
         type: OptionType.COMPONENT,
-        description: "Your member number",
+        description: t("Your member number"),
         component: MyUid
     },
     serverUrl: {
         type: OptionType.STRING,
-        description: "Address of the Discord+ server that keeps the badge list",
+        description: t("Address of the Discord+ server that keeps the badge list"),
         default: DEFAULT_SERVER,
         onChange: () => {
             clearBadgeCache();
@@ -149,18 +150,18 @@ export const settings = definePluginSettings({
     },
     adminToken: {
         type: OptionType.STRING,
-        description: "Staff token (filled in from the panel below)",
+        description: t("Staff token (filled in from the panel below)"),
         default: "",
         hidden: true
     },
     badges: {
         type: OptionType.COMPONENT,
-        description: "Your own badges",
+        description: t("Your own badges"),
         component: LocalBadgesEditor
     },
     admin: {
         type: OptionType.COMPONENT,
-        description: "Discord+ team tools",
+        description: t("Discord+ team tools"),
         component: AdminPanel
     }
 });

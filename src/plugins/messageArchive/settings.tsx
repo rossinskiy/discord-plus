@@ -1,23 +1,12 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { t } from "@utils/i18n";
 import { OptionType } from "@utils/types";
 import { React, Toasts } from "@webpack/common";
 
@@ -38,13 +27,13 @@ function ClearArchiveButton() {
                     Toasts.show({
                         id: Toasts.genId(),
                         type: Toasts.Type.SUCCESS,
-                        message: "Archive cleared."
+                        message: t("Archive cleared.")
                     });
                 } catch (e) {
                     Toasts.show({
                         id: Toasts.genId(),
                         type: Toasts.Type.FAILURE,
-                        message: "Failed to clear archive: " + (e as Error).message
+                        message: t("Failed to clear archive: ") + (e as Error).message
                     });
                 } finally {
                     setLoading(false);
@@ -59,71 +48,71 @@ function ClearArchiveButton() {
 export const settings = definePluginSettings({
     deleteStyle: {
         type: OptionType.SELECT,
-        description: "The style of deleted messages",
+        description: t("The style of deleted messages"),
         default: "text",
         options: [
-            { label: "Red text", value: "text", default: true },
-            { label: "Red overlay", value: "overlay" }
+            { label: t("Red text"), value: "text", default: true },
+            { label: t("Red overlay"), value: "overlay" }
         ]
     },
     collapseDeleted: {
         type: OptionType.BOOLEAN,
-        description: "Whether to collapse deleted messages, similar to blocked messages",
+        description: t("Whether to collapse deleted messages, similar to blocked messages"),
         default: false,
         restartNeeded: true
     },
     logDeletedAttachments: {
         type: OptionType.BOOLEAN,
-        description: "Whether to log deleted attachments",
+        description: t("Whether to log deleted attachments"),
         default: true,
         restartNeeded: true
     },
     inlineEdits: {
         type: OptionType.BOOLEAN,
-        description: "Whether to display edit history as part of message content",
+        description: t("Whether to display edit history as part of message content"),
         default: true
     },
     logEdits: {
         type: OptionType.BOOLEAN,
-        description: "Whether to archive edited messages",
+        description: t("Whether to archive edited messages"),
         default: true
     },
     logDeletes: {
         type: OptionType.BOOLEAN,
-        description: "Whether to archive deleted messages",
+        description: t("Whether to archive deleted messages"),
         default: true
     },
     ignoreBots: {
         type: OptionType.BOOLEAN,
-        description: "Whether to ignore messages by bots",
+        description: t("Whether to ignore messages by bots"),
         default: true
     },
     ignoreSelf: {
         type: OptionType.BOOLEAN,
-        description: "Whether to ignore messages by yourself",
+        description: t("Whether to ignore messages by yourself"),
         default: false
     },
     ignoreUsers: {
         type: OptionType.STRING,
-        description: "Comma-separated list of user IDs to ignore",
+        description: t("Comma-separated list of user IDs to ignore"),
         default: "",
         multiline: true
     },
     ignoreChannels: {
         type: OptionType.STRING,
-        description: "Comma-separated list of channel IDs to ignore",
+        description: t("Comma-separated list of channel IDs to ignore"),
         default: "",
         multiline: true
     },
     ignoreGuilds: {
         type: OptionType.STRING,
-        description: "Comma-separated list of guild IDs to ignore",
+        description: t("Comma-separated list of guild IDs to ignore"),
         default: "",
         multiline: true
     },
     clearArchive: {
         type: OptionType.COMPONENT,
-        description: "Immediately delete all archived messages stored on this computer (they also auto-expire after 7 days)",
+        description: t("Immediately delete all archived messages stored on this computer (they also auto-expire after 7 days)"),
         component: ClearArchiveButton
     }
 });

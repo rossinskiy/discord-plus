@@ -1,20 +1,8 @@
 /*
- * Discord+, a fork of Vencord
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import "./messageArchive.css";
 
@@ -26,6 +14,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { DeleteIcon, EyeIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
 import definePlugin from "@utils/types";
@@ -131,7 +120,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) =
             <Menu.MenuItem
                 id={TOGGLE_DELETE_STYLE_ID}
                 key={TOGGLE_DELETE_STYLE_ID}
-                label="Toggle Deleted Highlight"
+                label={t("Toggle Deleted Highlight")}
                 leadingAccessory={{ type: "icon", icon: EyeIcon }}
                 action={() => domElement.classList.toggle("messagelogger-deleted")}
             />
@@ -142,7 +131,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) =
         <Menu.MenuItem
             id={REMOVE_HISTORY_ID}
             key={REMOVE_HISTORY_ID}
-            label="Remove Message History"
+            label={t("Remove Message History")}
             leadingAccessory={{ type: "icon", icon: DeleteIcon }}
             color="danger"
             action={() => clearMessageHistory(message)}
@@ -153,7 +142,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) =
         <Menu.MenuItem
             id="ma-view-archive"
             key="ma-view-archive"
-            label="View Archive History"
+            label={t("View Archive History")}
             action={() => openHistoryModal(message.id)}
         />
     ));
@@ -167,7 +156,7 @@ const patchChannelContextMenu: NavContextMenuPatchCallback = (children, { channe
     group.push(
         <Menu.MenuItem
             id="vc-ma-clear-channel"
-            label="Clear Message Log"
+            label={t("Clear Message Log")}
             color="danger"
             action={() => messages.forEach((msg: MAMessage) => clearMessageHistory(msg))}
         />

@@ -9,6 +9,7 @@ import { hasAnyVisibleSettings, isPluginEnabled, pluginRequiresRestart, startDep
 import { Settings } from "@api/Settings";
 import { CogWheel, InfoIcon } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
+import { tPluginDescription } from "@utils/i18n";
 import { Plugin } from "@utils/types";
 import { React, showToast, Toasts } from "@webpack/common";
 
@@ -80,7 +81,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     return (
         <AddonCard
             name={plugin.name}
-            description={plugin.description}
+            description={tPluginDescription(plugin.name, plugin.description)}
             isNew={isNew}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}

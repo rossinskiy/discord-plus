@@ -6,6 +6,7 @@
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import type { User } from "@vencord/discord-types";
 import { Menu, useEffect, useState } from "@webpack/common";
@@ -20,7 +21,7 @@ const TagsMenuItem: NavContextMenuPatchCallback = (children, { user }: { user: U
     children.push(
         <Menu.MenuItem
             id="vc-user-tags"
-            label="Tags & Notes"
+            label={t("Tags & Notes")}
             action={() => openTagsModal(user.id)}
         />
     );
