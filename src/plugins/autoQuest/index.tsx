@@ -31,13 +31,15 @@ const settings = definePluginSettings({
     }
 });
 
-const TASK_TYPES = ["WATCH_VIDEO", "WATCH_VIDEO_ON_MOBILE", "PLAY_ON_DESKTOP", "PLAY_ACTIVITY"] as const;
-type TaskType = typeof TASK_TYPES[number];
+// Discord keeps adding variants (PLAY_ON_DESKTOP_V2, ...), so match by prefix instead of an exact list.
+const TASK_PREFIXES = ["WATCH_VIDEO", "PLAY_ON_DESKTOP", "PLAY_ACTIVITY"] as const;
+type TaskType = string;
 
 let running = false;
 let stopped = true;
 let checkTimer: ReturnType<typeof setTimeout> | undefined;
 const failedQuests = new Set<string>();
+const warnedQuests = new Set<string>();
 const claimAttempted = new Set<string>();
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
@@ -50,11 +52,18 @@ function toast(message: string, type = Toasts.Type.MESSAGE) {
 
 function getTaskType(quest: any): TaskType | undefined {
     const tasks = quest?.config?.taskConfigV2?.tasks;
-    return tasks && TASK_TYPES.find(t => tasks[t] != null);
+    if (!tasks) return undefined;
+    return Object.keys(tasks).find(k => tasks[k] != null && TASK_PREFIXES.some(p => k.startsWith(p)));
 }
 
 function findPendingQuest() {
     const quests: any[] = [...QuestsStore.quests.values()];
+    for (const q of quests) {
+        if (q.userStatus?.enrolledAt && !q.userStatus?.completedAt && !getTaskType(q) && !warnedQuests.has(q.id)) {
+            warnedQuests.add(q.id);
+            console.warn("[AutoQuest] unsupported quest task types", q.id, Object.keys(q?.config?.taskConfigV2?.tasks ?? {}));
+        }
+    }
     return quests.find(q =>
         !failedQuests.has(q.id) &&
         q.userStatus?.enrolledAt &&
@@ -191,15 +200,22 @@ async function completeDesktopGame(quest: any, task: TaskType) {
     // running; we only watch the progress it reports back.
     try {
         await new Promise<void>((resolve, reject) => {
+            let lastProgress = -1;
+            let lastChange = Date.now();
             const onHeartbeat = (data: any) => {
                 const status = data?.userStatus;
                 const progress = quest.config.configVersion === 1
                     ? status?.streamProgressSeconds
                     : Math.floor(status?.progress?.[task]?.value ?? 0);
                 console.log(`[AutoQuest] progress: ${progress}/${needed}`);
+                if (progress !== lastProgress) { lastProgress = progress; lastChange = Date.now(); }
                 if (progress >= needed) done();
             };
-            const poll = setInterval(() => { if (stopped) done(); }, 2000);
+            // No progress for 4 minutes means Discord is not counting the fake game; give up so the next quest can run.
+            const poll = setInterval(() => {
+                if (stopped) done();
+                else if (Date.now() - lastChange > 240_000) { cleanup(); reject(new Error("no progress for 4 minutes")); }
+            }, 2000);
             const timeout = setTimeout(() => {
                 cleanup();
                 reject(new Error("timed out waiting for heartbeats"));
@@ -275,8 +291,8 @@ async function runNext() {
     toast(`Auto Quest: working on "${name}"`);
 
     try {
-        if (task === "PLAY_ON_DESKTOP") await completeDesktopGame(quest, task);
-        else if (task === "PLAY_ACTIVITY") await completeActivity(quest, task);
+        if (task.startsWith("PLAY_ON_DESKTOP")) await completeDesktopGame(quest, task);
+        else if (task.startsWith("PLAY_ACTIVITY")) await completeActivity(quest, task);
         else await completeVideo(quest, task);
 
         if (!stopped) {
@@ -344,6 +360,7 @@ export default definePlugin({
         enrollTimer = undefined;
         try { QuestsStore.removeChangeListener(onQuestsChange); } catch { }
         failedQuests.clear();
+        warnedQuests.clear();
         claimAttempted.clear();
     }
 });
