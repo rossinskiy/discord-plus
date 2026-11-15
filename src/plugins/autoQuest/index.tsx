@@ -47,7 +47,12 @@ const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const randInt = (min: number, max: number) => Math.floor(rand(min, max + 1));
 
 function toast(message: string, type = Toasts.Type.MESSAGE) {
-    if (settings.store.showToasts) showToast(message, type);
+    // A broken toast must never stop a quest, so swallow any error from it.
+    try {
+        if (settings.store.showToasts) showToast(message, type);
+    } catch (e) {
+        console.warn("[AutoQuest] toast failed", e);
+    }
 }
 
 function getTaskType(quest: any): TaskType | undefined {
