@@ -103,6 +103,27 @@ PLUGINS = [
          body="Disconnects you from a voice channel after you have been the only person left for a while. The wait is 30 seconds by default and you can change it.",
          points=["Handy when you forget to leave a call."],
          facts=[("Saves data", "settings only"), ("Discord+ server", "none"), ("Risk", "none")]),
+    dict(id="channel-notes", name="ChannelNotes", group="Tools", tags="[local]",
+         short="Private notes about a channel, kept on your PC.",
+         body="Right-click a channel and pick Channel Notes to write a note about it, up to 2000 characters. Empty text deletes the note.",
+         points=["Only you can see the notes.",
+                 "They are stored on your PC and never sent anywhere."],
+         facts=[("Saves data", "your PC"), ("Discord+ server", "none"), ("Risk", "none")]),
+    dict(id="server-cloner", name="ServerCloner", group="Tools", tags="[risk]",
+         short="Copies a server into a new one on your account.",
+         body="Right-click a server and pick Clone server. Discord+ creates a new server on your account with the same name, icon, roles, role permissions, categories, channels, channel permissions and emojis, at a pace that stays under Discord's rate limits.",
+         points=["Only what you can see is copied. Messages, members, bots, webhooks, stickers and invites are not, and the banner needs Boost level 2.",
+                 "A big server takes a while, about 45 requests a minute. You can cancel from the same menu.",
+                 "It sends many requests from your account. Discord's terms do not allow client mods or automation, so this is at your own risk. Do not use it to copy someone else's server and pass it off as theirs."],
+         facts=[("Saves data", "nothing"), ("Discord+ server", "none"), ("Risk", "high, breaks Discord's rules")], risk=True),
+    dict(id="bot-client", name="BotClient", group="Tools", tags="[experimental]",
+         short="Log in with a bot token and use the Discord client as that bot.",
+         body="Logs this client in as a bot, from the plugin settings or the login screen. Your own account is replaced by the bot until you log out. It is ported from DiscordBotClient and VencordDBCPlugin and is experimental.",
+         points=["It does nothing until you enter a bot token. Use only bots you own.",
+                 "The token is checked first, so a typo does not log you out of your account.",
+                 "To come back to your account, log out of the bot and log in normally.",
+                 "The token is only sent to Discord."],
+         facts=[("Saves data", "your PC"), ("Discord+ server", "none"), ("Risk", "experimental")]),
     dict(id="second-account", name="Second account window", group="Built in", tags="[built in]",
          short="Flip between two Discord accounts with one shortcut.",
          body="Press Ctrl+Shift+2 while a Discord window is focused. The second account runs in its own window with a separate login, and both stay connected, so messages and notifications arrive on both.",
@@ -277,7 +298,7 @@ def home():
         helps += f'<div class="help-src" id="help-{pid}" data-title="{e(p["name"])}">{help_html(p)}</div>\n'
     rows += '<li><a class="row" href="/plugins" data-help="more"><span class="name">All plugins and what they do</span><span class="val">[Open]</span></a></li>'
     helps += ('<div class="help-src" id="help-more" data-title="All plugins">'
-              '<p>Eleven plugins were written for Discord+, plus the second account window. The catalog explains each one and lets you search it.</p>'
+              '<p>Fourteen plugins were written for Discord+, plus the second account window. The catalog explains each one and lets you search it.</p>'
               '<p class="dim">Every plugin from Vencord is still there in the same settings page.</p></div>\n')
 
     rows_html = f'<ul class="rows" id="plugin-menu" role="list">{rows}</ul>'
@@ -290,6 +311,9 @@ def home():
         ("Reminders", "your PC", "never"),
         ("Idle Lounge", "a file on your PC", "never"),
         ("MyProfile", "your PC", "badge lookups and your own user ID"),
+        ("ChannelNotes", "your PC", "never"),
+        ("ServerCloner", "nothing", "never"),
+        ("BotClient", "your PC", "never"),
     ]
     table = '<div class="table"><div class="tr th"><span>Plugin</span><span>Kept on</span><span class="c3">Sent to the Discord+ server</span></div>'
     for a, b, c in storage:
@@ -324,7 +348,7 @@ def home():
 <div class="screen">
 <div class="intro">
 <h1 class="display">Discord<span class="plus">+</span></h1>
-<p class="lede">A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and eleven more were written for it: quests on autopilot, a game lounge, your own profile badges and a lighter Discord. What it saves stays on your PC.<span class="caret" aria-hidden="true"></span></p>
+<p class="lede">A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and fourteen more were written for it: quests on autopilot, a game lounge, your own profile badges and a lighter Discord. What it saves stays on your PC.<span class="caret" aria-hidden="true"></span></p>
 </div>
 
 <section class="pane menu-pane" aria-labelledby="menu-title">
@@ -380,7 +404,7 @@ def home():
              '<span class="hint-keys"><kbd>F10</kbd>Copy install command</span>',
              '<span class="hint-keys"><kbd>Esc</kbd>Reset the preview</span>']
     return (head("Discord+ | Vencord fork with quests, a game lounge, profile badges and more",
-                 "Discord+ is a free Vencord fork for the Discord desktop app with eleven extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.",
+                 "Discord+ is a free Vencord fork for the Discord desktop app with fourteen extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.",
                  "/") + top("home") + body + bottom(hints))
 
 
@@ -405,7 +429,7 @@ def plugins_page():
 <div class="wrap">
 <div class="page-head">
 <h1>Plugins</h1>
-<p>Eleven plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on, except MyProfile, which is built in and always on.</p>
+<p>Fourteen plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on, except MyProfile, which is built in and always on.</p>
 </div>
 <div class="finder">
 <label for="filter">Search</label>
