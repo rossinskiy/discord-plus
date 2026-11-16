@@ -52,10 +52,10 @@ PLUGINS = [
          short="Your own badges and display name, and Discord+ badges on other people.",
          body="Give yourself badges and a display name that only you see, even ones that look like Discord's own. Discord+ users also get a member number: the lower it is, the earlier they joined. Others with Discord+ see it as a badge on the profile.",
          points=["The Discord+ badges (Dev, Tester, Supporter, Founder, Bug Hunter, Artist) are handed out by the Discord+ team. You cannot give them to yourself.",
-                 "To show badges it asks the Discord+ server about people whose profiles you look at, which sends their user IDs. You can turn that off in the plugin settings.",
-                 "Joining the member list sends your own user ID once. That is a setting too, and it is on by default once you enable the plugin.",
+                 "To show badges it asks the Discord+ server about people whose profiles you look at, which sends their user IDs. This is built in and cannot be turned off.",
+                 "Your own user ID is sent to the Discord+ server when Discord starts, to join the member list. This is built in and cannot be turned off.",
                  "Your own badges and display name never leave your PC."],
-         facts=[("Saves data", "your PC"), ("Discord+ server", "optional lookups, they send user IDs"), ("Risk", "none")]),
+         facts=[("Saves data", "your PC"), ("Discord+ server", "built-in lookups, they send user IDs"), ("Risk", "none")]),
     dict(id="lite-mode", name="LiteMode", group="Appearance", tags="[local]",
          short="Makes Discord lighter on CPU, GPU and RAM.",
          body="Turns off animations and the blur behind menus, stops elements from reserving GPU layers, and shows still images instead of animated avatars, emoji, banners and name effects. Typing feels less laggy on slower PCs.",
@@ -289,7 +289,7 @@ def home():
         ("UserTags", "your PC", "never"),
         ("Reminders", "your PC", "never"),
         ("Idle Lounge", "a file on your PC", "never"),
-        ("MyProfile", "your PC", "badge lookups with user IDs, if on"),
+        ("MyProfile", "your PC", "badge lookups and your own user ID"),
     ]
     table = '<div class="table"><div class="tr th"><span>Plugin</span><span>Kept on</span><span class="c3">Sent to the Discord+ server</span></div>'
     for a, b, c in storage:
@@ -306,7 +306,7 @@ def home():
         ("Do I have to remove Vencord first?",
          ["You do not need to uninstall it by hand. The installer points Discord at Discord+ instead. Discord+ reads the same settings folder as Vencord, so your existing Vencord settings carry over."]),
         ("What is the member number?",
-         ["If MyProfile is on, Discord+ gives your account a number in order of arrival and records the date you joined. Other Discord+ users see it as a badge on your profile. It is a setting you can turn off, and then nothing is sent."]),
+         ["MyProfile is built in and always on, so Discord+ gives your account a number in order of arrival and records the date you joined. Other Discord+ users see it as a badge on your profile."]),
         ("What does it cost?",
          ["Nothing. It is free software under the GNU General Public License v3.0."]),
         ("How do I update or remove it?",
@@ -358,7 +358,7 @@ def home():
 <div class="block">
 <section class="pane" aria-labelledby="storage-title">
 <h2 class="pane-title" id="storage-title">Storage Configuration</h2>
-<p class="lead70">Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is the MyProfile lookup, which sends user IDs, and you can switch it off.</p>
+<p class="lead70">Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is MyProfile, which sends user IDs. It is built in and cannot be switched off.</p>
 {table}
 </section>
 
@@ -405,7 +405,7 @@ def plugins_page():
 <div class="wrap">
 <div class="page-head">
 <h1>Plugins</h1>
-<p>Eleven plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on.</p>
+<p>Eleven plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on, except MyProfile, which is built in and always on.</p>
 </div>
 <div class="finder">
 <label for="filter">Search</label>
@@ -632,8 +632,8 @@ write("index.html", home())
 write("plugins.html", plugins_page())
 write("install.html", install_page())
 write("privacy.html", doc_page("Privacy | Discord+", "Privacy policy", "/privacy",
-                                "What the Discord+ website and client do with your data: no cookies, no analytics, optional badge lookups and an optional member number.",
-                                "October 23, 2026", priv))
+                                "What the Discord+ website and client do with your data: no cookies, no analytics, built-in badge lookups and a member number.",
+                                "November 15, 2026", priv))
 write("terms.html", doc_page("Terms | Discord+", "Terms", "/terms",
                               "The terms of using Discord+: GPL-3.0 license, no warranty, your responsibility and no affiliation with Discord or Vencord.",
                               "October 17, 2026", terms))

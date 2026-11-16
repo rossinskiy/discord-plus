@@ -375,7 +375,7 @@ export default definePlugin({
             ]
         },
         {
-            find: '"HasBeenInStageChannel"',
+            find: "audience-header-",
             replacement: [
                 {
                     // Render our HiddenChannelLockScreen component instead of the main stage channel component
@@ -396,12 +396,7 @@ export default definePlugin({
                     // Disable strange styles applied to the header for the HiddenChannelLockScreen of stage channels
                     match: /"124px".+?style:(?<=let \i,{channel:(\i).+?)/,
                     replace: (m, channel) => `${m}$self.isHiddenChannel(${channel})?void 0:`
-                }
-            ]
-        },
-        {
-            find: "#{intl::STAGE_FULL_MODERATOR_TITLE}",
-            replacement: [
+                },
                 {
                     // Remove the divider and amount of users in stage channel components for the HiddenChannelLockScreen
                     match: /\(0,\i\.jsx\)\(\i\.\i\.Divider.+?}\)]}\)(?=.+?:(\i)\.guild_id)/,
@@ -439,11 +434,11 @@ export default definePlugin({
             },
         },
         {
-            find: 'getConfig({location:"channel_mention"})',
+            find: ",openChatWithoutConnecting:",
             replacement: {
                 // Show inside voice channel instead of trying to join them when clicking on a channel mention
-                match: /(?<=getChannel\(\i\);if\(null!=(\i)).{0,200}?return void (?=\i\.default\.selectVoiceChannel)/,
-                replace: (m, channel) => `${m}!$self.isHiddenChannel(${channel})&&`
+                match: /(?<=getChannel\(\i\);if\(null!=(\i))(?=&&.{0,100}?selectVoiceChannel)/,
+                replace: (_, channel) => `&&!$self.isHiddenChannel(${channel})`
             }
         },
         {
