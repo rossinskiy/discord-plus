@@ -9,6 +9,7 @@ import "./AuthBoxTokenLogin.css";
 import { enterBotMode } from "@plugins/botClient/utils/botMode";
 import { originalSessionStorage, RegExToken } from "@plugins/botClient/utils/common";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
@@ -42,7 +43,7 @@ export default function AuthBoxTokenLogin() {
                     <h5
                         className={classes(cl("h5"), cl("defaultMarginh5"), error && cl("error"))}
                     >
-                        Bot Token
+                        {t("Bot Token")}
                         {error ? (
                             <span className={cl("errorMessage")}>
                                 <span className={cl("errorSeparator")}>-</span>
@@ -55,8 +56,8 @@ export default function AuthBoxTokenLogin() {
                             className={classes(inputModule.inputDefault, error && inputModule.inputError)}
                             name="token"
                             type="password"
-                            placeholder="Enter your bot token"
-                            aria-label="Token"
+                            placeholder={t("Enter your bot token")}
+                            aria-label={t("Token")}
                             autoComplete="off"
                             maxLength={100}
                             spellCheck="false"
@@ -73,7 +74,7 @@ export default function AuthBoxTokenLogin() {
                     onClick={ev => {
                         ev.preventDefault();
                         if (!RegExToken.test(state.trim())) {
-                            setError("Invalid token");
+                            setError(t("Invalid token"));
                             return;
                         }
                         originalSessionStorage.setItem("currentShard", "0");
@@ -81,7 +82,7 @@ export default function AuthBoxTokenLogin() {
                         LoginToken.loginToken(state);
                     }}
                 >
-                    <div className={contentModule.contents}>Login</div>
+                    <div className={contentModule.contents}>{t("Login")}</div>
                 </button>
             </div>
         </>

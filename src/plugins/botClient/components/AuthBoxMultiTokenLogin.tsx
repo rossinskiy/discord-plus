@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useEffect, useState } from "@webpack/common";
@@ -28,15 +29,15 @@ export default function AuthBoxMultiTokenLogin() {
             <div className={classes(authBoxModule.block, Margins.top20)}>
                 <div className={Margins.bottom20}>
                     <h5 className={classes(cl("h5"), cl("defaultMarginh5"))}>
-                        Bot Token
+                        {t("Bot Token")}
                     </h5>
                     <div className={inputModule.inputWrapper}>
                         <input
                             className={inputModule.inputDefault}
                             name="token"
                             type="password"
-                            placeholder="Enter your bot token"
-                            aria-label="Token"
+                            placeholder={t("Enter your bot token")}
+                            aria-label={t("Token")}
                             autoComplete="off"
                             maxLength={100}
                             spellCheck="false"

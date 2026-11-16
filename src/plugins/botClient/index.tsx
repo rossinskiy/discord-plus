@@ -16,6 +16,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Paragraph } from "@components/Paragraph";
 import { BotLoginSetting } from "@plugins/botClient/components/BotLoginSetting";
 import { getCurrentChannel, getCurrentGuild } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { Channel, Guild, Role,type UserStore as UserStoreType } from "@vencord/discord-types";
@@ -250,32 +251,32 @@ const settings = definePluginSettings({
         component: BotLoginSetting,
     },
     showMemberList: {
-        description: "Allow fetching member list sidebar",
+        description: t("Allow fetching member list sidebar"),
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: false,
     },
     memberListThrottleDelay: {
-        description: "The interval at which the member list sidebar is updated (seconds)",
+        description: t("The interval at which the member list sidebar is updated (seconds)"),
         type: OptionType.NUMBER,
         default: 2,
         restartNeeded: false,
     },
     embedChatButton: {
-        description: "Show the message editor button in the chat bar",
+        description: t("Show the message editor button in the chat bar"),
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true,
     },
     embedEditMessageButton: {
-        description: "Show the message editor button in messages",
+        description: t("Show the message editor button in messages"),
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true,
     },
     saveDirectMessage: {
         description:
-            "Whether or not to save private channels to storage? If disabled, all cached private channels will be cleared",
+            t("Whether or not to save private channels to storage? If disabled, all cached private channels will be cleared"),
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: false,
@@ -285,7 +286,7 @@ const settings = definePluginSettings({
     },
     overrideVoiceChannelBitrate: {
         description:
-            "Enable bitrate override for voice channels you join. Higher bitrate may increase network usage.",
+            t("Enable bitrate override for voice channels you join. Higher bitrate may increase network usage."),
         type: OptionType.BOOLEAN,
         default: false,
         onChange: (value: boolean) => {
@@ -296,9 +297,9 @@ const settings = definePluginSettings({
                     type: "SET_CHANNEL_BITRATE",
                     bitrate: Math.floor(kbps * 1000),
                 });
-                showToast({ text: "Voice channel bitrate override enabled", variant: "success" });
+                showToast({ text: t("Voice channel bitrate override enabled"), variant: "success" });
                 showToast({
-                    text: "For the best voice quality, please disable echo cancellation and Krisp.",
+                    text: t("For the best voice quality, please disable echo cancellation and Krisp."),
                     variant: "success",
                 });
             } else {
@@ -307,7 +308,7 @@ const settings = definePluginSettings({
                 if (!channelId) return;
                 const channel = ChannelStore.getChannel(channelId);
                 BotClientLogger.log(`[Disable Override] Set voice channel bitrate to ${channel?.bitrate} bps`);
-                showToast({ text: "Voice channel bitrate override disabled", variant: "success" });
+                showToast({ text: t("Voice channel bitrate override disabled"), variant: "success" });
                 FluxDispatcher.dispatch({
                     type: "SET_CHANNEL_BITRATE",
                     bitrate: channel.bitrate,
@@ -316,7 +317,7 @@ const settings = definePluginSettings({
         },
     },
     bitrateVoiceChannel: {
-        description: "Set the default bitrate for voice channels you join (in kbps)",
+        description: t("Set the default bitrate for voice channels you join (in kbps)"),
         type: OptionType.NUMBER,
         default: 128,
         hidden: true,

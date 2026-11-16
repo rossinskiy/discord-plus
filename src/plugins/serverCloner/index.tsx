@@ -7,6 +7,7 @@
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
+import { t } from "@utils/i18n";
 import definePlugin, { OptionType } from "@utils/types";
 import { Guild } from "@vencord/discord-types";
 import { ChannelType } from "@vencord/discord-types/enums";
@@ -15,7 +16,7 @@ import { Alerts, ChannelStore, EmojiStore, GuildRoleStore, Menu, RestAPI, Toasts
 const settings = definePluginSettings({
     copyEmojis: {
         type: OptionType.BOOLEAN,
-        description: "Also copy the server's custom emojis (up to the 50 static and 50 animated slots a new server has). Emoji uploads are rate limited by Discord and can slow the clone down.",
+        description: t("Also copy the server's custom emojis (up to the 50 static and 50 animated slots a new server has). Emoji uploads are rate limited by Discord and can slow the clone down."),
         default: true
     }
 });
@@ -53,7 +54,7 @@ async function call<T = any>(method: "get" | "post" | "patch" | "del", url: stri
         } catch (err: any) {
             if (err?.status === 429) {
                 const wait = Number(err?.body?.retry_after ?? 5);
-                if (wait > MAX_WAIT_S) throw new RateLimited(`Discord asked to wait ${Math.ceil(wait)}s`);
+                if (wait > MAX_WAIT_S) throw new RateLimited(t("Discord asked to wait {s}s", { s: Math.ceil(wait) }));
                 await sleep(Math.ceil(wait * 1000) + 500);
                 continue;
             }
@@ -102,13 +103,13 @@ const channelBodyType = (type: number): number | null => {
 
 function etaText(calls: number) {
     const minutes = Math.max(1, Math.ceil(calls / 45));
-    return minutes < 60 ? `about ${minutes} min` : `about ${(minutes / 60).toFixed(1)} h`;
+    return minutes < 60 ? t("about {n} min", { n: minutes }) : t("about {n} h", { n: (minutes / 60).toFixed(1) });
 }
 
 async function runClone(current: Job) {
     const { source } = current;
     const toastId = Toasts.genId();
-    const progress = (text: string) => Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: `Cloning "${source.name}": ${text}` });
+    const progress = (text: string) => Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: t('Cloning "{name}": {text}', { name: source.name, text }) });
 
     const notes: string[] = [];
     const roleMap = new Map<string, string>();
@@ -132,15 +133,15 @@ async function runClone(current: Job) {
                 || a.position - b.position);
 
         const converted = channels.filter(c => c.type !== ChannelType.GUILD_TEXT && c.type !== ChannelType.GUILD_VOICE).length;
-        if (converted) notes.push(`${converted} announcement/stage/forum/media channel(s) became ordinary text or voice channels (those types need Community).`);
+        if (converted) notes.push(t("{n} announcement/stage/forum/media channel(s) became ordinary text or voice channels (those types need Community).", { n: converted }));
         const skippedThreads = all.length - categories.length - channels.length;
-        if (skippedThreads > 0) notes.push(`${skippedThreads} channel(s) of an unsupported type were skipped.`);
+        if (skippedThreads > 0) notes.push(t("{n} channel(s) of an unsupported type were skipped.", { n: skippedThreads }));
 
         // ---- the new server ----
         progress("creating the server");
         const iconUrl = source.icon ? `https://cdn.discordapp.com/icons/${source.id}/${source.icon}.png?size=1024` : null;
         const icon = iconUrl ? await toDataUrl(iconUrl) : null;
-        if (iconUrl && !icon) notes.push("The icon could not be downloaded.");
+        if (iconUrl && !icon) notes.push(t("The icon could not be downloaded."));
 
         const created = await call<{ id: string; }>("post", "/guilds", { name: source.name, icon, channels: [], system_channel_id: null });
         newGuildId = created.id;
@@ -162,7 +163,7 @@ async function runClone(current: Job) {
 
         // ---- roles ----
         for (const [i, role] of roles.entries()) {
-            progress(`roles ${i + 1} of ${roles.length}`);
+            progress(t("roles {i} of {n}", { i: i + 1, n: roles.length }));
             try {
                 const made = await call<{ id: string; }>("post", `/guilds/${newGuildId}/roles`, {
                     name: role.name,
@@ -175,7 +176,7 @@ async function runClone(current: Job) {
                 stats.roles++;
             } catch (err) {
                 if (err instanceof Cancelled || err instanceof RateLimited) throw err;
-                notes.push(`Role "${role.name}" failed: ${errorText(err)}`);
+                notes.push(t('Role "{name}" failed: {error}', { name: role.name, error: errorText(err) }));
             }
             await pause();
         }
@@ -186,7 +187,7 @@ async function runClone(current: Job) {
                 await call("patch", `/guilds/${newGuildId}/roles`, positions);
             } catch (err) {
                 if (err instanceof Cancelled) throw err;
-                notes.push(`Role order could not be restored: ${errorText(err)}`);
+                notes.push(t("Role order could not be restored: {error}", { error: errorText(err) }));
             }
             await pause();
         }
@@ -203,7 +204,7 @@ async function runClone(current: Job) {
 
         // ---- categories, then channels ----
         for (const [i, cat] of categories.entries()) {
-            progress(`categories ${i + 1} of ${categories.length}`);
+            progress(t("categories {i} of {n}", { i: i + 1, n: categories.length }));
             try {
                 const made = await call<{ id: string; }>("post", `/guilds/${newGuildId}/channels`, {
                     type: ChannelType.GUILD_CATEGORY,
@@ -214,13 +215,13 @@ async function runClone(current: Job) {
                 stats.categories++;
             } catch (err) {
                 if (err instanceof Cancelled || err instanceof RateLimited) throw err;
-                notes.push(`Category "${cat.name}" failed: ${errorText(err)}`);
+                notes.push(t('Category "{name}" failed: {error}', { name: cat.name, error: errorText(err) }));
             }
             await pause();
         }
 
         for (const [i, ch] of channels.entries()) {
-            progress(`channels ${i + 1} of ${channels.length}`);
+            progress(t("channels {i} of {n}", { i: i + 1, n: channels.length }));
             const type = channelBodyType(ch.type)!;
             const body: Record<string, unknown> = {
                 type,
@@ -243,7 +244,7 @@ async function runClone(current: Job) {
                 stats.channels++;
             } catch (err) {
                 if (err instanceof Cancelled || err instanceof RateLimited) throw err;
-                notes.push(`Channel "${ch.name}" failed: ${errorText(err)}`);
+                notes.push(t('Channel "{name}" failed: {error}', { name: ch.name, error: errorText(err) }));
             }
             await pause();
         }
@@ -266,7 +267,7 @@ async function runClone(current: Job) {
             await call("patch", `/guilds/${newGuildId}`, settingsBody);
         } catch (err) {
             if (err instanceof Cancelled) throw err;
-            notes.push(`Server settings could not be copied: ${errorText(err)}`);
+            notes.push(t("Server settings could not be copied: {error}", { error: errorText(err) }));
         }
         await pause();
 
@@ -282,7 +283,7 @@ async function runClone(current: Job) {
                     if (err instanceof Cancelled) throw err;
                 }
             }
-            if (!ok) notes.push("The banner was not copied: a new server needs Boost level 2 to have one.");
+            if (!ok) notes.push(t("The banner was not copied: a new server needs Boost level 2 to have one."));
             await pause();
         }
 
@@ -292,10 +293,10 @@ async function runClone(current: Job) {
             const statics = emojis.filter(e => !e.animated).slice(0, MAX_STATIC_EMOJI);
             const animated = emojis.filter(e => e.animated).slice(0, MAX_ANIMATED_EMOJI);
             const list = [...statics, ...animated];
-            if (emojis.length > list.length) notes.push(`${emojis.length - list.length} emoji(s) did not fit in the free slots of a new server.`);
+            if (emojis.length > list.length) notes.push(t("{n} emoji(s) did not fit in the free slots of a new server.", { n: emojis.length - list.length }));
             let failed = 0;
             for (const [i, emoji] of list.entries()) {
-                progress(`emojis ${i + 1} of ${list.length}`);
+                progress(t("emojis {i} of {n}", { i: i + 1, n: list.length }));
                 try {
                     const image = await toDataUrl(`https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? "gif" : "png"}?size=128`);
                     if (!image) { failed++; continue; }
@@ -304,7 +305,7 @@ async function runClone(current: Job) {
                 } catch (err) {
                     if (err instanceof Cancelled) throw err;
                     if (err instanceof RateLimited) {
-                        notes.push(`Emoji copying stopped early: ${err.message}. ${stats.emojis} of ${list.length} were copied.`);
+                        notes.push(t("Emoji copying stopped early: {error}. {done} of {total} were copied.", { error: err.message, done: stats.emojis, total: list.length }));
                         failed = 0;
                         break;
                     }
@@ -312,35 +313,41 @@ async function runClone(current: Job) {
                 }
                 await pause();
             }
-            if (failed) notes.push(`${failed} emoji(s) could not be copied.`);
+            if (failed) notes.push(t("{n} emoji(s) could not be copied.", { n: failed }));
         }
 
-        Toasts.show({ id: toastId, type: Toasts.Type.SUCCESS, message: `Cloned "${source.name}"` });
+        Toasts.show({ id: toastId, type: Toasts.Type.SUCCESS, message: t('Cloned "{name}"', { name: source.name }) });
         Alerts.show({
-            title: "Server cloned",
+            title: t("Server cloned"),
             body: [
-                `"${source.name}" was copied to a new server on your account: ${stats.roles} roles, ${stats.categories} categories, ${stats.channels} channels${settings.store.copyEmojis ? `, ${stats.emojis} emojis` : ""}.`,
-                "Messages, members, bots, webhooks, stickers and invites are not copied.",
+                settings.store.copyEmojis
+                    ? t('"{name}" was copied to a new server on your account: {roles} roles, {categories} categories, {channels} channels, {emojis} emojis.', { name: source.name, roles: stats.roles, categories: stats.categories, channels: stats.channels, emojis: stats.emojis })
+                    : t('"{name}" was copied to a new server on your account: {roles} roles, {categories} categories, {channels} channels.', { name: source.name, roles: stats.roles, categories: stats.categories, channels: stats.channels }),
+                t("Messages, members, bots, webhooks, stickers and invites are not copied."),
                 ...notes
             ].join("\n\n"),
-            confirmText: "OK",
+            confirmText: t("OK"),
             cancelText: ""
         });
     } catch (err: any) {
         if (err instanceof Cancelled) {
-            Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: "Server clone cancelled" });
+            Toasts.show({ id: toastId, type: Toasts.Type.MESSAGE, message: t("Server clone cancelled") });
             Alerts.show({
-                title: "Server clone cancelled",
-                body: `Stopped part of the way. ${newGuildId ? "The half-built server is still on your account, delete it if you do not want it." : "Nothing was created."}`,
-                confirmText: "OK",
+                title: t("Server clone cancelled"),
+                body: newGuildId
+                    ? t("Stopped part of the way. The half-built server is still on your account, delete it if you do not want it.")
+                    : t("Stopped part of the way. Nothing was created."),
+                confirmText: t("OK"),
                 cancelText: ""
             });
         } else {
-            Toasts.show({ id: toastId, type: Toasts.Type.FAILURE, message: "Server clone failed" });
+            Toasts.show({ id: toastId, type: Toasts.Type.FAILURE, message: t("Server clone failed") });
             Alerts.show({
-                title: "Server clone failed",
-                body: `${errorText(err)}. ${newGuildId ? "A partly built server may be left on your account, delete it if you do not want it." : "Nothing was created."}`,
-                confirmText: "OK",
+                title: t("Server clone failed"),
+                body: newGuildId
+                    ? t("{error}. A partly built server may be left on your account, delete it if you do not want it.", { error: errorText(err) })
+                    : t("{error}. Nothing was created.", { error: errorText(err) }),
+                confirmText: t("OK"),
                 cancelText: ""
             });
         }
@@ -358,14 +365,16 @@ function startClone(source: Guild) {
     const calls = roles + all + emojis + 10;
 
     Alerts.show({
-        title: `Clone "${source.name}"?`,
+        title: t('Clone "{name}"?', { name: source.name }),
         body: [
-            `This creates a NEW server on your account with the same name, icon, roles, role permissions, categories, channels and channel permissions${settings.store.copyEmojis ? ", and emojis" : ""}. ${roles} roles and ${all} channels will be copied, ${etaText(calls)}.`,
-            "Only what you can see is copied. Messages, members, bots, webhooks, stickers and invites are not, and the banner needs Boost level 2.",
-            "It sends a lot of requests from your account. Discord's terms do not allow client mods or automation, so this is at your own risk. Do not use it to copy someone else's server to pass it off as theirs."
+            settings.store.copyEmojis
+                ? t("This creates a NEW server on your account with the same name, icon, roles, role permissions, categories, channels and channel permissions, and emojis. {roles} roles and {channels} channels will be copied, {eta}.", { roles, channels: all, eta: etaText(calls) })
+                : t("This creates a NEW server on your account with the same name, icon, roles, role permissions, categories, channels and channel permissions. {roles} roles and {channels} channels will be copied, {eta}.", { roles, channels: all, eta: etaText(calls) }),
+            t("Only what you can see is copied. Messages, members, bots, webhooks, stickers and invites are not, and the banner needs Boost level 2."),
+            t("It sends a lot of requests from your account. Discord's terms do not allow client mods or automation, so this is at your own risk. Do not use it to copy someone else's server to pass it off as theirs.")
         ].join("\n\n"),
-        confirmText: "Clone",
-        cancelText: "Cancel",
+        confirmText: t("Clone"),
+        cancelText: t("Cancel"),
         onConfirm() {
             if (job) return;
             job = { source, cancelled: false };
@@ -382,7 +391,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, { guild }: { g
         group.push(
             <Menu.MenuItem
                 id="vc-server-cloner-cancel"
-                label="Cancel server clone"
+                label={t("Cancel server clone")}
                 color="danger"
                 action={() => { if (job) job.cancelled = true; }}
             />
@@ -393,7 +402,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, { guild }: { g
     group.push(
         <Menu.MenuItem
             id="vc-server-cloner"
-            label="Clone server"
+            label={t("Clone server")}
             action={() => startClone(guild)}
         />
     );
