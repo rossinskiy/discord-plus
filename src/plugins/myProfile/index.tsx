@@ -186,15 +186,17 @@ export default definePlugin({
 
     patches: [
         {
-            find: 'static displayName="BadgeDirectoryStore"',
+            // Only the "Your badges" window gets the extra entries. The store itself stays untouched, because
+            // the profile editor builds its saved badge order from the same store and Discord would reject ids it does not know.
+            find: 'location:"BadgeDirectoryPanel"',
             replacement: [
                 {
-                    match: /getBadges\((\i)\)\{/,
-                    replace: "getBadges($1){return $self.withCatalogBadges(this._getBadges($1),$1)}_getBadges($1){"
+                    match: /(\i\.Ay\.getBadges\((\i)\))(?=:\[\],\[\])/g,
+                    replace: "$self.withCatalogBadges($1,$2)"
                 },
                 {
-                    match: /getBadgeById\((\i),(\i)\)\{/,
-                    replace: "getBadgeById($1,$2){return this._getBadgeById($1,$2)??$self.catalogBadgeById($1,$2)}_getBadgeById($1,$2){"
+                    match: /(\i\.Ay\.getBadgeById\((\i),(\i)\))(?=:void 0)/g,
+                    replace: "($1??$self.catalogBadgeById($2,$3))"
                 }
             ]
         }
