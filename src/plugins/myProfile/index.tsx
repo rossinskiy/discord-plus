@@ -9,13 +9,61 @@ import "./style.css";
 import { addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge, removeProfileBadge } from "@api/Badges";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
+import { findStoreLazy } from "@webpack";
 import { FluxDispatcher, GuildMemberStore, UserStore } from "@webpack/common";
 
 import {
     cachedOfficialBadges, cachedProfile, clearBadgeCache, configureRemote, loadLocalBadges, loadSelf, localBadges, officialById,
-    registerSelf, requestBadges, uidBadgeInfo
+    registerSelf, requestBadges, subscribe, uidBadgeInfo
 } from "./badges";
 import { DEFAULT_SERVER, settings } from "./settings";
+
+// Discord's "Your badges" window reads its list from BadgeDirectoryStore. The patch below makes that store
+// also return the Discord+ badges (and, for yourself, your own local badges), so they show up in the window
+// next to Discord's own. Entries are cached so React sees the same objects until something really changes.
+const BadgeDirectoryStore = findStoreLazy("BadgeDirectoryStore");
+const catalogCache = new Map<string, any>();
+let stopCatalogSync: (() => void) | undefined;
+
+function catalogEntry(id: string, name: string, description: string, icon: string) {
+    const key = `${id}|${name}|${description}|${icon.length}`;
+    let entry = catalogCache.get(key);
+    if (!entry) {
+        entry = {
+            badge_id: id,
+            name,
+            description,
+            owned: true,
+            is_earnable: false,
+            has_updates: false,
+            tiers: [],
+            progress: [],
+            simple_icon_url: icon,
+            complex_icon_static_url: icon,
+            complex_icon_animated_url: undefined
+        };
+        catalogCache.set(key, entry);
+    }
+    return entry;
+}
+
+function catalogBadgesFor(userId: string | undefined): any[] {
+    if (!userId) return [];
+    const out: any[] = [];
+    const { ids, uid, joined } = cachedProfile(userId);
+    for (const id of ids) {
+        const b = officialById(id);
+        if (b) out.push(catalogEntry(`discordplus-${b.id}`, b.name, b.description, b.icon));
+    }
+    if (uid) {
+        const info = uidBadgeInfo(uid, joined);
+        out.push(catalogEntry("discordplus-member", `Discord+ #${uid}`, info.description, info.icon));
+    }
+    if (userId === myId()) {
+        for (const b of localBadges) out.push(catalogEntry(b.id, b.name, b.description, b.image));
+    }
+    return out;
+}
 
 // UserStore.getCurrentUser() ends up calling getUser(), which this plugin wraps, so the id has to be
 // looked up with a guard against calling itself and then remembered.
@@ -136,6 +184,39 @@ export default definePlugin({
     required: true,
     settings,
 
+    patches: [
+        {
+            find: 'static displayName="BadgeDirectoryStore"',
+            replacement: [
+                {
+                    match: /getBadges\((\i)\)\{/,
+                    replace: "getBadges($1){return $self.withCatalogBadges(this._getBadges($1),$1)}_getBadges($1){"
+                },
+                {
+                    match: /getBadgeById\((\i),(\i)\)\{/,
+                    replace: "getBadgeById($1,$2){return this._getBadgeById($1,$2)??$self.catalogBadgeById($1,$2)}_getBadgeById($1,$2){"
+                }
+            ]
+        }
+    ],
+
+    withCatalogBadges(list: any[], userId?: string) {
+        try {
+            const extra = catalogBadgesFor(userId ?? myId());
+            return extra.length ? [...list, ...extra] : list;
+        } catch {
+            return list;
+        }
+    },
+
+    catalogBadgeById(badgeId: string, userId?: string) {
+        try {
+            return catalogBadgesFor(userId ?? myId()).find(b => b.badge_id === badgeId);
+        } catch {
+            return undefined;
+        }
+    },
+
     async start() {
         await loadLocalBadges();
         await loadSelf();
@@ -145,6 +226,7 @@ export default definePlugin({
         addProfileBadge(endBadges);
         addProfileBadge(officialBadges);
         addProfileBadge(uidBadge);
+        stopCatalogSync = subscribe(() => { try { BadgeDirectoryStore.emitChange?.(); } catch { } });
 
         installNameOverride();
 
@@ -159,6 +241,7 @@ export default definePlugin({
         removeProfileBadge(endBadges);
         removeProfileBadge(officialBadges);
         removeProfileBadge(uidBadge);
+        stopCatalogSync?.();
 
         FluxDispatcher.unsubscribe("LOAD_MESSAGES_SUCCESS", onMessages);
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", onMessage);
