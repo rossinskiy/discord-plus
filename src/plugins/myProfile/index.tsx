@@ -199,8 +199,31 @@ export default definePlugin({
                     replace: "($1??$self.catalogBadgeById($2,$3))"
                 }
             ]
+        },
+        {
+            // The "Customize your badges" popout lists Discord's badges. Show ours there too, as plain
+            // icons without the hide/reorder menu, since Discord cannot save badges it does not know.
+            find: 'location:"BadgeCustomizationPopout"',
+            replacement: {
+                match: /className:\i\(\)\((\i)\.yq,\i&&\i\.T0\),role:"group",.{0,80}?children:\[/,
+                replace: "$&$self.customBadgesRow($1),"
+            }
         }
     ],
+
+    customBadgesRow(styles: Record<string, string>) {
+        try {
+            return catalogBadgesFor(myId()).map(b => (
+                <div key={b.badge_id} className={styles.fw} title={b.name}>
+                    <div className={styles.yk}>
+                        <img src={b.simple_icon_url} alt={b.name} draggable={false} className={styles.pC} />
+                    </div>
+                </div>
+            ));
+        } catch {
+            return null;
+        }
+    },
 
     withCatalogBadges(list: any[], userId?: string) {
         try {
