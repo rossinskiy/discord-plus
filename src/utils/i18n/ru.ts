@@ -310,8 +310,12 @@ export const ru: Record<string, string> = {
     "Invalid token": "Неверный токен",
     "Login": "Войти",
 
+    // QuietConsole
+    "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
+    "Hide Discord's routine log lines (RPCServer, WindowVisibilityVideoManager, settings protos, canvas hints)": "Скрывать обычные служебные строки Discord (RPCServer, WindowVisibilityVideoManager, протоколы настроек, подсказки canvas)",
+
     // Discord+ plugins
-    "Current password": "Текущий пароль",
+    "Current password":"Текущий пароль",
     "New password": "Новый пароль",
     "New password again": "Новый пароль ещё раз",
     "Remove password": "Убрать пароль",

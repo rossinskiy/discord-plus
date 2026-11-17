@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import * as DataStore from "@api/DataStore";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { t } from "@utils/i18n";
@@ -41,6 +42,7 @@ let checkTimer: ReturnType<typeof setTimeout> | undefined;
 const failedQuests = new Set<string>();
 const warnedQuests = new Set<string>();
 const claimAttempted = new Set<string>();
+const CLAIM_FAILED_KEY = "AutoQuest_claimFailed";
 
 const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
@@ -266,6 +268,10 @@ async function claimReward(quest: any) {
     } catch (err: any) {
         const body = err?.body;
         console.warn("[AutoQuest] could not auto-claim", quest.id, err?.status, JSON.stringify(body));
+        try {
+            const old = await DataStore.get<string[]>(CLAIM_FAILED_KEY) ?? [];
+            await DataStore.set(CLAIM_FAILED_KEY, [...new Set([...old, quest.id])].slice(-200));
+        } catch { }
         if (body?.captcha_key) toast(`Auto Quest: "${name}" needs a captcha, claim it in the Quests tab.`);
         else toast(`Auto Quest: could not auto-claim "${name}", claim it in the Quests tab.`, Toasts.Type.FAILURE);
     }
@@ -346,8 +352,12 @@ export default definePlugin({
     tags: ["Utility"],
     settings,
 
-    start() {
+    async start() {
         stopped = false;
+        // Rewards that Discord refused once (captcha, already claimed) are not retried on every restart.
+        try {
+            for (const id of await DataStore.get<string[]>(CLAIM_FAILED_KEY) ?? []) claimAttempted.add(id);
+        } catch { }
         setTimeout(runNext, rand(5_000, 10_000));
         try {
             QuestsStore.addChangeListener(onQuestsChange);
