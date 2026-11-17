@@ -7,7 +7,7 @@
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { t } from "@utils/i18n";
-import definePlugin, { OptionType } from "@utils/types";
+import definePlugin, { OptionType, StartAt } from "@utils/types";
 
 const settings = definePluginSettings({
     hideWarning: {
@@ -41,10 +41,11 @@ const METHODS = ["log", "info", "warn", "debug"] as const;
 const originals: Partial<Record<typeof METHODS[number], (...args: any[]) => void>> = {};
 
 function isNoise(args: unknown[]) {
-    const first = args[0];
-    if (typeof first !== "string") return false;
-    if (settings.store.hideWarning && WARNING.some(s => first.includes(s))) return true;
-    if (settings.store.hideRoutine && ROUTINE.some(s => first.includes(s))) return true;
+    // Discord's logger may put the tag in any string argument, so look at all of them.
+    const text = args.filter(a => typeof a === "string").join(" ");
+    if (!text) return false;
+    if (settings.store.hideWarning && WARNING.some(s => text.includes(s))) return true;
+    if (settings.store.hideRoutine && ROUTINE.some(s => text.includes(s))) return true;
     return false;
 }
 
@@ -53,6 +54,7 @@ export default definePlugin({
     authors: [Devs.Tsar],
     description: "Hides the \"Hold Up!\" warning and Discord's routine log lines in the DevTools console, so your own messages and real errors are easy to see. Network errors (404, 429) are printed by the browser itself and cannot be hidden. Unlike NoDevtoolsWarning, it does not change how Discord stores your token.",
     tags: ["Developers", "Console"],
+    startAt: StartAt.Init,
     settings,
 
     start() {

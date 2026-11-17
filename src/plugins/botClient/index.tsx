@@ -753,8 +753,8 @@ export default definePlugin({
         {
             find: "canUseCustomStickersEverywhere:",
             replacement: {
-                match: /(?<=canUseCustomStickersEverywhere:function\(\i\)\{)/,
-                replace: "if($self.isBotMode())return false;",
+                match: /canUseCustomStickersEverywhere:(\i\.\i)/,
+                replace: "canUseCustomStickersEverywhere:(...a)=>$self.isBotMode()?false:$1(...a)",
             },
         },
         // Try handle Private Channel
