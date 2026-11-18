@@ -392,3 +392,19 @@ Seventeen plugins were written for Discord+, plus the second account window. The
 Seventeen plugins written for Discord+, plus the second account window. Every plugin from Vencord still works in the same settings page. All Discord+ plugins start off until you switch them on, except MyProfile, which is built in and always on.	Семнадцать плагинов, написанных для Discord+, и окно второго аккаунта. Все плагины Vencord по-прежнему работают на той же странице настроек. Все плагины Discord+ изначально выключены, пока вы их не включите, кроме MyProfile: он встроен и всегда включён.
 Type /schedule with a delay such as 10m, 2h30m or 1d and a message, and Discord+ sends it in that channel when the time comes. /scheduled lists your waiting messages and can cancel one.	Введите /schedule с задержкой, например 10m, 2h30m или 1d, и сообщением, и Discord+ отправит его в этот канал, когда придёт время. /scheduled показывает ожидающие сообщения и может отменить одно из них.
 Waiting messages are stored on your PC.	Ожидающие сообщения хранятся на вашем компьютере.
+AppLock, PersonalStats and ScheduledMessages are now listed in the plugin catalog.	AppLock, PersonalStats и ScheduledMessages теперь есть в каталоге плагинов.
+AutoQuest remembers rewards that Discord refused to hand out and no longer tries them again after every restart.	AutoQuest запоминает награды, которые Discord отказался выдать, и больше не пробует их после каждого перезапуска.
+AutoQuest works again after Discord changed how its toasts work.	AutoQuest снова работает после того, как Discord изменил устройство своих уведомлений.
+Changes | Discord+	Изменения | Discord+
+GifPaste, the BotClient sticker rule and NoDevtoolsWarning work again on the newest Discord build.	GifPaste, правило стикеров в BotClient и NoDevtoolsWarning снова работают на новейшей сборке Discord.
+Last updated November 17, 2026	Последнее обновление: 17 ноября 2026
+MyProfile is built in and always on. Badges of other people refresh every minute, and Discord+ badges show in the Your badges window.	MyProfile встроен и всегда включён. Значки других людей обновляются каждую минуту, а значки Discord+ видны в окне «Ваши значки».
+New plugin QuietConsole hides the "Hold Up!" warning and Discord's routine log lines in the DevTools console. You can add your own words to hide.	Новый плагин QuietConsole скрывает в консоли DevTools предупреждение «Hold Up!» и обычные служебные строки Discord. Можно добавить свои слова для скрытия.
+November 17, 2026	17 ноября 2026
+November 2026, earlier	Ноябрь 2026, раньше
+ServerCloner, BotClient and ChannelNotes were added to the catalog.	ServerCloner, BotClient и ChannelNotes добавлены в каталог.
+The messages of ScheduledMessages, AppLock, Reminders, PurgeMessages, BulkExport, UserTags and AutoLeaveEmptyVC are translated to Russian.	Сообщения ScheduledMessages, AppLock, Reminders, PurgeMessages, BulkExport, UserTags и AutoLeaveEmptyVC переведены на русский.
+The privacy page was rewritten to match what the client and the site do with data.	Страница конфиденциальности переписана в соответствии с тем, что клиент и сайт делают с данными.
+The whole site and the client are available in Russian.	Весь сайт и клиент доступны на русском.
+What changed	Что изменилось
+What changed in Discord+ and its website: new plugins, fixes for new Discord builds and translations.	Что изменилось в Discord+ и на его сайте: новые плагины, исправления под новые сборки Discord и переводы.

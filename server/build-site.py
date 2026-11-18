@@ -232,6 +232,7 @@ def bottom(hints):
 </div>
 <div class="wrap foot">
 <div class="links">
+<a href="/changelog">What changed</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
 {support_link}<a href="{GITHUB}" rel="noopener">Source on GitHub</a>
@@ -638,7 +639,7 @@ def support_page():
 
 
 PATHS = {"index.html": "/", "plugins.html": "/plugins", "install.html": "/install", "privacy.html": "/privacy",
-         "terms.html": "/terms", "support.html": "/support"}
+         "terms.html": "/terms", "support.html": "/support", "changelog.html": "/changelog"}
 MISSING = set()
 NL = chr(10)
 
@@ -684,11 +685,14 @@ write("privacy.html", doc_page("Privacy | Discord+", "Privacy policy", "/privacy
 write("terms.html", doc_page("Terms | Discord+", "Terms", "/terms",
                               "The terms of using Discord+: GPL-3.0 license, no warranty, your responsibility and no affiliation with Discord or Vencord.",
                               "October 17, 2026", terms))
+write("changelog.html", doc_page("Changes | Discord+", "What changed", "/changelog",
+                                   "What changed in Discord+ and its website: new plugins, fixes for new Discord builds and translations.",
+                                   "November 17, 2026", extract_prose("changelog")))
 write("404.html", not_found())
 if HAS_SUPPORT:
     write("support.html", support_page())
 # the sitemap lists exactly the pages that exist
-pages = ["/", "/plugins", "/install", "/privacy", "/terms"] + (["/support"] if HAS_SUPPORT else [])
+pages = ["/", "/plugins", "/install", "/changelog", "/privacy", "/terms"] + (["/support"] if HAS_SUPPORT else [])
 NL = chr(10)
 
 
