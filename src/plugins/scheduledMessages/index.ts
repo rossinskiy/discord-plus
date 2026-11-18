@@ -35,8 +35,8 @@ const save = () => DataStore.set(STORE_KEY, items);
 
 function channelName(id: string) {
     const ch = ChannelStore.getChannel(id);
-    if (!ch) return "a channel";
-    return ch.name ? `#${ch.name}` : "a direct message";
+    if (!ch) return t("a channel");
+    return ch.name ? `#${ch.name}` : t("a direct message");
 }
 
 function excerpt(text: string) {
@@ -61,15 +61,15 @@ async function tick() {
 
         for (const item of due) {
             if (now - item.dueAt > LATE_LIMIT_MS) {
-                showNotification({ title: t("Scheduled message missed"), body: `Discord was closed at ${formatWhen(item.dueAt)}. Not sent: ${excerpt(item.content)}` });
+                showNotification({ title: t("Scheduled message missed"), body: t("Discord was closed at {when}. Not sent: {text}", { when: formatWhen(item.dueAt), text: excerpt(item.content) }) });
                 continue;
             }
             try {
                 await sendMessage(item.channelId, { content: item.content });
-                showToast(`Sent to ${channelName(item.channelId)}`, Toasts.Type.SUCCESS);
+                showToast(t("Sent to {channel}", { channel: channelName(item.channelId) }), Toasts.Type.SUCCESS);
             } catch (err) {
                 console.error("[ScheduledMessages] send failed", err);
-                showNotification({ title: t("Scheduled message failed"), body: `Could not send: ${excerpt(item.content)}` });
+                showNotification({ title: t("Scheduled message failed"), body: t("Could not send: {text}", { text: excerpt(item.content) }) });
             }
         }
     } finally {
@@ -107,14 +107,14 @@ export default definePlugin({
                 const inStr: string = findOption(args, "in", "");
                 const content: string = findOption(args, "message", "");
                 const ms = parseDuration(inStr);
-                if (!ms) return sendBotMessage(ctx.channel.id, { content: `Couldn't understand "${inStr}". Try \`10m\`, \`2h30m\` or \`1d\`.` });
-                if (!content.trim()) return sendBotMessage(ctx.channel.id, { content: "The message is empty." });
+                if (!ms) return sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try `10m`, `2h30m` or `1d`.", { value: inStr }) });
+                if (!content.trim()) return sendBotMessage(ctx.channel.id, { content: t("The message is empty.") });
 
                 const item: Scheduled = { id: nanoid(), channelId: ctx.channel.id, content, dueAt: Date.now() + ms };
                 items.push(item);
                 items.sort((a, b) => a.dueAt - b.dueAt);
                 save();
-                sendBotMessage(ctx.channel.id, { content: `Scheduled for ${formatWhen(item.dueAt)}. See them all with \`/scheduled\`. Discord has to be open then.` });
+                sendBotMessage(ctx.channel.id, { content: t("Scheduled for {when}. See them all with `/scheduled`. Discord has to be open then.", { when: formatWhen(item.dueAt) }) });
             }
         },
         {
@@ -128,14 +128,14 @@ export default definePlugin({
                 const cancel: number = findOption(args, "cancel", 0);
                 if (cancel) {
                     const target = items[cancel - 1];
-                    if (!target) return sendBotMessage(ctx.channel.id, { content: `There is no message number ${cancel}.` });
+                    if (!target) return sendBotMessage(ctx.channel.id, { content: t("There is no message number {n}.", { n: cancel }) });
                     items = items.filter(i => i.id !== target.id);
                     save();
-                    return sendBotMessage(ctx.channel.id, { content: `Cancelled: ${excerpt(target.content)}` });
+                    return sendBotMessage(ctx.channel.id, { content: t("Cancelled: {text}", { text: excerpt(target.content) }) });
                 }
-                if (!items.length) return sendBotMessage(ctx.channel.id, { content: "Nothing is scheduled." });
+                if (!items.length) return sendBotMessage(ctx.channel.id, { content: t("Nothing is scheduled.") });
                 const lines = items.map((i, n) => `${n + 1}. ${formatWhen(i.dueAt)}, ${channelName(i.channelId)}: ${excerpt(i.content)}`);
-                sendBotMessage(ctx.channel.id, { content: lines.join("\n") + "\n\nCancel one with `/scheduled cancel:<number>`." });
+                sendBotMessage(ctx.channel.id, { content: lines.join("\n") + "\n\n" + t("Cancel one with `/scheduled cancel:<number>`.") });
             }
         }
     ]

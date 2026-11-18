@@ -23,21 +23,21 @@ function PasswordSetup() {
     if (has === null) return null;
 
     async function save() {
-        if (has && !(await checkPassword(current))) return setMsg("The current password is wrong.");
-        if (next.length < 4) return setMsg("Use at least 4 characters.");
-        if (next !== again) return setMsg("The two new passwords are different.");
+        if (has && !(await checkPassword(current))) return setMsg(t("The current password is wrong."));
+        if (next.length < 4) return setMsg(t("Use at least 4 characters."));
+        if (next !== again) return setMsg(t("The two new passwords are different."));
         await setPassword(next);
         setHas(true);
         setCurrent(""); setNext(""); setAgain("");
-        setMsg("Password saved. It is asked the next time Discord starts or locks.");
+        setMsg(t("Password saved. It is asked the next time Discord starts or locks."));
     }
 
     async function remove() {
-        if (!(await checkPassword(current))) return setMsg("Type the current password first.");
+        if (!(await checkPassword(current))) return setMsg(t("Type the current password first."));
         await removePassword();
         setHas(false);
         setCurrent("");
-        setMsg("Password removed. Discord opens without one.");
+        setMsg(t("Password removed. Discord opens without one."));
     }
 
     return (
@@ -49,7 +49,7 @@ function PasswordSetup() {
             <input type="password" placeholder={t("New password")} aria-label={t("New password")} value={next} onChange={e => setNext(e.target.value)} />
             <input type="password" placeholder={t("New password again")} aria-label={t("New password again")} value={again} onChange={e => setAgain(e.target.value)} />
             <div style={{ display: "flex", gap: 8 }}>
-                <Button size="small" onClick={save}>{has ? "Change password" : "Set password"}</Button>
+                <Button size="small" onClick={save}>{has ? t("Change password") : t("Set password")}</Button>
                 {has && <Button size="small" variant="dangerSecondary" onClick={remove}>{t("Remove password")}</Button>}
             </div>
             <span className="vc-applock-msg" role="status">{msg}</span>
