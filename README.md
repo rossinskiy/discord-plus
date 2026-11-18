@@ -1,5 +1,7 @@
 # Discord+
 
+[Русский](README.ru.md)
+
 Discord+ is a desktop Discord client mod with its own plugins, built on the Vencord plugin framework. Install it and look through the plugin list in Discord's settings to see what it adds.
 
 Website, plugin list and one-command install: [discordplus.karatel.win](https://discordplus.karatel.win).
