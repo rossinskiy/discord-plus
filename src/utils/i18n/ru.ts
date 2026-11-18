@@ -331,6 +331,13 @@ export const ru: Record<string, string> = {
     "Change password": "Изменить пароль",
     "Set password": "Задать пароль",
 
+    "Reminder: {note}": "Напоминание: {note}",
+    "Couldn't understand \"{value}\". Try something like `10m`, `2h30m` or `1d`.": "Не понял «{value}». Попробуйте что-то вроде `10m`, `2h30m` или `1d`.",
+    "Got it, I'll remind you in {when}.": "Хорошо, напомню через {when}.",
+    "Reminder set.": "Напоминание создано.",
+    "Failed to set reminder: {error}": "Не удалось создать напоминание: {error}",
+    "Couldn't understand that. Try \"10m\", \"2h\" or \"1d\".": "Не понял. Попробуйте \"10m\", \"2h\" или \"1d\".",
+
     // QuietConsole
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
     "Hide Discord's routine log lines (RPCServer, WindowVisibilityVideoManager, settings protos, canvas hints)": "Скрывать обычные служебные строки Discord (RPCServer, WindowVisibilityVideoManager, протоколы настроек, подсказки canvas)",

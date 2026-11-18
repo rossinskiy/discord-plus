@@ -59,10 +59,10 @@ function RemindModal({ modalProps, target }: { modalProps: RenderModalProps; tar
                 messageId: target.messageId,
                 guildId: target.guildId
             });
-            showToast("Reminder set.", Toasts.Type.SUCCESS);
+            showToast(t("Reminder set."), Toasts.Type.SUCCESS);
             modalProps.onClose();
         } catch (e) {
-            showToast("Failed to set reminder: " + (e as Error).message, Toasts.Type.FAILURE);
+            showToast(t("Failed to set reminder: {error}", { error: (e as Error).message }), Toasts.Type.FAILURE);
             setSaving(false);
         }
     }
@@ -70,7 +70,7 @@ function RemindModal({ modalProps, target }: { modalProps: RenderModalProps; tar
     function scheduleCustom() {
         const ms = parseDuration(custom);
         if (!ms) {
-            showToast("Couldn't understand that. Try \"10m\", \"2h\" or \"1d\".", Toasts.Type.FAILURE);
+            showToast(t("Couldn't understand that. Try \"10m\", \"2h\" or \"1d\"."), Toasts.Type.FAILURE);
             return;
         }
         schedule(ms);

@@ -49,7 +49,7 @@ function playChime() {
 
 function fireReminder(reminder: Reminder, jump: () => void) {
     if (settings.store.showToasts) {
-        showToast(`Reminder: ${reminder.note}`, Toasts.Type.MESSAGE);
+        showToast(t("Reminder: {note}", { note: reminder.note }), Toasts.Type.MESSAGE);
     }
 
     if (settings.store.playSound) playChime();
@@ -126,7 +126,7 @@ export default definePlugin({
                 const ms = parseDuration(inStr);
 
                 if (!ms) {
-                    sendBotMessage(ctx.channel.id, { content: `Couldn't understand "${inStr}". Try something like \`10m\`, \`2h30m\` or \`1d\`.` });
+                    sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try something like `10m`, `2h30m` or `1d`.", { value: inStr }) });
                     return;
                 }
 
@@ -138,7 +138,7 @@ export default definePlugin({
                 });
 
                 sendBotMessage(ctx.channel.id, {
-                    content: `Got it, I'll remind you in ${inStr}.`
+                    content: t("Got it, I'll remind you in {when}.", { when: inStr })
                 });
             }
         }
