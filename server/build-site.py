@@ -360,6 +360,12 @@ def home():
         ("How do I update or remove it?",
          ["Discord+ updates itself. While Discord is open it checks for a new version every half hour, downloads and builds it, and shows a notice. You restart Discord once and you are on the new version.",
           'To remove it, run <code>pnpm uninject</code> inside the Discord+ folder. The <a href="/install">install page</a> has the details.']),
+        ("Why did a plugin stop working after a Discord update?",
+         ["Discord changes its inner code often, and a plugin that hooks into it can break for a few days. Fixes come out through the same automatic update, so a restart of Discord is usually all you need. If it stays broken, open an issue on GitHub and name the plugin."]),
+        ("Which quests does AutoQuest finish?",
+         ["It finishes the ones you accepted yourself: watch a video, play a game on desktop and play an activity. Quests that ask you to reach a goal inside an activity cannot be done from the client, so those you play by hand. If Discord asks for a captcha when you claim a reward, claim it in the Quests tab."]),
+        ("Are the plugins switched on right away?",
+         ["No. Every Discord+ plugin is off until you switch it on in the plugin list in Discord's settings. The only exception is MyProfile, which is built in and always on."]),
     ]
     faq_html = ""
     for q, answers in faq:
