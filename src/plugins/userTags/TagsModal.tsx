@@ -40,10 +40,10 @@ function TagsModal({ modalProps, userId }: { modalProps: RenderModalProps; userI
         setSaving(true);
         try {
             await saveEntry(userId, note.trim(), tags);
-            showToast("Saved.", Toasts.Type.SUCCESS);
+            showToast(t("Saved."), Toasts.Type.SUCCESS);
             modalProps.onClose();
         } catch (e) {
-            showToast("Failed to save: " + (e as Error).message, Toasts.Type.FAILURE);
+            showToast(t("Failed to save: {error}", { error: (e as Error).message }), Toasts.Type.FAILURE);
             setSaving(false);
         }
     }

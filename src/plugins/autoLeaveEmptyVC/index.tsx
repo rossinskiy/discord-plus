@@ -79,7 +79,7 @@ function check() {
         const currentChannelId = VoiceStateStore.getVoiceStateForUser(myId)?.channelId;
         if (currentChannelId && isAlone(currentChannelId, myId)) {
             selectVoiceChannel(null);
-            showToast("Left voice channel — you were alone.", Toasts.Type.MESSAGE);
+            showToast(t("Left the voice channel, you were alone."), Toasts.Type.MESSAGE);
         }
     }, Math.max(0, settings.store.delaySeconds) * 1000);
 }

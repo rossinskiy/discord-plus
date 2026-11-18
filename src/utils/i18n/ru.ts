@@ -347,6 +347,13 @@ export const ru: Record<string, string> = {
     "Nothing is being deleted right now.": "Сейчас ничего не удаляется.",
     "Stopping after the current message.": "Остановка после текущего сообщения.",
 
+    "Left the voice channel, you were alone.": "Вы вышли из голосового канала, потому что остались одни.",
+    "An export is already in progress.": "Экспорт уже идёт.",
+    "Exported {n} messages.": "Экспортировано сообщений: {n}.",
+    "Export failed: {error}": "Не удалось экспортировать: {error}",
+    "Saved.": "Сохранено.",
+    "Failed to save: {error}": "Не удалось сохранить: {error}",
+
     // QuietConsole
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
     "Hide Discord's routine log lines (RPCServer, WindowVisibilityVideoManager, settings protos, canvas hints)": "Скрывать обычные служебные строки Discord (RPCServer, WindowVisibilityVideoManager, протоколы настроек, подсказки canvas)",

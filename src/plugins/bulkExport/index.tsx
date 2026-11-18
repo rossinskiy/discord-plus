@@ -42,7 +42,7 @@ function formatMessage(msg: any) {
 
 async function exportChannel(channel: Channel) {
     if (exporting) {
-        showToast("An export is already in progress.", Toasts.Type.FAILURE);
+        showToast(t("An export is already in progress."), Toasts.Type.FAILURE);
         return;
     }
 
@@ -95,9 +95,9 @@ async function exportChannel(channel: Channel) {
         const filename = `${getExportName(channel).replace(/[^a-z0-9-_]+/gi, "_")}_${channel.id}_export.json`;
         saveFile(new File([json], filename, { type: "application/json" }));
 
-        showToast(`Exported ${messages.length} messages.`, Toasts.Type.SUCCESS);
+        showToast(t("Exported {n} messages.", { n: messages.length }), Toasts.Type.SUCCESS);
     } catch (e) {
-        showToast("Export failed: " + (e as Error).message, Toasts.Type.FAILURE);
+        showToast(t("Export failed: {error}", { error: (e as Error).message }), Toasts.Type.FAILURE);
     } finally {
         clearInterval(progressInterval);
         exporting = false;
