@@ -8,13 +8,13 @@ Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Open an issue on [GitHub](https://github.com/rossinskiy/discord-plus/issues). Include your Discord build number (shown in the console on start), what you did, what you expected and what happened. For a crash, the red error from the console (`Ctrl+Shift+I`) helps the most.
 
-Discord updates often change internal names and break plugins. If something stopped working after a Discord update, say so in the issue.
+Discord updates often change internal names and break plugins. If something stopped working after a Discord update, say so in the issue. You can check which patches no longer fit the current Discord build with `pnpm checkPatches` (add `--all` to include the lazy chunks, which takes a few minutes). Patches that use `#{intl::...}` text are skipped by that check.
 
 ## Sending a change
 
 1. Fork the repository and make a branch from `main`.
 2. Set up the project as described on the [install page](https://discordplus.karatel.win/install), then run `pnpm build` after each change.
-3. Check types and style before you push: `pnpm exec tsc --noEmit` and `pnpm exec eslint` on the files you touched.
+3. Check types and style before you push: `pnpm exec tsc --noEmit` and `pnpm exec eslint` on the files you touched. If you changed a pure helper such as the time parser, run `pnpm testUnit` too.
 4. Open a pull request against `main` and describe what changed and how you tested it in Discord.
 
 Keep changes small and focused. For a big change, open an issue first so we can agree on it before you spend time.
