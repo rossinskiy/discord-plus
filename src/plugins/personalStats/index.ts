@@ -11,6 +11,8 @@ import { t } from "@utils/i18n";
 import definePlugin from "@utils/types";
 import { ChannelStore, FluxDispatcher, SelectedChannelStore, UserStore } from "@webpack/common";
 
+import { sparkline } from "./sparkline";
+
 const STORE_KEY = "PersonalStats_data";
 const TICK_MS = 30_000;
 const SAVE_MS = 60_000;
@@ -96,18 +98,9 @@ function top(map: Record<string, number>, n: number) {
     return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, n);
 }
 
-const BARS = "▁▂▃▄▅▆▇█";
-
 // Messages sent on each of the last n days, oldest first.
 function lastDays(n: number) {
     return Array.from({ length: n }, (_, i) => data.days[dayKey(Date.now() - (n - 1 - i) * 86_400_000)]?.sent ?? 0);
-}
-
-// One bar per number, scaled to the biggest day. Empty when nothing was sent in the period.
-function sparkline(values: number[]) {
-    const max = Math.max(...values);
-    if (max <= 0) return "";
-    return values.map(v => v === 0 ? "▁" : BARS[Math.max(1, Math.round((v / max) * (BARS.length - 1)))]).join("") + ` (${t("busiest day")}: ${max})`;
 }
 
 const line = (label: string, d: { sent: number; received: number; voiceMs: number; }) =>
@@ -135,8 +128,9 @@ function buildReport() {
         line(t("Last 7 days"), week),
         line(t("All time"), total)
     ];
-    const chart = sparkline(lastDays(14));
-    if (chart) lines.push(t("Sent per day, last 14 days (oldest first): {chart}", { chart }));
+    const days = lastDays(14);
+    const chart = sparkline(days);
+    if (chart) lines.push(t("Sent per day, last 14 days (oldest first): {chart}", { chart: `${chart} (${t("busiest day")}: ${Math.max(...days)})` }));
     if (busiest) lines.push(t("You write most on: {day}.", { day: busiest }));
     const best = top(friends, 5);
     if (best.length) lines.push("", t("**Most active DMs** (messages both ways)"), ...best.map(([id, c], i) => `${i + 1}. ${nameOf(id)}: ${c}`));
