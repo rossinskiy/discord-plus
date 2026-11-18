@@ -29,6 +29,7 @@
         "uninject": "node scripts/inject.mjs --uninstall",
         "release": "node scripts/release.mjs",
         "checkPatches": "node scripts/checkPatches.mjs",
+        "testUnit": "node --import tsx --test tests/*.test.ts",
         "lint": "eslint",
         "lint-styles": "stylelint \"src/**/*.css\" --ignore-pattern src/userplugins",
         "lint:fix": "pnpm lint --fix",
