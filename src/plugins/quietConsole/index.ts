@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { t } from "@utils/i18n";
@@ -44,6 +45,7 @@ const ROUTINE = [
 ];
 
 const METHODS = ["log", "info", "warn", "debug"] as const;
+let hidden = 0;
 const originals: Partial<Record<typeof METHODS[number], (...args: any[]) => void>> = {};
 
 function isNoise(args: unknown[]) {
@@ -64,12 +66,33 @@ export default definePlugin({
     startAt: StartAt.Init,
     settings,
 
+    commands: [
+        {
+            name: "quiet",
+            description: t("Show how many console lines QuietConsole has hidden since Discord started"),
+            inputType: ApplicationCommandInputType.BUILT_IN,
+            execute(_, ctx) {
+                sendBotMessage(ctx.channel.id, { content: t("QuietConsole hid {n} lines since Discord started.", { n: hidden }) });
+            }
+        },
+        {
+            name: "clearconsole",
+            description: t("Clear the DevTools console"),
+            inputType: ApplicationCommandInputType.BUILT_IN,
+            execute(_, ctx) {
+                console.clear();
+                sendBotMessage(ctx.channel.id, { content: t("The console is cleared.") });
+            }
+        }
+    ],
+
     start() {
+        hidden = 0;
         for (const m of METHODS) {
             const original = console[m];
             originals[m] = original;
             console[m] = function (this: unknown, ...args: unknown[]) {
-                if (isNoise(args)) return;
+                if (isNoise(args)) { hidden++; return; }
                 return original.apply(this, args);
             };
         }

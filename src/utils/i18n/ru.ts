@@ -399,6 +399,11 @@ export const ru: Record<string, string> = {
     "Use either `in` or `at`, not both.": "Используйте либо `in`, либо `at`, но не оба сразу.",
     "Couldn't understand \"{value}\". Try `18:30` or `6pm`.": "Не понял «{value}». Попробуйте `18:30` или `6pm`.",
 
+    "Show how many console lines QuietConsole has hidden since Discord started": "Показать, сколько строк консоли скрыл QuietConsole с запуска Discord",
+    "QuietConsole hid {n} lines since Discord started.": "QuietConsole скрыл строк с запуска Discord: {n}.",
+    "Clear the DevTools console": "Очистить консоль DevTools",
+    "The console is cleared.": "Консоль очищена.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
