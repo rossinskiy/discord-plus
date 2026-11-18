@@ -19,12 +19,15 @@ const STORE_KEY = "ScheduledMessages_data";
 const CHECK_INTERVAL_MS = 5_000;
 // A message that came due while Discord was closed is not sent later, it would arrive at a surprising moment.
 const LATE_LIMIT_MS = 2 * 60_000;
+const MIN_REPEAT_MS = 10 * 60_000;
 
 interface Scheduled {
     id: string;
     channelId: string;
     content: string;
     dueAt: number;
+    // Set for a message that repeats with this gap.
+    everyMs?: number;
 }
 
 let items: Scheduled[] = [];
@@ -57,6 +60,13 @@ async function tick() {
         if (!due.length) return;
 
         items = items.filter(i => i.dueAt > now);
+        // A repeating message goes back in the queue at its next future time, even if this one was missed.
+        for (const item of due) {
+            if (!item.everyMs) continue;
+            const steps = Math.floor((now - item.dueAt) / item.everyMs) + 1;
+            items.push({ ...item, dueAt: item.dueAt + steps * item.everyMs });
+        }
+        items.sort((a, b) => a.dueAt - b.dueAt);
         await save();
 
         for (const item of due) {
@@ -101,7 +111,8 @@ export default definePlugin({
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [
                 { name: "in", description: t("How long to wait, e.g. 10m, 2h30m, 1d"), type: ApplicationCommandOptionType.STRING, required: true },
-                { name: "message", description: t("What to send"), type: ApplicationCommandOptionType.STRING, required: true }
+                { name: "message", description: t("What to send"), type: ApplicationCommandOptionType.STRING, required: true },
+                { name: "repeat", description: t("Send it again every time the delay passes"), type: ApplicationCommandOptionType.BOOLEAN, required: false }
             ],
             execute(args, ctx) {
                 const inStr: string = findOption(args, "in", "");
@@ -110,11 +121,15 @@ export default definePlugin({
                 if (!ms) return sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try `10m`, `2h30m` or `1d`.", { value: inStr }) });
                 if (!content.trim()) return sendBotMessage(ctx.channel.id, { content: t("The message is empty.") });
 
-                const item: Scheduled = { id: nanoid(), channelId: ctx.channel.id, content, dueAt: Date.now() + ms };
+                const repeat: boolean = findOption(args, "repeat", false);
+                // A repeating message that fires every few seconds would be spam, so the gap has a floor.
+                if (repeat && ms < MIN_REPEAT_MS) return sendBotMessage(ctx.channel.id, { content: t("A repeating message needs a delay of at least 10 minutes.") });
+
+                const item: Scheduled = { id: nanoid(), channelId: ctx.channel.id, content, dueAt: Date.now() + ms, everyMs: repeat ? ms : undefined };
                 items.push(item);
                 items.sort((a, b) => a.dueAt - b.dueAt);
                 save();
-                sendBotMessage(ctx.channel.id, { content: t("Scheduled for {when}. See them all with `/scheduled`. Discord has to be open then.", { when: formatWhen(item.dueAt) }) });
+                sendBotMessage(ctx.channel.id, { content: t("Scheduled for {when}. See them all with `/scheduled`. Discord has to be open then.", { when: formatWhen(item.dueAt) }) + (repeat ? " " + t("It repeats. Cancel it with `/scheduled cancel:<number>` to stop it.") : "") });
             }
         },
         {
@@ -134,7 +149,7 @@ export default definePlugin({
                     return sendBotMessage(ctx.channel.id, { content: t("Cancelled: {text}", { text: excerpt(target.content) }) });
                 }
                 if (!items.length) return sendBotMessage(ctx.channel.id, { content: t("Nothing is scheduled.") });
-                const lines = items.map((i, n) => `${n + 1}. ${formatWhen(i.dueAt)}, ${channelName(i.channelId)}: ${excerpt(i.content)}`);
+                const lines = items.map((i, n) => `${n + 1}. ${formatWhen(i.dueAt)}, ${channelName(i.channelId)}: ${excerpt(i.content)}${i.everyMs ? " " + t("(repeats)") : ""}`);
                 sendBotMessage(ctx.channel.id, { content: lines.join("\n") + "\n\n" + t("Cancel one with `/scheduled cancel:<number>`.") });
             }
         }

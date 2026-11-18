@@ -361,6 +361,11 @@ export const ru: Record<string, string> = {
     "Wrong password.": "Неверный пароль.",
     "Wrong password. Locked for 30 seconds.": "Неверный пароль. Блокировка на 30 секунд.",
 
+    "Send it again every time the delay passes": "Отправлять снова каждый раз, когда проходит задержка",
+    "A repeating message needs a delay of at least 10 minutes.": "Для повторяющегося сообщения нужна задержка не меньше 10 минут.",
+    "It repeats. Cancel it with `/scheduled cancel:<number>` to stop it.": "Оно повторяется. Чтобы остановить, отмените его командой `/scheduled cancel:<номер>`.",
+    "(repeats)": "(повторяется)",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
