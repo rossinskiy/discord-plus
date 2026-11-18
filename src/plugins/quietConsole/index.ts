@@ -19,6 +19,12 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         description: t("Hide Discord's routine log lines (RPCServer, WindowVisibilityVideoManager, settings protos, canvas hints)"),
         default: true
+    },
+    customFilters: {
+        type: OptionType.STRING,
+        description: t("Your own filters: console lines containing any of these words are hidden. One per line."),
+        default: "",
+        multiline: true
     }
 });
 
@@ -46,7 +52,8 @@ function isNoise(args: unknown[]) {
     if (!text) return false;
     if (settings.store.hideWarning && WARNING.some(s => text.includes(s))) return true;
     if (settings.store.hideRoutine && ROUTINE.some(s => text.includes(s))) return true;
-    return false;
+    const custom = settings.store.customFilters.split("\n").map(s => s.trim()).filter(Boolean);
+    return custom.some(s => text.includes(s));
 }
 
 export default definePlugin({
