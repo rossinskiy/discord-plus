@@ -354,6 +354,13 @@ export const ru: Record<string, string> = {
     "Saved.": "Сохранено.",
     "Failed to save: {error}": "Не удалось сохранить: {error}",
 
+    "Discord is locked": "Discord заблокирован",
+    "Password": "Пароль",
+    "Unlock": "Разблокировать",
+    "Too many tries. Wait {n} seconds.": "Слишком много попыток. Подождите {n} с.",
+    "Wrong password.": "Неверный пароль.",
+    "Wrong password. Locked for 30 seconds.": "Неверный пароль. Блокировка на 30 секунд.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",

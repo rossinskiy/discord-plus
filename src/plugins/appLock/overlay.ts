@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@utils/i18n";
+
 import { checkPassword, Native } from "./lock";
 
 let overlay: HTMLDivElement | null = null;
@@ -34,20 +36,20 @@ export function showLock(afterUnlock?: () => void) {
     el.className = "vc-applock";
     el.setAttribute("role", "dialog");
     el.setAttribute("aria-modal", "true");
-    el.setAttribute("aria-label", "Discord is locked");
+    el.setAttribute("aria-label", t("Discord is locked"));
 
     const box = document.createElement("form");
     box.className = "vc-applock-box";
 
     const title = document.createElement("h1");
-    title.textContent = "Discord is locked";
+    title.textContent = t("Discord is locked");
 
     const input = document.createElement("input");
     input.type = "password";
     input.className = "vc-applock-input";
-    input.placeholder = "Password";
+    input.placeholder = t("Password");
     input.autocomplete = "off";
-    input.setAttribute("aria-label", "Password");
+    input.setAttribute("aria-label", t("Password"));
 
     const error = document.createElement("p");
     error.className = "vc-applock-error";
@@ -56,7 +58,7 @@ export function showLock(afterUnlock?: () => void) {
     const button = document.createElement("button");
     button.type = "submit";
     button.className = "vc-applock-button";
-    button.textContent = "Unlock";
+    button.textContent = t("Unlock");
 
     box.append(title, input, error, button);
     el.append(box);
@@ -65,7 +67,7 @@ export function showLock(afterUnlock?: () => void) {
         e.preventDefault();
         const wait = blockedUntil - Date.now();
         if (wait > 0) {
-            error.textContent = `Too many tries. Wait ${Math.ceil(wait / 1000)} seconds.`;
+            error.textContent = t("Too many tries. Wait {n} seconds.", { n: Math.ceil(wait / 1000) });
             return;
         }
         button.disabled = true;
@@ -78,11 +80,11 @@ export function showLock(afterUnlock?: () => void) {
         }
         failures++;
         input.value = "";
-        error.textContent = "Wrong password.";
+        error.textContent = t("Wrong password.");
         if (failures >= 5) {
             blockedUntil = Date.now() + 30_000;
             failures = 0;
-            error.textContent = "Wrong password. Locked for 30 seconds.";
+            error.textContent = t("Wrong password. Locked for 30 seconds.");
         }
         box.classList.remove("vc-applock-shake");
         void box.offsetWidth;
