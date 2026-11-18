@@ -110,6 +110,9 @@ function sparkline(values: number[]) {
     return values.map(v => v === 0 ? "▁" : BARS[Math.max(1, Math.round((v / max) * (BARS.length - 1)))]).join("") + ` (${t("busiest day")}: ${max})`;
 }
 
+const line = (label: string, d: { sent: number; received: number; voiceMs: number; }) =>
+    t("{label}: {sent} sent, {received} received in DMs, {hours} h in voice", { label, sent: d.sent, received: d.received, hours: hours(d.voiceMs) });
+
 function buildReport() {
     const all = Object.entries(data.days);
     const sum = (rows: [string, Day][]) => rows.reduce((a, [, d]) => ({ sent: a.sent + d.sent, received: a.received + d.received, voiceMs: a.voiceMs + d.voiceMs }), { sent: 0, received: 0, voiceMs: 0 });
@@ -119,7 +122,7 @@ function buildReport() {
 
     const weekdays = [0, 0, 0, 0, 0, 0, 0];
     for (const [k, d] of all) weekdays[new Date(k + "T12:00:00").getDay()] += d.sent;
-    const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const names = [t("Sunday"), t("Monday"), t("Tuesday"), t("Wednesday"), t("Thursday"), t("Friday"), t("Saturday")];
     const busiest = Math.max(...weekdays) > 0 ? names[weekdays.indexOf(Math.max(...weekdays))] : null;
 
     const friends: Record<string, number> = {};
@@ -127,17 +130,17 @@ function buildReport() {
     for (const [id, c] of Object.entries(data.dmReceived)) friends[id] = (friends[id] ?? 0) + c;
 
     const lines = [
-        `**Your Discord+ stats** (counting since ${new Date(data.since).toLocaleDateString()})`,
-        `Today: ${td.sent} sent, ${td.received} received in DMs, ${hours(td.voiceMs)} h in voice`,
-        `Last 7 days: ${week.sent} sent, ${week.received} received in DMs, ${hours(week.voiceMs)} h in voice`,
-        `All time: ${total.sent} sent, ${total.received} received in DMs, ${hours(total.voiceMs)} h in voice`
+        t("**Your Discord+ stats** (counting since {date})", { date: new Date(data.since).toLocaleDateString() }),
+        line(t("Today"), td),
+        line(t("Last 7 days"), week),
+        line(t("All time"), total)
     ];
     const chart = sparkline(lastDays(14));
     if (chart) lines.push(t("Sent per day, last 14 days (oldest first): {chart}", { chart }));
-    if (busiest) lines.push(`You write most on ${busiest}s.`);
+    if (busiest) lines.push(t("You write most on: {day}.", { day: busiest }));
     const best = top(friends, 5);
-    if (best.length) lines.push("", "**Most active DMs** (messages both ways)", ...best.map(([id, c], i) => `${i + 1}. ${nameOf(id)}: ${c}`));
-    lines.push("", "Counted on this computer only. Server messages are counted as sent, never as received.");
+    if (best.length) lines.push("", t("**Most active DMs** (messages both ways)"), ...best.map(([id, c], i) => `${i + 1}. ${nameOf(id)}: ${c}`));
+    lines.push("", t("Counted on this computer only. Server messages are counted as sent, never as received."));
     return lines.join("\n");
 }
 

@@ -378,6 +378,22 @@ export const ru: Record<string, string> = {
     "kept": "сохранено",
     "Found {n} (newest first):": "Найдено: {n} (сначала новые):",
 
+    "Sunday": "Воскресенье",
+    "Monday": "Понедельник",
+    "Tuesday": "Вторник",
+    "Wednesday": "Среда",
+    "Thursday": "Четверг",
+    "Friday": "Пятница",
+    "Saturday": "Суббота",
+    "**Your Discord+ stats** (counting since {date})": "**Ваша статистика Discord+** (считается с {date})",
+    "Today": "Сегодня",
+    "Last 7 days": "Последние 7 дней",
+    "All time": "За всё время",
+    "{label}: {sent} sent, {received} received in DMs, {hours} h in voice": "{label}: отправлено {sent}, получено в личных {received}, в голосовых {hours} ч",
+    "You write most on: {day}.": "Больше всего вы пишете: {day}.",
+    "**Most active DMs** (messages both ways)": "**Самые активные личные переписки** (сообщения в обе стороны)",
+    "Counted on this computer only. Server messages are counted as sent, never as received.": "Считается только на этом компьютере. Сообщения на серверах считаются как отправленные, но никогда как полученные.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
