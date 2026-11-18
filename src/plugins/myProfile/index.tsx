@@ -191,7 +191,7 @@ export default definePlugin({
             find: 'location:"BadgeDirectoryPanel"',
             replacement: [
                 {
-                    match: /(\i\.Ay\.getBadges\((\i)\))(?=:\[\],\[\])/g,
+                    match: /(\i\.Ay\.getBadges\((\i)\))(?=:\[\],\[\2\])/g,
                     replace: "$self.withCatalogBadges($1,$2)"
                 },
                 {

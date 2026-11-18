@@ -564,7 +564,7 @@ export default definePlugin({
         },
         // AuthBox2 (Switch Account)
         {
-            find: 'componentWillUnmount(){window.removeEventListener("keydown",this.handleTabOrEnter),this.state.conditionalMediationAbortController.abort()}',
+            find: 'window.removeEventListener("keydown",this.handleTabOrEnter),this.state.conditionalMediationAbortController.abort()}',
             replacement: [
                 {
                     // {className:F.Eh,children:(0,n.jsxs)(b.eB,{children:[(0,n.jsx)(A.A,{alpha2:t.alpha2
@@ -789,10 +789,10 @@ export default definePlugin({
         },
         // Fix 2000 character limit for messages
         {
-            find: ",canUseIncreasedMessageLength:function(",
+            find: "canUseIncreasedMessageLength:",
             replacement: {
-                match: /(,canUseIncreasedMessageLength:function\(\w+\)\{)return/,
-                replace: "$1if($self.isBotMode())return false;return",
+                match: /canUseIncreasedMessageLength:(\i\.\i)/,
+                replace: "canUseIncreasedMessageLength:(...a)=>$self.isBotMode()?false:$1(...a)",
             },
         },
         ...applicationEmojiPatches,
