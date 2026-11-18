@@ -32,13 +32,13 @@ const pause = () => sleep(DELAY_MIN_MS + Math.random() * (DELAY_MAX_MS - DELAY_M
 
 function channelName(id: string) {
     const ch = ChannelStore.getChannel(id);
-    if (!ch) return "this chat";
-    return ch.name ? `#${ch.name}` : "this conversation";
+    if (!ch) return t("this chat");
+    return ch.name ? `#${ch.name}` : t("this conversation");
 }
 
 function etaText(count: number) {
     const minutes = Math.ceil(count / 40);
-    return minutes < 60 ? `about ${minutes} min` : `about ${(minutes / 60).toFixed(1)} h`;
+    return minutes < 60 ? t("about {n} min", { n: minutes }) : t("about {n} h", { n: (minutes / 60).toFixed(1) });
 }
 
 async function deleteOne(channelId: string, messageId: string) {
@@ -131,17 +131,17 @@ export default definePlugin({
             execute(args, ctx) {
                 const count = Number(findOption(args, "count", 0));
                 if (!Number.isInteger(count) || count < 1) {
-                    sendBotMessage(ctx.channel.id, { content: "Give a whole number, for example `/purge count:50`." });
+                    sendBotMessage(ctx.channel.id, { content: t("Give a whole number, for example `/purge count:50`.") });
                     return;
                 }
                 if (job) {
-                    sendBotMessage(ctx.channel.id, { content: `Already deleting in ${channelName(job.channelId)} (${job.deleted} of ${job.total}). Type /purgecancel to stop it first.` });
+                    sendBotMessage(ctx.channel.id, { content: t("Already deleting in {channel} ({done} of {total}). Type /purgecancel to stop it first.", { channel: channelName(job.channelId), done: job.deleted, total: job.total }) });
                     return;
                 }
                 const channelId = ctx.channel.id;
                 Alerts.show({
-                    title: `Delete ${count} of your messages?`,
-                    body: `This removes your last ${count} messages in ${channelName(channelId)}, newest first, ${etaText(count)}. Deleted messages cannot be restored. You can stop it any time with /purgecancel, but what was already deleted stays deleted.`,
+                    title: t("Delete {count} of your messages?", { count }),
+                    body: t("This removes your last {count} messages in {channel}, newest first, {eta}. Deleted messages cannot be restored. You can stop it any time with /purgecancel, but what was already deleted stays deleted.", { count, channel: channelName(channelId), eta: etaText(count) }),
                     confirmText: t("Delete"),
                     cancelText: t("Keep them"),
                     onConfirm() {
@@ -158,11 +158,11 @@ export default definePlugin({
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute(_, ctx) {
                 if (!job) {
-                    sendBotMessage(ctx.channel.id, { content: "Nothing is being deleted right now." });
+                    sendBotMessage(ctx.channel.id, { content: t("Nothing is being deleted right now.") });
                     return;
                 }
                 job.cancelled = true;
-                sendBotMessage(ctx.channel.id, { content: "Stopping after the current message." });
+                sendBotMessage(ctx.channel.id, { content: t("Stopping after the current message.") });
             }
         }
     ]

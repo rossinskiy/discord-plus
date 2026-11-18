@@ -338,6 +338,15 @@ export const ru: Record<string, string> = {
     "Failed to set reminder: {error}": "Не удалось создать напоминание: {error}",
     "Couldn't understand that. Try \"10m\", \"2h\" or \"1d\".": "Не понял. Попробуйте \"10m\", \"2h\" или \"1d\".",
 
+    "this chat": "этот чат",
+    "this conversation": "эта переписка",
+    "Give a whole number, for example `/purge count:50`.": "Введите целое число, например `/purge count:50`.",
+    "Already deleting in {channel} ({done} of {total}). Type /purgecancel to stop it first.": "Уже идёт удаление в {channel} ({done} из {total}). Сначала остановите его командой /purgecancel.",
+    "Delete {count} of your messages?": "Удалить свои сообщения ({count})?",
+    "This removes your last {count} messages in {channel}, newest first, {eta}. Deleted messages cannot be restored. You can stop it any time with /purgecancel, but what was already deleted stays deleted.": "Будут удалены ваши последние сообщения ({count}) в {channel}, сначала новые, {eta}. Удалённые сообщения восстановить нельзя. Остановить можно в любой момент командой /purgecancel, но уже удалённое останется удалённым.",
+    "Nothing is being deleted right now.": "Сейчас ничего не удаляется.",
+    "Stopping after the current message.": "Остановка после текущего сообщения.",
+
     // QuietConsole
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
     "Hide Discord's routine log lines (RPCServer, WindowVisibilityVideoManager, settings protos, canvas hints)": "Скрывать обычные служебные строки Discord (RPCServer, WindowVisibilityVideoManager, протоколы настроек, подсказки canvas)",
