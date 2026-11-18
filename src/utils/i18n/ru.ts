@@ -369,6 +369,15 @@ export const ru: Record<string, string> = {
     "Sent per day, last 14 days (oldest first): {chart}": "Отправлено по дням за 14 дней (старые слева): {chart}",
     "busiest day": "самый активный день",
 
+    "Search the messages Discord+ has saved, including deleted ones and old versions of edited ones": "Искать среди сообщений, сохранённых Discord+, включая удалённые и старые версии изменённых",
+    "Word or phrase to look for": "Слово или фраза для поиска",
+    "Type a word to look for.": "Введите слово для поиска.",
+    "Nothing found for \"{text}\". Only the last 7 days are kept.": "По запросу «{text}» ничего не найдено. Хранятся только последние 7 дней.",
+    "deleted": "удалено",
+    "edited": "изменено",
+    "kept": "сохранено",
+    "Found {n} (newest first):": "Найдено: {n} (сначала новые):",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",

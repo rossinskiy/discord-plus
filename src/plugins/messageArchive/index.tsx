@@ -6,6 +6,7 @@
 
 import "./messageArchive.css";
 
+import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage } from "@api/Commands";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { updateMessage } from "@api/MessageUpdater";
 import { isPluginEnabled } from "@api/PluginManager";
@@ -22,7 +23,7 @@ import { Message, MessageAttachment } from "@vencord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { ChannelStore, FluxDispatcher, Menu, MessageStore, Timestamp, UserStore, useStateFromStores } from "@webpack/common";
 
-import { sendEvents, startMaintenance, stopMaintenance } from "./api";
+import { searchArchive, sendEvents, startMaintenance, stopMaintenance } from "./api";
 import overlayStyle from "./deleteStyleOverlay.css?managed";
 import textStyle from "./deleteStyleText.css?managed";
 import { openHistoryModal } from "./HistoryModal";
@@ -177,6 +178,30 @@ export default definePlugin({
         "user-context": patchChannelContextMenu,
         "gdm-context": patchChannelContextMenu
     },
+
+    commands: [{
+        name: "archive",
+        description: t("Search the messages Discord+ has saved, including deleted ones and old versions of edited ones"),
+        inputType: ApplicationCommandInputType.BUILT_IN,
+        options: [
+            { name: "text", description: t("Word or phrase to look for"), type: ApplicationCommandOptionType.STRING, required: true }
+        ],
+        async execute(args, ctx) {
+            const text: string = findOption(args, "text", "");
+            if (!text.trim()) return sendBotMessage(ctx.channel.id, { content: t("Type a word to look for.") });
+
+            const hits = await searchArchive(text);
+            if (!hits.length) return sendBotMessage(ctx.channel.id, { content: t("Nothing found for \"{text}\". Only the last 7 days are kept.", { text }) });
+
+            const lines = hits.map(({ history: h }) => {
+                const who = h.current.authorId ? UserStore.getUser(h.current.authorId)?.username ?? h.current.authorId : "?";
+                const body = h.current.content.replace(/\s+/g, " ").trim();
+                const state = h.deletedAt ? t("deleted") : h.edits.length ? t("edited") : t("kept");
+                return `[${state}] ${who} <#${h.current.channelId}> ${new Date(h.current.updatedAt).toLocaleString()}: ${body.length > 100 ? body.slice(0, 97) + "..." : body}`;
+            });
+            sendBotMessage(ctx.channel.id, { content: t("Found {n} (newest first):", { n: hits.length }) + "\n" + lines.join("\n") });
+        }
+    }],
 
     start() {
         if (isPluginEnabled("MessageLogger")) {

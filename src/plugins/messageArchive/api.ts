@@ -86,6 +86,27 @@ export async function getHistory(messageId: string): Promise<ArchiveHistory | nu
     return entry && !isExpired(entry) ? entry : null;
 }
 
+export interface ArchiveHit {
+    messageId: string;
+    history: ArchiveHistory;
+}
+
+// Looks in the current text and in every earlier version of an edited message, newest first.
+export async function searchArchive(query: string, limit = 10): Promise<ArchiveHit[]> {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return [];
+
+    const hits: ArchiveHit[] = [];
+    for (const [messageId, history] of await store.entries()) {
+        if (isExpired(history)) continue;
+        const inCurrent = history.current.content.toLowerCase().includes(needle);
+        const inEdits = history.edits.some(e => e.old_content.toLowerCase().includes(needle));
+        if (inCurrent || inEdits) hits.push({ messageId, history });
+    }
+    hits.sort((a, b) => (b.history.deletedAt ?? b.history.current.updatedAt) - (a.history.deletedAt ?? a.history.current.updatedAt));
+    return hits.slice(0, limit);
+}
+
 export async function clearArchive() {
     await store.clear();
 }

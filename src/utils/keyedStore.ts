@@ -95,6 +95,13 @@ export function createKeyedStore<V>(dbName: string, options: { legacyKey?: strin
             await DataStore.clear(idb);
         },
 
+        /** Every stored entry, with pending writes saved first. Reads the whole store, so use it for rare actions like a search. */
+        async entries(): Promise<[string, V][]> {
+            await ready;
+            await flush();
+            return DataStore.entries<string, V>(idb);
+        },
+
         /** Deletes every stored entry the predicate says is expired. Reads the whole store once, so run it rarely. */
         async prune(isExpired: (value: V) => boolean) {
             await ready;
