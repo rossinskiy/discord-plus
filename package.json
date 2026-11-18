@@ -28,6 +28,7 @@
         "inject": "node scripts/inject.mjs --install",
         "uninject": "node scripts/inject.mjs --uninstall",
         "release": "node scripts/release.mjs",
+        "checkPatches": "node scripts/checkPatches.mjs",
         "lint": "eslint",
         "lint-styles": "stylelint \"src/**/*.css\" --ignore-pattern src/userplugins",
         "lint:fix": "pnpm lint --fix",
