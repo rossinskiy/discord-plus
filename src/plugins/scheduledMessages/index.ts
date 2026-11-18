@@ -15,6 +15,8 @@ import definePlugin from "@utils/types";
 import { ChannelStore, showToast, Toasts } from "@webpack/common";
 import { nanoid } from "nanoid";
 
+import { parseClock } from "./parseClock";
+
 const STORE_KEY = "ScheduledMessages_data";
 const CHECK_INTERVAL_MS = 5_000;
 // A message that came due while Discord was closed is not sent later, it would arrive at a surprising moment.
@@ -110,22 +112,31 @@ export default definePlugin({
             description: t("Send a message in this channel later"),
             inputType: ApplicationCommandInputType.BUILT_IN,
             options: [
-                { name: "in", description: t("How long to wait, e.g. 10m, 2h30m, 1d"), type: ApplicationCommandOptionType.STRING, required: true },
+                { name: "in", description: t("How long to wait, e.g. 10m, 2h30m, 1d"), type: ApplicationCommandOptionType.STRING, required: false },
+                { name: "at", description: t("Or a time of day, e.g. 18:30 or 6pm. It means the next time it is that time."), type: ApplicationCommandOptionType.STRING, required: false },
                 { name: "message", description: t("What to send"), type: ApplicationCommandOptionType.STRING, required: true },
                 { name: "repeat", description: t("Send it again every time the delay passes"), type: ApplicationCommandOptionType.BOOLEAN, required: false }
             ],
             execute(args, ctx) {
                 const inStr: string = findOption(args, "in", "");
                 const content: string = findOption(args, "message", "");
-                const ms = parseDuration(inStr);
-                if (!ms) return sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try `10m`, `2h30m` or `1d`.", { value: inStr }) });
+                const atStr: string = findOption(args, "at", "");
+                if (!inStr && !atStr) return sendBotMessage(ctx.channel.id, { content: t("Give a delay in `in` or a time of day in `at`.") });
+                if (inStr && atStr) return sendBotMessage(ctx.channel.id, { content: t("Use either `in` or `at`, not both.") });
                 if (!content.trim()) return sendBotMessage(ctx.channel.id, { content: t("The message is empty.") });
+
+                const dueAt = atStr ? parseClock(atStr) : null;
+                const delay = inStr ? parseDuration(inStr) : null;
+                if (atStr && dueAt == null) return sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try `18:30` or `6pm`.", { value: atStr }) });
+                if (inStr && !delay) return sendBotMessage(ctx.channel.id, { content: t("Couldn't understand \"{value}\". Try `10m`, `2h30m` or `1d`.", { value: inStr }) });
+                // At a time of day, "repeat" means every day at that time.
+                const ms = delay ?? 86_400_000;
 
                 const repeat: boolean = findOption(args, "repeat", false);
                 // A repeating message that fires every few seconds would be spam, so the gap has a floor.
                 if (repeat && ms < MIN_REPEAT_MS) return sendBotMessage(ctx.channel.id, { content: t("A repeating message needs a delay of at least 10 minutes.") });
 
-                const item: Scheduled = { id: nanoid(), channelId: ctx.channel.id, content, dueAt: Date.now() + ms, everyMs: repeat ? ms : undefined };
+                const item: Scheduled = { id: nanoid(), channelId: ctx.channel.id, content, dueAt: dueAt ?? Date.now() + ms, everyMs: repeat ? ms : undefined };
                 items.push(item);
                 items.sort((a, b) => a.dueAt - b.dueAt);
                 save();

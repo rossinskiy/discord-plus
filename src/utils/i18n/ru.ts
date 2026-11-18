@@ -394,6 +394,11 @@ export const ru: Record<string, string> = {
     "**Most active DMs** (messages both ways)": "**Самые активные личные переписки** (сообщения в обе стороны)",
     "Counted on this computer only. Server messages are counted as sent, never as received.": "Считается только на этом компьютере. Сообщения на серверах считаются как отправленные, но никогда как полученные.",
 
+    "Or a time of day, e.g. 18:30 or 6pm. It means the next time it is that time.": "Или время суток, например 18:30 или 6pm. Это ближайший момент, когда будет это время.",
+    "Give a delay in `in` or a time of day in `at`.": "Укажите задержку в `in` или время суток в `at`.",
+    "Use either `in` or `at`, not both.": "Используйте либо `in`, либо `at`, но не оба сразу.",
+    "Couldn't understand \"{value}\". Try `18:30` or `6pm`.": "Не понял «{value}». Попробуйте `18:30` или `6pm`.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
