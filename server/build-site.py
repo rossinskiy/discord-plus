@@ -693,7 +693,7 @@ write("terms.html", doc_page("Terms | Discord+", "Terms", "/terms",
                               "October 17, 2026", terms))
 write("changelog.html", doc_page("Changes | Discord+", "What changed", "/changelog",
                                    "What changed in Discord+ and its website: new plugins, fixes for new Discord builds and translations.",
-                                   "November 17, 2026", extract_prose("changelog")))
+                                   "November 18, 2026", extract_prose("changelog")))
 write("404.html", not_found())
 if HAS_SUPPORT:
     write("support.html", support_page())

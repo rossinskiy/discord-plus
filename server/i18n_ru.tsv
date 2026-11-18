@@ -414,3 +414,11 @@ It finishes the ones you accepted yourself: watch a video, play a game on deskto
 No. Every Discord+ plugin is off until you switch it on in the plugin list in Discord&#x27;s settings. The only exception is MyProfile, which is built in and always on.	Нет. Каждый плагин Discord+ выключен, пока вы не включите его в списке плагинов в настройках Discord. Единственное исключение это MyProfile: он встроен и всегда включён.
 Which quests does AutoQuest finish?	Какие задания выполняет AutoQuest?
 Why did a plugin stop working after a Discord update?	Почему плагин перестал работать после обновления Discord?
+November 18, 2026	18 ноября 2026
+Last updated November 18, 2026	Последнее обновление: 18 ноября 2026
+MessageArchive has a new /archive command. It searches the messages Discord+ saved, including deleted ones and old versions of edited ones.	В MessageArchive появилась команда /archive. Она ищет среди сообщений, сохранённых Discord+, включая удалённые и старые версии изменённых.
+/schedule in ScheduledMessages can repeat a message with the repeat option.	/schedule в ScheduledMessages может повторять сообщение с помощью опции repeat.
+/stats in PersonalStats shows a bar chart of the messages you sent in the last 14 days.	/stats в PersonalStats показывает столбчатый график отправленных вами сообщений за последние 14 дней.
+QuietConsole accepts your own words to hide in the console.	QuietConsole принимает ваши собственные слова для скрытия в консоли.
+A new command, pnpm checkPatches, lists the patches that no longer fit the current Discord build.	Новая команда pnpm checkPatches показывает патчи, которые больше не подходят к текущей сборке Discord.
+The README is available in Russian, and the FAQ on the home page has three new answers.	README доступен на русском, а в FAQ на главной странице три новых ответа.
