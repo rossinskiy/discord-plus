@@ -404,6 +404,11 @@ export const ru: Record<string, string> = {
     "Clear the DevTools console": "Очистить консоль DevTools",
     "The console is cleared.": "Консоль очищена.",
 
+    // QuickDelete
+    "No message of yours to delete here.": "Здесь нет вашего сообщения, которое можно удалить.",
+    "Deleted your last message.": "Последнее сообщение удалено.",
+    "Could not delete the message.": "Не удалось удалить сообщение.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
