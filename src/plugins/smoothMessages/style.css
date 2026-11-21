@@ -1,0 +1,22 @@
+@keyframes vc-smooth-message-in {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Only the newest rows at the bottom of the list animate, so opening a channel does not move the whole history. */
+[class*="messageListItem"]:last-child {
+    animation: vc-smooth-message-in 0.22s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [class*="messageListItem"]:last-child {
+        animation: none;
+    }
+}
