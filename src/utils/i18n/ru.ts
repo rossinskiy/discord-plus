@@ -503,6 +503,16 @@ export const ru: Record<string, string> = {
     "You talked to every friend in the last {n} days.": "Вы общались с каждым другом за последние {n} дн.",
     "Friends with no messages for {n} days or more:": "Друзья без сообщений {n} дней и больше:",
 
+    // CopyMediaLink
+    "Copy attachment link": "Скопировать ссылку на вложение",
+    "Link copied!": "Ссылка скопирована!",
+    "All links": "Все ссылки",
+    "Links copied!": "Ссылки скопированы!",
+
+    // DirectFileDownload
+    "Could not download the file.": "Не удалось скачать файл.",
+    "Download attachment": "Скачать вложение",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
