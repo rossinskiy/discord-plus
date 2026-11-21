@@ -544,6 +544,10 @@ export const ru: Record<string, string> = {
     "Show which of your friends are typing right now": "Показать, кто из друзей печатает прямо сейчас",
     "None of your friends are typing right now.": "Сейчас никто из друзей не печатает.",
 
+    // StreamProof
+    "While you stream, blur the messages of direct messages and group chats": "Пока вы стримите, размывать сообщения в личных сообщениях и групповых чатах",
+    "While you stream, blur links, images and embeds in every chat (hover an image to see it)": "Пока вы стримите, размывать ссылки, картинки и вложения во всех чатах (наведите на картинку, чтобы увидеть)",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",

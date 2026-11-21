@@ -1,0 +1,19 @@
+/* Applied only while you stream. If Discord renames these classes the plugin simply does nothing. */
+
+body.vc-streamproof-dm [class*="messagesWrapper"],
+body.vc-streamproof-dm [class*="chatContent"] [class*="scroller"] {
+    filter: blur(14px);
+    pointer-events: none;
+}
+
+body.vc-streamproof-media [class*="messageContent"] a,
+body.vc-streamproof-media [class*="markup"] a,
+body.vc-streamproof-media [class*="imageWrapper"],
+body.vc-streamproof-media [class*="embedWrapper"] {
+    filter: blur(10px);
+}
+
+body.vc-streamproof-media [class*="imageWrapper"]:hover,
+body.vc-streamproof-media [class*="embedWrapper"]:hover {
+    filter: none;
+}
