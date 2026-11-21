@@ -479,6 +479,15 @@ export const ru: Record<string, string> = {
     "No bookmarks yet. Right-click a message and choose Bookmark message.": "Закладок пока нет. Нажмите правой кнопкой на сообщение и выберите «Добавить сообщение в закладки».",
     "Remove one with `/bookmarks remove:<number>`.": "Удалить одну: `/bookmarks remove:<номер>`.",
 
+    // Wellbeing
+    "Show how long you spent in Discord today and this week": "Показать, сколько вы провели в Discord сегодня и за неделю",
+    "h": "ч",
+    "min": "мин",
+    "Today: {time}": "Сегодня: {time}",
+    "Yesterday: {time}": "Вчера: {time}",
+    "Average over the last 7 days: {time} a day": "В среднем за 7 дней: {time} в день",
+    "Last 7 days (oldest first): {chart}": "Последние 7 дней (старые слева): {chart}",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
