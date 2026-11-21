@@ -466,6 +466,19 @@ export const ru: Record<string, string> = {
     "Created a copy of \"{name}\".": "Создана копия роли «{name}».",
     "Discord refused: {reason}": "Discord отказал: {reason}",
 
+    // Bookmarks
+    "Remove bookmark": "Убрать закладку",
+    "Bookmark message": "Добавить сообщение в закладки",
+    "Bookmark removed.": "Закладка удалена.",
+    "(attachment)": "(вложение)",
+    "Message bookmarked. See them with /bookmarks.": "Сообщение в закладках. Список: /bookmarks.",
+    "List your bookmarked messages, or remove one by its number": "Показать ваши закладки или удалить одну по номеру",
+    "Number from the list to remove": "Номер из списка, который нужно удалить",
+    "There is no bookmark number {n}.": "Закладки с номером {n} нет.",
+    "Removed: {text}": "Удалено: {text}",
+    "No bookmarks yet. Right-click a message and choose Bookmark message.": "Закладок пока нет. Нажмите правой кнопкой на сообщение и выберите «Добавить сообщение в закладки».",
+    "Remove one with `/bookmarks remove:<number>`.": "Удалить одну: `/bookmarks remove:<номер>`.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
