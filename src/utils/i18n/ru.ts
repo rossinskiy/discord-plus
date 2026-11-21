@@ -442,7 +442,7 @@ export const ru: Record<string, string> = {
     "This link goes to the rickroll video.": "Эта ссылка ведёт на видео с риквороллом.",
 
     // ProfanityFilter
-    "Words to remove from your messages before they are sent. One per line, whole words only.": "Слова, которые нужно убрать из ваших сообщений перед отправкой. По одному на строку, только целые слова.",
+    "One rule per line, written word=replacement, for example fucking=freaking. A word with no replacement is removed. Whole words only, capitals are kept.": "По одному правилу на строку в виде слово=замена, например fucking=freaking. Слово без замены удаляется. Только целые слова, заглавные буквы сохраняются.",
     "Message not sent: only filtered words were left.": "Сообщение не отправлено: остались только отфильтрованные слова.",
 
     // MutualServerMembers

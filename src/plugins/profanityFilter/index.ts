@@ -10,31 +10,29 @@ import { t } from "@utils/i18n";
 import definePlugin, { OptionType } from "@utils/types";
 import { showToast, Toasts } from "@webpack/common";
 
-import { removeWords } from "./removeWords";
+import { parseRules, replaceWords } from "./replaceWords";
 
 const settings = definePluginSettings({
-    words: {
+    rules: {
         type: OptionType.STRING,
-        description: t("Words to remove from your messages before they are sent. One per line, whole words only."),
-        default: "",
+        description: t("One rule per line, written word=replacement, for example fucking=freaking. A word with no replacement is removed. Whole words only, capitals are kept."),
+        default: "fucking=freaking\nfuck=freak\nshit=shoot\ndamn=darn",
         multiline: true
     }
 });
 
-function words() {
-    return settings.store.words.split("\n");
-}
+const clean = (text: string) => replaceWords(text, parseRules(settings.store.rules));
 
 export default definePlugin({
     name: "ProfanityFilter",
     authors: [Devs.Tsar],
-    description: "Takes words you choose out of your own messages before they are sent, such as swear words you are trying to stop using. Whole words only. If nothing is left, the message is not sent.",
+    description: "Swaps words you choose for milder ones in your own messages before they are sent, so \"fucking\" becomes \"freaking\". Each rule is word=replacement. A word with no replacement is removed, and if nothing is left the message is not sent.",
     tags: ["Chat", "Utility"],
     settings,
 
     onBeforeMessageSend(_, msg) {
         const before = msg.content;
-        msg.content = removeWords(msg.content, words());
+        msg.content = clean(msg.content);
         if (before.trim() && !msg.content.trim()) {
             showToast(t("Message not sent: only filtered words were left."), Toasts.Type.FAILURE);
             return { cancel: true };
@@ -42,6 +40,6 @@ export default definePlugin({
     },
 
     onBeforeMessageEdit(_cid, _mid, msg) {
-        msg.content = removeWords(msg.content, words());
+        msg.content = clean(msg.content);
     }
 });
