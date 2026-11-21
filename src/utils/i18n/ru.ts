@@ -438,6 +438,13 @@ export const ru: Record<string, string> = {
     "Account created {n} days ago": "Аккаунт создан дней назад: {n}",
     "New": "Новый",
 
+    // AntiRickroll
+    "This link goes to the rickroll video.": "Эта ссылка ведёт на видео с риквороллом.",
+
+    // ProfanityFilter
+    "Words to remove from your messages before they are sent. One per line, whole words only.": "Слова, которые нужно убрать из ваших сообщений перед отправкой. По одному на строку, только целые слова.",
+    "Message not sent: only filtered words were left.": "Сообщение не отправлено: остались только отфильтрованные слова.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
