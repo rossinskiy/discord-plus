@@ -488,6 +488,21 @@ export const ru: Record<string, string> = {
     "Average over the last 7 days: {time} a day": "В среднем за 7 дней: {time} в день",
     "Last 7 days (oldest first): {chart}": "Последние 7 дней (старые слева): {chart}",
 
+    // ServerPruner
+    "List servers you have not opened for a while": "Показать серверы, которые вы давно не открывали",
+    "How many days without opening (default 60)": "Сколько дней без открытия (по умолчанию 60)",
+    "I have only been watching for {have} days, and need {need}. Ask again later.": "Я слежу всего {have} дн., а нужно {need}. Спросите позже.",
+    "You opened every server in the last {n} days.": "Вы открывали каждый сервер за последние {n} дн.",
+    "{n} days": "дней: {n}",
+    "Servers not opened for {n} days or more:": "Серверы, которые не открывали {n} дней и больше:",
+    "To leave one, right-click it in the server list.": "Чтобы выйти из сервера, нажмите на него правой кнопкой в списке серверов.",
+
+    // RelationshipPruner
+    "List friends you have not messaged for a while": "Показать друзей, которым вы давно не писали",
+    "How many days without a message (default 90)": "Сколько дней без сообщений (по умолчанию 90)",
+    "You talked to every friend in the last {n} days.": "Вы общались с каждым другом за последние {n} дн.",
+    "Friends with no messages for {n} days or more:": "Друзья без сообщений {n} дней и больше:",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
