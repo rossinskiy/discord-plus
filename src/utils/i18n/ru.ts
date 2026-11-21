@@ -540,6 +540,10 @@ export const ru: Record<string, string> = {
     // LongMsgTxt
     "Too long even for {n} messages. Shorten it.": "Слишком длинно даже для {n} сообщений. Сократите текст.",
 
+    // TypingFriends
+    "Show which of your friends are typing right now": "Показать, кто из друзей печатает прямо сейчас",
+    "None of your friends are typing right now.": "Сейчас никто из друзей не печатает.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
