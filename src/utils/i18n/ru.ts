@@ -409,6 +409,10 @@ export const ru: Record<string, string> = {
     "Deleted your last message.": "Последнее сообщение удалено.",
     "Could not delete the message.": "Не удалось удалить сообщение.",
 
+    // WordCount
+    "Show the count only for messages with at least this many words": "Показывать счётчик только у сообщений минимум с таким числом слов",
+    "{n} words": "Слов: {n}",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
