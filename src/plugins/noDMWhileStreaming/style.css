@@ -1,0 +1,10 @@
+/* Applied only while you stream. If Discord renames these classes the plugin simply does nothing. */
+
+body.vc-nodm-streaming [class*="privateChannels"] {
+    visibility: hidden;
+}
+
+body.vc-nodm-streaming [class*="numberBadge"],
+body.vc-nodm-streaming [class*="lowerBadge"] {
+    display: none;
+}
