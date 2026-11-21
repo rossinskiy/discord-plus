@@ -513,6 +513,12 @@ export const ru: Record<string, string> = {
     "Could not download the file.": "Не удалось скачать файл.",
     "Download attachment": "Скачать вложение",
 
+    // SaveUserGifs
+    "No GIFs from this person in the messages loaded here.": "В загруженных здесь сообщениях нет гифок от этого человека.",
+    "Saved {n} GIFs to your favorites.": "Гифок сохранено в избранное: {n}.",
+    "Could not save the GIFs.": "Не удалось сохранить гифки.",
+    "Save their GIFs to favorites": "Сохранить их гифки в избранное",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
