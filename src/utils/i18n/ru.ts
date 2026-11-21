@@ -432,6 +432,12 @@ export const ru: Record<string, string> = {
     "Quiet from this time, 24 hour clock, e.g. 22:00": "Тишина с этого времени, 24-часовой формат, например 22:00",
     "Quiet until this time, e.g. 08:00. The window may cross midnight.": "Тишина до этого времени, например 08:00. Окно может переходить через полночь.",
 
+    // NewUserIndicator
+    "Mark accounts created within this many days": "Отмечать аккаунты, созданные не больше стольких дней назад",
+    "Account created today": "Аккаунт создан сегодня",
+    "Account created {n} days ago": "Аккаунт создан дней назад: {n}",
+    "New": "Новый",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
