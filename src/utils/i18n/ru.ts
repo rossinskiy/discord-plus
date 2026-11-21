@@ -428,6 +428,10 @@ export const ru: Record<string, string> = {
     "Nobody reacted with that emoji to your recent loaded messages here.": "На ваши последние загруженные сообщения здесь никто не ставил эту реакцию.",
     "Top reactors, from your last {n} loaded messages with reactions:": "Чаще всех реагируют (по вашим последним {n} загруженным сообщениям с реакциями):",
 
+    // QuietHours
+    "Quiet from this time, 24 hour clock, e.g. 22:00": "Тишина с этого времени, 24-часовой формат, например 22:00",
+    "Quiet until this time, e.g. 08:00. The window may cross midnight.": "Тишина до этого времени, например 08:00. Окно может переходить через полночь.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
