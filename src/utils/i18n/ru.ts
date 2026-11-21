@@ -445,6 +445,27 @@ export const ru: Record<string, string> = {
     "Words to remove from your messages before they are sent. One per line, whole words only.": "Слова, которые нужно убрать из ваших сообщений перед отправкой. По одному на строку, только целые слова.",
     "Message not sent: only filtered words were left.": "Сообщение не отправлено: остались только отфильтрованные слова.",
 
+    // MutualServerMembers
+    "List people who are in this server and in another server of yours": "Показать людей, которые есть и на этом сервере, и на другом вашем сервере",
+    "Name of the other server (a part of it is enough)": "Название другого сервера (достаточно части)",
+    "Open a server first, this command compares it with another one.": "Сначала откройте сервер: команда сравнивает его с другим.",
+    "You are not in another server called \"{name}\".": "Вы не состоите в другом сервере с названием «{name}».",
+    "{a} and {b}: {n} people in both.": "{a} и {b}: общих людей {n}.",
+    "Other servers matched too, so be more exact if this is the wrong one.": "Подошли и другие серверы, так что уточните название, если выбран не тот.",
+    "and {n} more": "и ещё {n}",
+    "Only members Discord has loaded are counted.": "Считаются только участники, которых Discord уже загрузил.",
+
+    // RoleDuplication
+    "Make a copy of a role in this server": "Сделать копию роли на этом сервере",
+    "Name of the role to copy": "Название роли, которую нужно скопировать",
+    "Open a server first, roles live in servers.": "Сначала откройте сервер: роли есть только на серверах.",
+    "You need the Manage Roles permission in this server.": "Нужно право «Управлять ролями» на этом сервере.",
+    "There is no role called \"{name}\" here. Type the full name.": "Здесь нет роли «{name}». Введите название полностью.",
+    "This role belongs to a bot or integration and cannot be copied.": "Эта роль принадлежит боту или интеграции, её нельзя скопировать.",
+    "(copy)": "(копия)",
+    "Created a copy of \"{name}\".": "Создана копия роли «{name}».",
+    "Discord refused: {reason}": "Discord отказал: {reason}",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
