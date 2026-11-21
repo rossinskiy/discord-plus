@@ -413,6 +413,21 @@ export const ru: Record<string, string> = {
     "Show the count only for messages with at least this many words": "Показывать счётчик только у сообщений минимум с таким числом слов",
     "{n} words": "Слов: {n}",
 
+    // SelfDestruct
+    "Delete your new messages after a delay. Use \"off\" to stop.": "Удалять ваши новые сообщения через заданное время. «off» отключает.",
+    "How long to wait, e.g. 30s, 10m, 2h, or off": "Сколько ждать, например 30s, 10m, 2h или off",
+    "Delete your new messages after this long, e.g. 30s, 10m, 2h. Empty means off. Also set with /selfdestruct.": "Удалять ваши новые сообщения через столько, например 30s, 10m, 2h. Пусто значит выключено. Можно задать и командой /selfdestruct.",
+    "Self-destruct is off.": "Самоудаление выключено.",
+    "Give a delay between 5 seconds and 7 days, like `30s`, `10m` or `2h`.": "Задайте время от 5 секунд до 7 дней, например `30s`, `10m` или `2h`.",
+    "Your new messages will be deleted {after} after sending. Turn it off with `/selfdestruct after:off`.": "Ваши новые сообщения будут удаляться через {after} после отправки. Выключить: `/selfdestruct after:off`.",
+
+    // ReactionTracker
+    "Who reacts with an emoji to your recent messages in this channel": "Кто ставит эту реакцию на ваши последние сообщения в этом канале",
+    "The emoji to count": "Какую реакцию считать",
+    "Give an emoji to count.": "Укажите реакцию, которую считать.",
+    "Nobody reacted with that emoji to your recent loaded messages here.": "На ваши последние загруженные сообщения здесь никто не ставил эту реакцию.",
+    "Top reactors, from your last {n} loaded messages with reactions:": "Чаще всех реагируют (по вашим последним {n} загруженным сообщениям с реакциями):",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
