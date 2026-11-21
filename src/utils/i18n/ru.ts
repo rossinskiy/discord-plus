@@ -519,6 +519,24 @@ export const ru: Record<string, string> = {
     "Could not save the GIFs.": "Не удалось сохранить гифки.",
     "Save their GIFs to favorites": "Сохранить их гифки в избранное",
 
+    // VoiceChannelSearch
+    "Find voice channels across all your servers": "Найти голосовые каналы на всех ваших серверах",
+    "Part of a channel or server name (leave empty to list busy channels)": "Часть названия канала или сервера (пусто покажет каналы с людьми)",
+    "No voice channel matches \"{name}\".": "Нет голосового канала по запросу «{name}».",
+    "Nobody is in a voice channel right now.": "Сейчас никто не сидит в голосовых каналах.",
+
+    // WaitForSlot
+    "Stopped waiting": "Ожидание остановлено",
+    "The voice channel is gone or you waited 30 minutes.": "Голосовой канал пропал или вы ждали 30 минут.",
+    "A slot opened": "Появилось место",
+    "Joining {name}.": "Захожу в {name}.",
+    "Join a full voice channel as soon as there is room": "Зайти в заполненный голосовой канал, как только появится место",
+    "Part of the voice channel name, or \"off\" to stop waiting": "Часть названия голосового канала или «off», чтобы перестать ждать",
+    "No longer waiting.": "Больше не жду.",
+    "No full voice channel matches \"{name}\". Only channels with a user limit that is reached can be waited for.": "Нет заполненного голосового канала по запросу «{name}». Ждать можно только канал с лимитом участников, который уже достигнут.",
+    "{n} full channels matched, so I picked the first. Be more exact to choose another.": "Подошло заполненных каналов: {n}, я выбрал первый. Уточните название, чтобы выбрать другой.",
+    "Waiting for a slot in <#{id}> ({guild}). Stop with `/waitforslot channel:off`.": "Жду место в <#{id}> ({guild}). Остановить: `/waitforslot channel:off`.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
