@@ -592,6 +592,25 @@ export const ru: Record<string, string> = {
     "Could not load the PDF here. Open the file instead.": "Не удалось показать PDF здесь. Откройте файл обычным способом.",
     "Loading...": "Загрузка...",
 
+    // Modes
+    "Save and switch sets of plugins": "Сохранять и переключать наборы плагинов",
+    "What to do": "Что сделать",
+    "save: remember the plugins that are on now": "save: запомнить включённые сейчас плагины",
+    "use: switch to a saved mode": "use: переключиться на сохранённый режим",
+    "list: show saved modes": "list: показать сохранённые режимы",
+    "delete: forget a saved mode": "delete: удалить сохранённый режим",
+    "undo: go back to before the last switch": "undo: вернуться к состоянию до последнего переключения",
+    "The name of the mode": "Название режима",
+    "Saved modes: {names}": "Сохранённые режимы: {names}",
+    "No saved modes yet. Save one with `/mode action:save name:Work`.": "Сохранённых режимов пока нет. Сохраните: `/mode action:save name:Работа`.",
+    "Nothing to undo.": "Отменять нечего.",
+    "Give a mode name: letters, numbers, spaces, up to 30.": "Укажите название режима: буквы, цифры, пробелы, до 30 символов.",
+    "Saved mode \"{name}\" with {n} plugins.": "Режим «{name}» сохранён, плагинов: {n}.",
+    "There is no mode \"{name}\".": "Режима «{name}» нет.",
+    "Deleted mode \"{name}\".": "Режим «{name}» удалён.",
+    "Switched: {on} turned on, {off} turned off.": "Переключено: включено {on}, выключено {off}.",
+    "These failed: {names}.": "Не удалось: {names}.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
