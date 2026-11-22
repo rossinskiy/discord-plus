@@ -579,6 +579,19 @@ export const ru: Record<string, string> = {
     // Vimium
     "Letters used for the hints, easiest to reach first": "Буквы для подсказок, самые удобные первыми",
 
+    // ZipPreview
+    "{name} is too big to open here.": "Файл {name} слишком большой, чтобы открыть его здесь.",
+    "{name}: {files} files, {size} when unpacked.": "{name}: файлов {files}, после распаковки {size}.",
+    "Warning: {n} entries have paths that point outside the folder. Do not unpack this archive.": "Внимание: у записей в количестве {n} пути выходят за пределы папки. Не распаковывайте этот архив.",
+    "Could not read the archive.": "Не удалось прочитать архив.",
+    "Look inside archive": "Посмотреть, что в архиве",
+
+    // PdfViewer
+    "Hide preview of {name}": "Скрыть просмотр {name}",
+    "Preview {name}": "Посмотреть {name}",
+    "Could not load the PDF here. Open the file instead.": "Не удалось показать PDF здесь. Откройте файл обычным способом.",
+    "Loading...": "Загрузка...",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
@@ -657,7 +670,6 @@ export const ru: Record<string, string> = {
     "Open the lounge or wipe your save": "Открыть Lounge или стереть сохранение",
     "Open the Idle Lounge": "Открыть Idle Lounge",
     "Last Seen": "Был в сети",
-    "Loading...": "Загрузка...",
     "No last-seen data recorded for this user yet.": "Для этого пользователя пока нет данных о последнем визите.",
     "History": "История",
     "Last seen data cleared.": "Данные очищены.",
