@@ -548,6 +548,25 @@ export const ru: Record<string, string> = {
     "While you stream, blur the messages of direct messages and group chats": "Пока вы стримите, размывать сообщения в личных сообщениях и групповых чатах",
     "While you stream, blur links, images and embeds in every chat (hover an image to see it)": "Пока вы стримите, размывать ссылки, картинки и вложения во всех чатах (наведите на картинку, чтобы увидеть)",
 
+    // MetadataScanner
+    "{name} is too big to scan.": "Файл {name} слишком большой для проверки.",
+    "Camera: {camera}": "Камера: {camera}",
+    "Software: {software}": "Программа: {software}",
+    "Taken: {time}": "Снято: {time}",
+    "Location: {lat}, {lon}": "Место: {lat}, {lon}",
+    "Metadata in {name}:": "Метаданные в {name}:",
+    "No metadata found in {name}. Discord removes most of it on upload.": "В {name} метаданных не найдено. Discord убирает большую часть при загрузке.",
+    "Could not scan the file.": "Не удалось проверить файл.",
+    "Scan image metadata": "Проверить метаданные картинки",
+
+    // ChannelWallpaper
+    "How much to darken the picture so text stays readable": "Насколько затемнять картинку, чтобы текст читался",
+    "Set a background picture for this channel": "Задать фоновую картинку для этого канала",
+    "Address of the picture (https), or \"off\" to remove it": "Адрес картинки (https) или «off», чтобы убрать",
+    "Wallpaper removed from this channel.": "Фон убран из этого канала.",
+    "That is not an https address.": "Это не адрес https.",
+    "Wallpaper set for this channel. Remove it with `/wallpaper url:off`.": "Фон для этого канала задан. Убрать: `/wallpaper url:off`.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
