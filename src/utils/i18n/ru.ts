@@ -567,6 +567,15 @@ export const ru: Record<string, string> = {
     "That is not an https address.": "Это не адрес https.",
     "Wallpaper set for this channel. Remove it with `/wallpaper url:off`.": "Фон для этого канала задан. Убрать: `/wallpaper url:off`.",
 
+    // ServerBackup
+    "Save this server's roles and channels to a file": "Сохранить роли и каналы этого сервера в файл",
+    "Open a server first.": "Сначала откройте сервер.",
+    "Saved a backup of {name}: {roles} roles, {channels} channels, {emojis} emojis. Check your downloads.": "Резервная копия {name} сохранена: ролей {roles}, каналов {channels}, эмодзи {emojis}. Смотрите в загрузках.",
+
+    // AutoThemeSwitcher
+    "Switch to the light theme at this time (24 hour clock)": "Включать светлую тему в это время (24-часовой формат)",
+    "Switch to the dark theme at this time": "Включать тёмную тему в это время",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
