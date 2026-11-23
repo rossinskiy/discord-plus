@@ -611,6 +611,17 @@ export const ru: Record<string, string> = {
     "Switched: {on} turned on, {off} turned off.": "Переключено: включено {on}, выключено {off}.",
     "These failed: {names}.": "Не удалось: {names}.",
 
+    // MemoryTrim
+    "Reload when the page uses more than this many MB of memory (0 turns this off). Use /memory to see your number.": "Перезагружать, когда страница использует больше стольких МБ памяти (0 отключает). Свою цифру покажет /memory.",
+    "Reload when the page has been running this many hours (0 turns this off)": "Перезагружать, когда страница работает столько часов (0 отключает)",
+    "Only reload after the Discord window has been out of focus this many minutes": "Перезагружать только после того, как окно Discord пробыло не в фокусе столько минут",
+    "Show how much memory Discord's page uses and when it will be reloaded": "Показать, сколько памяти использует страница Discord и когда она перезагрузится",
+    "Memory use: not available on this Discord.": "Расход памяти: в этой версии Discord недоступен.",
+    "Memory use of the page: {n} MB (reload limit {limit} MB)": "Расход памяти страницей: {n} МБ (предел для перезагрузки {limit} МБ)",
+    "off": "выкл",
+    "The page has been running for {h} hours (reload limit {limit} hours)": "Страница работает {h} ч (предел для перезагрузки {limit} ч)",
+    "It reloads by itself only when the window has been out of focus for {m} minutes and you are not in a call.": "Сама перезагружается, только когда окно не в фокусе {m} мин и вы не в звонке.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",
