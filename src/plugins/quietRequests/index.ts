@@ -17,7 +17,8 @@ export default definePlugin({
         {
             // The app asks how many referrals are left and treats an empty answer as "none". Give that answer
             // locally instead of sending the request that comes back as a 404.
-            find: "BILLING_REFERRALS_REMAINING_FETCH_START",
+            // Not the action name: the store that listens for it has the same text and would be picked first.
+            find: "GET_REFERRALS_REMAINING,oldFormErrors",
             replacement: {
                 match: /\i\.\i\.get\(\{url:\i\.\i\.GET_REFERRALS_REMAINING,oldFormErrors:!0,rejectWithError:!1\}\)/,
                 replace: "Promise.resolve({body:null})"
