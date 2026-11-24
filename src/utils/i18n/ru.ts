@@ -622,6 +622,16 @@ export const ru: Record<string, string> = {
     "The page has been running for {h} hours (reload limit {limit} hours)": "Страница работает {h} ч (предел для перезагрузки {limit} ч)",
     "It reloads by itself only when the window has been out of focus for {m} minutes and you are not in a call.": "Сама перезагружается, только когда окно не в фокусе {m} мин и вы не в звонке.",
 
+    // AutoQuest /quests
+    "Show every Quest and what AutoQuest does with it": "Показать все задания и что с ними делает AutoQuest",
+    "completed, reward not claimed yet": "выполнено, награда ещё не получена",
+    "not accepted, accept it in the Quests tab": "не принято, примите его на вкладке «Задания»",
+    "accepted, but AutoQuest cannot do this kind of task": "принято, но AutoQuest не умеет такой тип задачи",
+    "accepted, AutoQuest works on it": "принято, AutoQuest его выполняет",
+    "Discord blocks you from accepting new Quests until {time}.": "Discord не даёт вам принимать новые задания до {time}.",
+    "AutoQuest gave up on {n} quest(s) after an error, see the console.": "AutoQuest бросил заданий после ошибки: {n}, подробности в консоли.",
+    "No open Quests found.": "Открытых заданий не найдено.",
+
     // QuietConsole
     "Your own filters: console lines containing any of these words are hidden. One per line.": "Свои фильтры: строки консоли с любым из этих слов будут скрыты. По одному на строку.",
     "Hide the red \"Hold Up!\" scam warning Discord prints when you open DevTools": "Скрывать красное предупреждение «Hold Up!», которое Discord печатает при открытии DevTools",

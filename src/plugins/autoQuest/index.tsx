@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import * as DataStore from "@api/DataStore";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
@@ -11,6 +12,8 @@ import { t } from "@utils/i18n";
 import definePlugin, { OptionType } from "@utils/types";
 import { findStoreLazy } from "@webpack";
 import { ChannelStore, FluxDispatcher, RestAPI, RunningGameStore, showToast, Toasts } from "@webpack/common";
+
+import { isListed, questState } from "./state";
 
 const QuestsStore = findStoreLazy("QuestStore");
 
@@ -41,6 +44,7 @@ let stopped = true;
 let checkTimer: ReturnType<typeof setTimeout> | undefined;
 const failedQuests = new Set<string>();
 const warnedQuests = new Set<string>();
+const notAcceptedLogged = new Set<string>();
 const claimAttempted = new Set<string>();
 const CLAIM_FAILED_KEY = "AutoQuest_claimFailed";
 
@@ -66,6 +70,10 @@ function getTaskType(quest: any): TaskType | undefined {
 function findPendingQuest() {
     const quests: any[] = [...QuestsStore.quests.values()];
     for (const q of quests) {
+        if (!q.userStatus?.enrolledAt && getTaskType(q) && !notAcceptedLogged.has(q.id) && new Date(q.config?.expiresAt).getTime() > Date.now()) {
+            notAcceptedLogged.add(q.id);
+            console.info(`[AutoQuest] "${q.config?.messages?.questName ?? q.config?.application?.name ?? q.id}" is not accepted yet. Accept it in the Quests tab and it starts by itself. /quests lists every quest and why it waits.`);
+        }
         if (q.userStatus?.enrolledAt && !q.userStatus?.completedAt && !getTaskType(q) && !warnedQuests.has(q.id) && !Object.keys(q?.config?.taskConfigV2?.tasks ?? {}).some(k => k.startsWith("ACHIEVEMENT_IN_ACTIVITY"))) {
             warnedQuests.add(q.id);
             console.warn("[AutoQuest] unsupported quest task types", q.id, JSON.stringify(Object.keys(q?.config?.taskConfigV2?.tasks ?? {})));
@@ -352,6 +360,40 @@ export default definePlugin({
     tags: ["Utility"],
     settings,
 
+    commands: [{
+        name: "quests",
+        description: t("Show every Quest and what AutoQuest does with it"),
+        inputType: ApplicationCommandInputType.BUILT_IN,
+        execute(_, ctx) {
+            const say = (content: string) => sendBotMessage(ctx.channel.id, { content });
+            const quests: any[] = [...QuestsStore.quests.values()];
+            const label = {
+                "claim-pending": t("completed, reward not claimed yet"),
+                "not-accepted": t("not accepted, accept it in the Quests tab"),
+                unsupported: t("accepted, but AutoQuest cannot do this kind of task"),
+                working: t("accepted, AutoQuest works on it"),
+                claimed: "",
+                expired: ""
+            } as const;
+
+            const lines = quests
+                .map(q => ({ q, state: questState(q, !!getTaskType(q)) }))
+                .filter(({ state }) => isListed(state))
+                .slice(0, 12)
+                .map(({ q, state }) => {
+                    const name = q.config?.messages?.questName ?? q.config?.application?.name ?? q.id;
+                    const tasks = Object.keys(q.config?.taskConfigV2?.tasks ?? {}).join(", ") || "?";
+                    return `${name} (${tasks}): ${label[state]}`;
+                });
+
+            const blockedUntil = QuestsStore.questEnrollmentBlockedUntil;
+            const blocked = blockedUntil ? t("Discord blocks you from accepting new Quests until {time}.", { time: new Date(blockedUntil).toLocaleString() }) : "";
+            const failed = failedQuests.size ? t("AutoQuest gave up on {n} quest(s) after an error, see the console.", { n: failedQuests.size }) : "";
+
+            say([blocked, failed, lines.length ? lines.join("\n") : t("No open Quests found.")].filter(Boolean).join("\n"));
+        }
+    }],
+
     async start() {
         stopped = false;
         // Rewards that Discord refused once (captcha, already claimed) are not retried on every restart.
@@ -381,6 +423,7 @@ export default definePlugin({
         try { QuestsStore.removeChangeListener(onQuestsChange); } catch { }
         failedQuests.clear();
         warnedQuests.clear();
+        notAcceptedLogged.clear();
         claimAttempted.clear();
     }
 });
