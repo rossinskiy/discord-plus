@@ -30,7 +30,7 @@ def ver(name):
         return hashlib.sha256(f.read()).hexdigest()[:8]
 
 
-V = {n: ver(n) for n in ("style.css", "app.js", "theme.js", "favicon.svg")}
+V = {n: ver(n) for n in ("style.css", "app.js", "theme.js", "favicon.svg", "og.png")}
 
 # ------------------------------------------------------------------ plugin facts
 PLUGINS = [
@@ -195,7 +195,8 @@ def head(title, desc, path, extra=""):
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{ORIGIN}/assets/og.png">
+<meta property="og:image" content="{ORIGIN}/assets/og.png?v={V["og.png"]}">
+<meta property="og:image:alt" content="Discord+: Discord, with the missing parts.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
