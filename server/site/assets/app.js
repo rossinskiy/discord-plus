@@ -8,6 +8,7 @@
         get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
         set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { } }
     };
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // ---- year
     $$("[data-year]").forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
@@ -19,16 +20,16 @@
         if (set) return set;
         return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     }
-    function paintThemeLabel() {
-        if (themeBtn) themeBtn.textContent = (RU ? "Тема: " : "Theme: ") + (currentTheme() === "light" ? (RU ? "светлая" : "Light") : (RU ? "тёмная" : "Dark"));
+    function paintTheme() {
+        if (themeBtn) themeBtn.setAttribute("aria-pressed", String(currentTheme() === "dark"));
     }
     if (themeBtn) {
-        paintThemeLabel();
+        paintTheme();
         themeBtn.addEventListener("click", function () {
             var next = currentTheme() === "light" ? "dark" : "light";
             document.documentElement.setAttribute("data-theme", next);
             store.set("dp-theme", next);
-            paintThemeLabel();
+            paintTheme();
         });
     }
 
@@ -36,31 +37,32 @@
     var menuBtn = $("#menu");
     var tabs = $("#tabs");
     if (menuBtn && tabs) {
+        var closeMenu = function (focus) {
+            tabs.classList.remove("open");
+            menuBtn.setAttribute("aria-expanded", "false");
+            if (focus) menuBtn.focus();
+        };
         menuBtn.addEventListener("click", function () {
             var open = tabs.classList.toggle("open");
             menuBtn.setAttribute("aria-expanded", String(open));
         });
         document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape" && tabs.classList.contains("open")) {
-                tabs.classList.remove("open");
-                menuBtn.setAttribute("aria-expanded", "false");
-                menuBtn.focus();
-            }
+            if (e.key === "Escape" && tabs.classList.contains("open")) closeMenu(true);
         });
+        $$("a", tabs).forEach(function (a) { a.addEventListener("click", function () { closeMenu(false); }); });
     }
 
-    // ---- scroll progress and back to top
-    var bar = $(".progress i");
+    // ---- top bar border and back to top
+    var top = $(".top");
     var toTop = $(".to-top");
     function onScroll() {
-        var max = document.documentElement.scrollHeight - window.innerHeight;
         var y = window.scrollY || document.documentElement.scrollTop;
-        if (bar) bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
-        if (toTop) toTop.classList.toggle("show", y > 700);
+        if (top) top.classList.toggle("scrolled", y > 8);
+        if (toTop) toTop.classList.toggle("show", y > 900);
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    if (toTop) toTop.addEventListener("click", function () { window.scrollTo({ top: 0 }); });
+    if (toTop) toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); });
 
     // ---- notice
     var notice = $("#notice");
@@ -70,7 +72,7 @@
         if (ok) ok.addEventListener("click", function () { store.set("dp-notice", "1"); notice.hidden = true; });
     }
 
-    // ---- copy buttons, and steps that grey out as you go
+    // ---- copy buttons, and steps that fade as you go
     function commandText(btn) {
         var box = btn.closest(".cmd");
         var code = box && $("code", box);
@@ -117,77 +119,34 @@
         });
     });
 
-    // ---- home: the plugin menu
-    var menu = $("#plugin-menu");
-    if (menu) {
-        var rows = $$(".row", menu);
-        var helpTitle = $("#help-title");
-        var helpBody = $("#help-body");
-        var count = $("#on-count");
-        var toggles = rows.filter(function (r) { return r.hasAttribute("data-toggle"); });
-
-        rows.forEach(function (r, i) { r.style.setProperty("--i", String(i)); });
-        menu.classList.add("scan");
-        setTimeout(function () { menu.classList.remove("scan"); }, 900);
-
-        var select = function (row) {
-            rows.forEach(function (r) { r.removeAttribute("aria-current"); });
-            row.setAttribute("aria-current", "true");
-            var src = $("#help-" + row.dataset.help);
-            if (src && helpBody) {
-                helpTitle.textContent = src.dataset.title;
-                helpBody.innerHTML = src.innerHTML;
-            }
+    // ---- the story: the window on the right follows the step in the middle of the screen
+    var story = $(".story");
+    if (story && "IntersectionObserver" in window) {
+        var steps = $$(".step", story);
+        var setStep = function (step) {
+            story.dataset.s = step.dataset.s;
+            steps.forEach(function (s) { s.classList.toggle("on", s === step); });
         };
-        var paint = function () {
-            var on = toggles.filter(function (r) { return r.dataset.on === "true"; }).length;
-            if (count) count.textContent = on + (RU ? " из " : " of ") + toggles.length;
-        };
-        var setState = function (row, on) {
-            row.dataset.on = String(on);
-            row.setAttribute("aria-pressed", String(on));
-            var val = $(".val", row);
-            val.textContent = on ? (RU ? "[Вкл.]" : "[Enabled]") : (RU ? "[Выкл.]" : "[Disabled]");
-            val.dataset.on = String(on);
-        };
+        var stepObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { if (en.isIntersecting) setStep(en.target); });
+        }, { rootMargin: "-42% 0px -42% 0px", threshold: 0 });
+        steps.forEach(function (s) { stepObserver.observe(s); });
+        if (steps[0]) setStep(steps[0]);
+    }
 
-        rows.forEach(function (row) {
-            row.addEventListener("mouseenter", function () { select(row); });
-            row.addEventListener("focus", function () { select(row); });
-            row.addEventListener("click", function (e) {
-                if (row.tagName === "A") return;
-                e.preventDefault();
-                select(row);
-                if (row.hasAttribute("data-toggle")) {
-                    setState(row, row.dataset.on !== "true");
-                    paint();
-                }
-            });
-        });
-
-        menu.addEventListener("keydown", function (e) {
-            var i = rows.indexOf(document.activeElement);
-            if (i < 0) return;
-            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-                e.preventDefault();
-                rows[(i + (e.key === "ArrowDown" ? 1 : -1) + rows.length) % rows.length].focus();
-            }
-        });
-
-        document.addEventListener("keydown", function (e) {
-            if (e.ctrlKey || e.metaKey || e.altKey) return;
-            if (e.key === "F10") {
-                e.preventDefault();
-                var cmdBtn = $("#install-copy");
-                if (cmdBtn) cmdBtn.click();
-            } else if (e.key === "Escape" && !(tabs && tabs.classList.contains("open"))) {
-                toggles.forEach(function (r) { setState(r, false); });
-                paint();
-            }
-        });
-
-        if (rows[0]) select(rows[0]);
-        paint();
+    // ---- reveal blocks once as they come into view
+    var reveal = $$(".rv");
+    if (reveal.length) {
+        if ("IntersectionObserver" in window && !reduceMotion) {
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+                });
+            }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+            reveal.forEach(function (el) { io.observe(el); });
+        } else {
+            reveal.forEach(function (el) { el.classList.add("in"); });
+        }
     }
 
     // ---- plugin catalog: open a row, filter by typing

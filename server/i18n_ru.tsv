@@ -422,3 +422,26 @@ MessageArchive has a new /archive command. It searches the messages Discord+ sav
 QuietConsole accepts your own words to hide in the console.	QuietConsole принимает ваши собственные слова для скрытия в консоли.
 A new command, pnpm checkPatches, lists the patches that no longer fit the current Discord build.	Новая команда pnpm checkPatches показывает патчи, которые больше не подходят к текущей сборке Discord.
 The README is available in Russian, and the FAQ on the home page has three new answers.	README доступен на русском, а в FAQ на главной странице три новых ответа.
+<span aria-hidden="true">#</span> general	<span aria-hidden="true">#</span> общий
+<span class="dim">&gt;</span> /schedule in:10m message:call back	<span class="dim">&gt;</span> /schedule in:10m message:позвонить
+<span class="value">Scheduled</span> for 21:40, in this channel	<span class="value">Запланировано</span> на 21:40, в этом канале
+A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and Discord+ adds plugins nobody else ships. What it saves stays on your PC.	Бесплатный форк Vencord для приложения Discord на компьютере. Все плагины Vencord работают, а Discord+ добавляет плагины, которых нет больше нигде. Всё, что он сохраняет, остаётся на вашем ПК.
+Alex <span>21:31</span>	Alex <span>21:31</span>
+Alex <span>21:32</span>	Alex <span>21:32</span>
+Did you see the new build?	Ты видел новую сборку?
+Discord+	Discord+
+Discord+ is a free Vencord fork for the Discord desktop app with extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.	Discord+ это бесплатный форк Vencord для приложения Discord на компьютере с дополнительными плагинами: AutoQuest, Idle Lounge, значки MyProfile, LiteMode и другие. Ваши данные остаются на вашем ПК.
+Discord, with the missing parts.	Discord, которого вам не хватало.
+Drawn illustration of ScheduledMessages	Нарисованная иллюстрация ScheduledMessages
+Every one starts off. You switch on what you want in Discord's settings.	Все они сначала выключены. Нужное вы включаете в настройках Discord.
+Everything stays on your PC.	Всё остаётся на вашем ПК.
+Keep what gets deleted.	Сохраните удалённое.
+Learn more	Подробнее
+Lighter on your PC.	Легче для вашего ПК.
+Mia <span>21:30</span>	Mia <span>21:30</span>
+One command.	Одна команда.
+Remind yourself.	Напомните себе.
+Risky	Рискованно
+Send it later.	Отправьте позже.
+What it does	Что он умеет
+Write a message now and send it later with /schedule.	Напишите сообщение сейчас, а отправьте позже командой /schedule.

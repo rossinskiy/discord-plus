@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Changes | Discord+</title>
 <meta name="description" content="What changed in Discord+ and its website: new plugins, fixes for new Discord builds and translations.">
-<meta name="theme-color" content="#0000aa">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://discordplus.karatel.win/changelog">
 <link rel="alternate" hreflang="en" href="https://discordplus.karatel.win/changelog">
 <link rel="alternate" hreflang="ru" href="https://discordplus.karatel.win/ru/changelog">
 <link rel="alternate" hreflang="x-default" href="https://discordplus.karatel.win/changelog">
-<link rel="icon" href="/assets/favicon.svg?v=a872b06a" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.svg?v=9e450c8f" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
 <meta property="og:title" content="Changes | Discord+">
@@ -20,21 +21,20 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=7430ae4a">
+<link rel="preload" href="/assets/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css?v=37e00047">
 <script src="/assets/theme.js?v=6ca03193"></script>
-<script src="/assets/app.js?v=f4aed3df" defer></script>
+<script src="/assets/app.js?v=69a9620f" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
 <div class="wrap">
-<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/><path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+ Setup Utility</span></a>
-<nav id="tabs" class="tabs" aria-label="Main"><a href="/">Main</a><a href="/plugins">Plugins</a><a href="/install">Install</a><a href="/support">Support</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><a class="lang" href="/ru/changelog" hreflang="ru" lang="ru" aria-label="Русская версия сайта">RU</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">Theme: Dark</button></nav>
+<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0c0c0e"/><path d="M16 8v16M8 16h16" stroke="#22c55e" stroke-width="3.4" stroke-linecap="round" fill="none"/></svg><span>Discord+</span></a>
+<nav id="tabs" class="tabs" aria-label="Main"><a href="/plugins">Plugins</a><a href="/support">Support</a><a href="/changelog">What changed</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><a class="lang" href="/ru/changelog" hreflang="ru" lang="ru" aria-label="Русская версия сайта">RU</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme"><svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg><svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2z"/></svg></button><a class="btn sm" href="/install">Install</a></nav>
 <button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
 </div>
 </header>
-<div class="progress" aria-hidden="true"><i></i></div>
 <main id="main">
 <div class="wrap">
 <div class="page-head">
@@ -72,10 +72,6 @@
 </div>
 </main>
 <footer>
-<div class="notice" id="notice" role="region" aria-label="Notice">
-<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
-<button class="btn" type="button">Got it</button>
-</div>
 <div class="wrap foot">
 <div class="links">
 <a href="/changelog">What changed</a>
@@ -91,8 +87,9 @@
 <p>&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</p>
 </div>
 </footer>
-<div class="dock">
-<div class="keys"><div class="wrap"><span><span class="hint-keys"><kbd>Esc</kbd>Close the menu</span></span><span><span>Press Top to go back up</span></span></div></div>
+<div class="notice" id="notice" role="region" aria-label="Notice">
+<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
+<button class="btn" type="button">Got it</button>
 </div>
 <button class="btn to-top" type="button" aria-label="Back to the top">Top</button>
 </body>

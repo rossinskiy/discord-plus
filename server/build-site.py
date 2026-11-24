@@ -158,8 +158,8 @@ BY_ID = {p["id"]: p for p in PLUGINS}
 HOME_ROWS = ["autoquest", "idle-lounge", "my-profile", "lite-mode", "reminders", "message-archive", "second-account"]
 
 # ------------------------------------------------------------------ shared pieces
-LOGO = ('<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/>'
-        '<path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg>')
+LOGO = ('<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0c0c0e"/>'
+        '<path d="M16 8v16M8 16h16" stroke="#22c55e" stroke-width="3.4" stroke-linecap="round" fill="none"/></svg>')
 
 import json
 
@@ -172,7 +172,7 @@ if os.path.exists(DONATE_FILE):
     SERVICES = [x for x in _donate.get("services", []) if x.get("url")]
 HAS_SUPPORT = bool(WALLETS or SERVICES)
 
-NAV = [("/", "Main", "home"), ("/plugins", "Plugins", "plugins"), ("/install", "Install", "install")]
+NAV = [("/plugins", "Plugins", "plugins")]
 if HAS_SUPPORT:
     NAV.append(("/support", "Support", "support"))
 
@@ -186,7 +186,8 @@ def head(title, desc, path, extra=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-<meta name="theme-color" content="#0000aa">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="{url}">
 <link rel="icon" href="/assets/favicon.svg?v={V["favicon.svg"]}" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -198,7 +199,7 @@ def head(title, desc, path, extra=""):
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css?v={V["style.css"]}">
 <script src="/assets/theme.js?v={V["theme.js"]}"></script>
 <script src="/assets/app.js?v={V["app.js"]}" defer></script>
@@ -207,29 +208,29 @@ def head(title, desc, path, extra=""):
 '''
 
 
+SUN = ('<svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">'
+       '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>')
+MOON = ('<svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<path d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2z"/></svg>')
+
+
 def top(active):
     cur = ' aria-current="page"'
     links = "".join(f'<a href="{h}"{cur if k == active else ""}>{n}</a>' for h, n, k in NAV)
     return f'''<a class="skip" href="#main">Skip to content</a>
 <header class="top">
 <div class="wrap">
-<a class="brand" href="/" aria-label="Discord+ home">{LOGO}<span>Discord+ Setup Utility</span></a>
-<nav id="tabs" class="tabs" aria-label="Main">{links}<a href="{GITHUB}" rel="noopener">Source</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">Theme: Dark</button></nav>
+<a class="brand" href="/" aria-label="Discord+ home">{LOGO}<span>Discord+</span></a>
+<nav id="tabs" class="tabs" aria-label="Main">{links}<a href="/changelog">What changed</a><a href="{GITHUB}" rel="noopener">Source</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">{SUN}{MOON}</button><a class="btn sm" href="/install">Install</a></nav>
 <button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
 </div>
 </header>
-<div class="progress" aria-hidden="true"><i></i></div>
 '''
 
 
-def bottom(hints):
-    keys = "".join(f"<span>{h}</span>" for h in hints)
+def bottom(hints=None):
     support_link = '<a href="/support">Support the project</a>\n' if HAS_SUPPORT else ""
     return f'''<footer>
-<div class="notice" id="notice" role="region" aria-label="Notice">
-<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
-<button class="btn" type="button">Got it</button>
-</div>
 <div class="wrap foot">
 <div class="links">
 <a href="/changelog">What changed</a>
@@ -244,8 +245,9 @@ def bottom(hints):
 <p>&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</p>
 </div>
 </footer>
-<div class="dock">
-<div class="keys"><div class="wrap">{keys}</div></div>
+<div class="notice" id="notice" role="region" aria-label="Notice">
+<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
+<button class="btn" type="button">Got it</button>
 </div>
 <button class="btn to-top" type="button" aria-label="Back to the top">Top</button>
 </body>
@@ -267,7 +269,7 @@ def cmd_box(text, copy_id=None, label="Copy", prompt="PS&gt; "):
     return '<div class="cmd"><code>' + "\n".join(out) + '</code><button class="btn" type="button" data-copy' + idattr + ">" + label + "</button></div>"
 
 
-MOCKS = {'autoquest': '<div class="mock-l"><span class="dim">Quest</span> Play a game for 15 minutes</div><div class="mock-l"><progress value="8" max="15"></progress> 8 of 15 min</div><div class="mock-l"><span class="dim">Status</span> <span class="ok">running, claims the reward when due</span></div>', 'idle-lounge': '<div class="mock-l"><span class="dim">Garden</span> 4.32K coins, 3.3 per second</div><div class="mock-l"><span class="dim">Fishing</span> Caught a trout and 2 more</div><div class="mock-l"><span class="dim">Bricks</span> Level 5, 12 balls</div>', 'my-profile': '<div class="mock-l">yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22"></div><div class="mock-l dim">Discord+ OG #7, since October 22, 2026</div><div class="mock-l"><span class="dim">Display name</span> only you see this one</div>', 'lite-mode': '<div class="mock-l"><span class="dim">Animations</span> On, then Off</div><div class="mock-l"><span class="dim">Blur behind menus</span> On, then Off</div><div class="mock-l"><span class="dim">Animated avatars</span> On, then Still</div>', 'reminders': '<div class="mock-l"><span class="dim">&gt;</span> /remind in:10m about:call back</div><div class="mock-l"><span class="value">Reminder</span> call back, with a chime</div>', 'message-archive': '<div class="mock-l"><span class="risk">deleted</span> see you at 8</div><div class="mock-l">see you at 9 <span class="dim">(edited)</span></div>', 'nickname-history': '<div class="mock-l"><span class="dim">Oct 12</span> tsar_old</div><div class="mock-l"><span class="dim">Oct 17</span> tsar</div><div class="mock-l"><span class="dim">Oct 22</span> Tsar</div>', 'last-seen': '<div class="mock-l"><span class="dim">Last seen</span> today 21:40</div><div class="mock-l"><span class="dim">Because</span> sent a message</div>', 'user-tags': '<div class="mock-l">Tsar <span class="value">[work]</span> <span class="value">[owes money]</span></div><div class="mock-l dim">Hover a tag to read your note</div>', 'bulk-export': '<div class="mock-l"><span class="dim">Channel</span> general</div><div class="mock-l"><span class="dim">Saved to</span> general.json</div>', 'auto-leave-vc': '<div class="mock-l">You are the only one here</div><div class="mock-l"><span class="value">Leaving in 30 seconds</span></div>', 'second-account': '<div class="mock-l"><span class="value">Ctrl+Shift+2</span> Account 1 and Account 2</div><div class="mock-l dim">Both stay connected</div>'}
+MOCKS = {'autoquest': '<div class="mock-l"><span class="dim">Quest</span> Play a game for 15 minutes</div><div class="mock-l"><progress value="8" max="15"></progress> 8 of 15 min</div><div class="mock-l"><span class="dim">Status</span> <span class="ok">running, claims the reward when due</span></div>', 'idle-lounge': '<div class="mock-l"><span class="dim">Garden</span> 4.32K coins, 3.3 per second</div><div class="mock-l"><span class="dim">Fishing</span> Caught a trout and 2 more</div><div class="mock-l"><span class="dim">Bricks</span> Level 5, 12 balls</div>', 'my-profile': '<div class="mock-l">yourname <img src="/assets/badges/dev.svg" alt="" width="22" height="22"><img src="/assets/badges/og.svg" alt="" width="22" height="22"></div><div class="mock-l dim">Discord+ OG #7, since October 22, 2026</div><div class="mock-l"><span class="dim">Display name</span> only you see this one</div>', 'lite-mode': '<div class="mock-l"><span class="dim">Animations</span> On, then Off</div><div class="mock-l"><span class="dim">Blur behind menus</span> On, then Off</div><div class="mock-l"><span class="dim">Animated avatars</span> On, then Still</div>', 'reminders': '<div class="mock-l"><span class="dim">&gt;</span> /remind in:10m about:call back</div><div class="mock-l"><span class="value">Reminder</span> call back, with a chime</div>', 'message-archive': '<div class="mock-l"><span class="risk">deleted</span> see you at 8</div><div class="mock-l">see you at 9 <span class="dim">(edited)</span></div>', 'nickname-history': '<div class="mock-l"><span class="dim">Oct 12</span> tsar_old</div><div class="mock-l"><span class="dim">Oct 17</span> tsar</div><div class="mock-l"><span class="dim">Oct 22</span> Tsar</div>', 'last-seen': '<div class="mock-l"><span class="dim">Last seen</span> today 21:40</div><div class="mock-l"><span class="dim">Because</span> sent a message</div>', 'user-tags': '<div class="mock-l">Tsar <span class="value">[work]</span> <span class="value">[owes money]</span></div><div class="mock-l dim">Hover a tag to read your note</div>', 'bulk-export': '<div class="mock-l"><span class="dim">Channel</span> general</div><div class="mock-l"><span class="dim">Saved to</span> general.json</div>', 'auto-leave-vc': '<div class="mock-l">You are the only one here</div><div class="mock-l"><span class="value">Leaving in 30 seconds</span></div>', 'scheduled-messages': '<div class="mock-l"><span class="dim">&gt;</span> /schedule in:10m message:call back</div><div class="mock-l"><span class="value">Scheduled</span> for 21:40, in this channel</div>', 'second-account': '<div class="mock-l"><span class="value">Ctrl+Shift+2</span> Account 1 and Account 2</div><div class="mock-l dim">Both stay connected</div>'}
 
 
 def mock_html(p):
@@ -291,38 +293,46 @@ def help_html(p):
 
 def contract(thesis_extra=""):
     return '''<!--
-THESIS: The website is the setup utility of your Discord: plugins are menu items you switch on. It refuses the dev-tool landing page (hero, card grid, feature icons).
-OWN-WORLD: Firmware setup screen. Blue text-mode field, grey title bar and tabs, white text, cyan frame titles, yellow values, double-line frames, selection as an inverse bar. One bitmap face (VT323) at two sizes on a character cell grid. Light theme is a pale UEFI sheet with navy bars.
-STORY: A visitor learns that Discord+ is a Vencord fork with plugins nobody else ships, sees they are all off until switched on, sees every byte stays on their PC except one named lookup, and copies one command.
-FIRST VIEWPORT: Left, the Discord+ wordmark at display size with a two-line promise, then the plugin menu as firmware options. Right, the help pane for the selected item and the install command with its Copy button beneath it. Key hints along the bottom bar.
-FORM: Firmware setup utility, candidate 4 of my grounded list, seed key 175bc1b0 (assigned by the roll).
+THESIS: Discord+ is shown the way a product is shown on apple.com: one big sentence per screen, black and white fields, one green, and a drawn window that follows the scroll. It refuses the dev-tool landing page (hero, card grid, feature icons) and the old setup-screen look.
+OWN-WORLD: Black and white fields in alternating bands. One variable sans (Onest) at large sizes, tight tracking, one weight step. One green (#22c55e) for the primary pill button and links. Pill buttons, hairline rules, soft 22px window radius, no cards. A band may stay dark in the light theme, like a product shot on black.
+STORY: A visitor reads what Discord+ is in one sentence, watches four real plugins work in a drawn window as they scroll, sees that data stays on their PC, reads the terms warning, and copies one command.
+FIRST VIEWPORT: Black field. A drawn chat window cropped at the top right, fading out. Bottom left, the plus mark with the name, the headline at 6rem, one honest sentence, the green Install pill and a text link.
+FORM: Product page with scroll-driven stage, chosen by the user (pinned brief: apple.com style, minimal, with animation). No concept roll.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
 -->
 '''
 
 
 # ------------------------------------------------------------------ pages
+def story_state(n, pid, lines):
+    p = BY_ID[pid]
+    return ('<div class="state" data-s="' + str(n) + '"><div class="win" role="img" aria-label="Drawn illustration of ' + e(p["name"]) + '">'
+            '<div class="win-bar"><b><span aria-hidden="true">#</span> general</b><span>Discord+</span></div><div class="win-body">' + lines
+            + '<div class="mock-l dim cap">Illustration, not a screenshot.</div></div></div></div>')
+
+
 def home():
-    rows = ""
-    helps = ""
+    steps = [
+        ("scheduled-messages", "Send it later."),
+        ("message-archive", "Keep what gets deleted."),
+        ("reminders", "Remind yourself."),
+        ("lite-mode", "Lighter on your PC."),
+    ]
+    steps_html = ""
+    states_html = ""
+    for n, (pid, headline) in enumerate(steps, 1):
+        p = BY_ID[pid]
+        steps_html += (f'<div class="step" data-s="{n}"><h2 class="h2">{e(headline)}</h2><p class="lead">{e(p["short"])}</p>'
+                       f'<a class="more" href="/plugins#{pid}">Learn more</a></div>')
+        states_html += story_state(n, pid, MOCKS[pid])
+
+    more = ""
     for pid in HOME_ROWS:
         p = BY_ID[pid]
-        built = pid == "second-account"
-        risk_note = " It breaks the Discord rules, read the warning below." if p.get("risk") else ""
-        if built:
-            rows += (f'<li><button class="row" type="button" data-help="{pid}"><span class="name">{e(p["name"])}</span>'
-                     f'<span class="val" data-on="true" aria-hidden="true">[Built in]</span><span class="blurb">{e(p["short"])}</span></button></li>')
-        else:
-            rows += (f'<li><button class="row" type="button" data-help="{pid}" data-toggle data-on="false" aria-pressed="false">'
-                     f'<span class="name">{e(p["name"])}</span><span class="val" data-on="false" aria-hidden="true">[Disabled]</span>'
-                     f'<span class="blurb">{e(p["short"])}{risk_note}</span></button></li>')
-        helps += f'<div class="help-src" id="help-{pid}" data-title="{e(p["name"])}">{help_html(p)}</div>\n'
-    rows += '<li><a class="row" href="/plugins" data-help="more"><span class="name">All plugins and what they do</span><span class="val">[Open]</span></a></li>'
-    helps += ('<div class="help-src" id="help-more" data-title="All plugins">'
-              '<p>Seventeen plugins were written for Discord+, plus the second account window. The catalog explains each one and lets you search it.</p>'
-              '<p class="dim">Every plugin from Vencord is still there in the same settings page.</p></div>\n')
-
-    rows_html = f'<ul class="rows" id="plugin-menu" role="list">{rows}</ul>'
+        tag = "Built in" if pid == "second-account" else ("Risky" if p.get("risk") else "")
+        val = f'<span class="val{" risk" if p.get("risk") else ""}">{tag}</span>' if tag else ""
+        more += (f'<li><a class="row" href="/plugins#{pid}"><span class="name">{e(p["name"])} <span class="dim">{e(p["short"])}</span></span>{val}</a></li>')
+    rows_html = f'<ul class="rows home-rows" role="list">{more}</ul>'
 
     storage = [
         ("MessageArchive", "your PC, 7 days", "never"),
@@ -371,71 +381,86 @@ def home():
     for q, answers in faq:
         faq_html += f'<details><summary>{e(q)}</summary><div class="answer">' + "".join(f"<p>{a if '<' in a else e(a)}</p>" for a in answers) + "</div></details>"
 
-    install_cmd = cmd_box(CMD, "install-copy", 'Copy<span class="fkey"> (F10)</span>', prompt="")
+    install_cmd = cmd_box(CMD, "install-copy", "Copy", prompt="")
+
+    hero_art = '''<div class="hero-art" aria-hidden="true"><div class="win"><div class="win-bar"><b><span aria-hidden="true">#</span> general</b><span>Discord+</span></div><div class="win-body">
+<div class="msg"><span class="av a">M</span><div><div class="msg-name">Mia <span>21:30</span></div><div class="msg-text">Did you see the new build?</div></div></div>
+<div class="msg"><span class="av b">A</span><div><div class="msg-name">Alex <span>21:31</span></div><div class="msg-text"><span class="risk">deleted</span> see you at 8</div></div></div>
+<div class="msg"><span class="av b">A</span><div><div class="msg-name">Alex <span>21:32</span></div><div class="msg-text">see you at 9 <span class="dim">(edited)</span></div></div></div>
+<div class="composer"><span class="dim">&gt;</span> /remind in:10m about:call back</div>
+</div></div></div>'''
 
     body = f'''{contract()}<main id="main">
+<section class="hero is-dark" aria-labelledby="hero-title">
+{hero_art}
 <div class="wrap">
-<div class="screen">
-<div class="intro">
-<h1 class="display">Discord<span class="plus">+</span></h1>
-<p class="lede">A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and seventeen more were written for it: quests on autopilot, a game lounge, your own profile badges and a lighter Discord. What it saves stays on your PC.<span class="caret" aria-hidden="true"></span></p>
+<div class="hero-label">{LOGO}<span>Discord+</span></div>
+<h1 id="hero-title">Discord, with the missing parts.</h1>
+<p class="lead">A free fork of Vencord for the Discord desktop app. Every Vencord plugin still works, and Discord+ adds plugins nobody else ships. What it saves stays on your PC.</p>
+<div class="hero-actions">
+<a class="btn" href="#install">Install</a>
+<a class="more" href="/plugins">All plugins and what they do</a>
 </div>
-
-<section class="pane menu-pane" aria-labelledby="menu-title">
-<h2 class="pane-title" id="menu-title">Plugins</h2>
-{rows_html}
-<p class="note">This is a preview, so nothing is installed by clicking here. In Discord every plugin starts off, and you switch on what you want. <span class="value" id="on-count">0 of 6</span> on in this preview.</p>
+</div>
 </section>
 
-<div class="side">
-<section class="pane help" aria-labelledby="help-pane-title">
-<h2 class="pane-title" id="help-pane-title">Item Specific Help</h2>
-<div id="help-live" aria-live="polite"><h3 id="help-title" class="title">AutoQuest</h3>
-<div id="help-body"></div></div>
-{helps}</section>
+<section class="band story" aria-label="What it does">
+<div class="wrap">
+<div class="story-grid">
+<div class="steps-col">{steps_html}</div>
+<div class="stage" aria-hidden="false"><div class="stage-box">{states_html}</div></div>
+</div>
+</div>
+</section>
 
-<section class="pane install" aria-labelledby="install-title">
-<h2 class="pane-title" id="install-title">Install</h2>
-<p>One command, in PowerShell on Windows:</p>
-<div class="gap8"></div>
-{install_cmd}
-<p class="sub">Needs Git and Node.js 22 or newer. It asks which Discord to patch. macOS or Linux? The <a href="/install">install page</a> has a Terminal command. Tested on Linux, not yet on macOS.</p>
-<p class="sub risk-line">Client mods break Discord's rules, and AutoQuest is the riskiest part. <a href="#warn-title">Read the warning</a>.</p>
-<div class="actions">
+<section class="band alt" aria-labelledby="storage-title">
+<div class="wrap">
+<h2 class="h2 rv" id="storage-title">Everything stays on your PC.</h2>
+<p class="lead tight rv">Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is MyProfile, which sends user IDs. It is built in and cannot be switched off.</p>
+<div class="rv">{table}</div>
+</div>
+</section>
+
+<section class="band" aria-labelledby="plugins-title">
+<div class="wrap">
+<h2 class="h2 rv" id="plugins-title">Plugins</h2>
+<p class="lead tight rv">Every one starts off. You switch on what you want in Discord's settings.</p>
+<div class="rv mt-xl">{rows_html}</div>
+</div>
+</section>
+
+<section class="band warn-band" aria-labelledby="warn-title">
+<div class="wrap">
+<h2 class="h2 rv" id="warn-title">Warning</h2>
+<p class="lead tight rv">Client mods, Discord+ included, go against Discord's terms of service. AutoQuest is the riskiest part: other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use it on an account you can afford to lose, or leave that plugin off. You use Discord+ at your own risk.</p>
+</div>
+</section>
+
+<section class="band install-band is-dark" id="install" aria-labelledby="install-title">
+<div class="wrap">
+<h2 class="h2 rv" id="install-title">One command.</h2>
+<p class="lead tight rv">One command, in PowerShell on Windows:</p>
+<div class="install-cmd rv">{install_cmd}</div>
+<div class="actions rv">
 <a class="btn alt" href="/install.ps1">Read the script first</a>
 <a class="btn alt" href="/install">Step by step</a>
 </div>
-</section>
+<p class="sub rv mt-lg">Needs Git and Node.js 22 or newer. It asks which Discord to patch. macOS or Linux? The <a href="/install">install page</a> has a Terminal command. Tested on Linux, not yet on macOS.</p>
+<p class="sub rv mt-sm">Client mods break Discord's rules, and AutoQuest is the riskiest part. <a href="#warn-title">Read the warning</a>.</p>
 </div>
-</div>
-
-<div class="block">
-<section class="pane" aria-labelledby="storage-title">
-<h2 class="pane-title" id="storage-title">Storage Configuration</h2>
-<p class="lead70">Where each plugin keeps its data, and what it sends out. There is no account and no tracking. The only contact with the Discord+ server is MyProfile, which sends user IDs. It is built in and cannot be switched off.</p>
-{table}
 </section>
 
-<section class="pane warn" aria-labelledby="warn-title">
-<h2 class="pane-title" id="warn-title">Warning</h2>
-<p class="lead76">Client mods, Discord+ included, go against Discord's terms of service. AutoQuest is the riskiest part: other users report temporary Quest suspensions for what Discord calls inauthentic quest completion. Use it on an account you can afford to lose, or leave that plugin off. You use Discord+ at your own risk.</p>
-</section>
-
-<section class="pane faq" aria-labelledby="faq-title">
-<h2 class="pane-title" id="faq-title">Questions</h2>
-{faq_html}
-</section>
+<section class="band" aria-labelledby="faq-title">
+<div class="wrap">
+<h2 class="h2 rv" id="faq-title">Questions</h2>
+<div class="rv mt-xl">{faq_html}</div>
 </div>
-</div>
+</section>
 </main>
 '''
-    hints = ['<span class="hint-keys"><kbd>Up</kbd><kbd>Down</kbd>Select item</span>',
-             '<span class="hint-keys"><kbd>Enter</kbd>Switch on or off</span>',
-             '<span class="hint-keys"><kbd>F10</kbd>Copy install command</span>',
-             '<span class="hint-keys"><kbd>Esc</kbd>Reset the preview</span>']
     return (head("Discord+ | Vencord fork with quests, a game lounge, profile badges and more",
-                 "Discord+ is a free Vencord fork for the Discord desktop app with seventeen extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.",
-                 "/") + top("home") + body + bottom(hints))
+                 "Discord+ is a free Vencord fork for the Discord desktop app with extra plugins: AutoQuest, Idle Lounge, MyProfile badges, LiteMode and more. Your data stays on your PC.",
+                 "/") + top("home") + body + bottom())
 
 
 def plugins_page():
@@ -577,22 +602,20 @@ def doc_page(title, h1, path, desc, updated, inner):
 def not_found():
     body = '''<main id="main">
 <div class="wrap">
-<div class="block">
-<section class="pane warn" aria-labelledby="nf">
-<h2 class="pane-title" id="nf">Fatal error</h2>
-<p class="display big">404</p>
-<p class="lead60">No page lives at this address. The link may be old or mistyped. Pick where to go next:</p>
+<div class="page-head">
+<h1>404</h1>
+<p>No page lives at this address. The link may be old or mistyped. Pick where to go next:</p>
 <div class="actions">
 <a class="btn" href="/">Main</a>
 <a class="btn alt" href="/plugins">Plugins</a>
 <a class="btn alt" href="/install">Install</a>
 </div>
-</section>
 </div>
+<div class="block"></div>
 </div>
 </main>
 '''
-    return head("Page not found | Discord+", "This page does not exist. Go back to the Discord+ home page, the plugin list or the install guide.", "/404") + top("") + body + bottom(['<span>Nothing here</span>'])
+    return head("Page not found | Discord+", "This page does not exist. Go back to the Discord+ home page, the plugin list or the install guide.", "/404") + top("") + body + bottom()
 
 
 def support_page():

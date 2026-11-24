@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plugins | Discord+</title>
 <meta name="description" content="Every plugin written for Discord+ and what it does: AutoQuest, Idle Lounge, MyProfile, LiteMode, Reminders, MessageArchive and more.">
-<meta name="theme-color" content="#0000aa">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://discordplus.karatel.win/plugins">
 <link rel="alternate" hreflang="en" href="https://discordplus.karatel.win/plugins">
 <link rel="alternate" hreflang="ru" href="https://discordplus.karatel.win/ru/plugins">
 <link rel="alternate" hreflang="x-default" href="https://discordplus.karatel.win/plugins">
-<link rel="icon" href="/assets/favicon.svg?v=a872b06a" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.svg?v=9e450c8f" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discord+">
 <meta property="og:title" content="Plugins | Discord+">
@@ -20,21 +21,20 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/vt323.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=7430ae4a">
+<link rel="preload" href="/assets/fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css?v=37e00047">
 <script src="/assets/theme.js?v=6ca03193"></script>
-<script src="/assets/app.js?v=f4aed3df" defer></script>
+<script src="/assets/app.js?v=69a9620f" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
 <div class="wrap">
-<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#0000aa"/><path d="M16 7v18M7 16h18" stroke="#55ff55" stroke-width="4" stroke-linecap="square" fill="none"/></svg><span>Discord+ Setup Utility</span></a>
-<nav id="tabs" class="tabs" aria-label="Main"><a href="/">Main</a><a href="/plugins" aria-current="page">Plugins</a><a href="/install">Install</a><a href="/support">Support</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><a class="lang" href="/ru/plugins" hreflang="ru" lang="ru" aria-label="Русская версия сайта">RU</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme">Theme: Dark</button></nav>
+<a class="brand" href="/" aria-label="Discord+ home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0c0c0e"/><path d="M16 8v16M8 16h16" stroke="#22c55e" stroke-width="3.4" stroke-linecap="round" fill="none"/></svg><span>Discord+</span></a>
+<nav id="tabs" class="tabs" aria-label="Main"><a href="/plugins" aria-current="page">Plugins</a><a href="/support">Support</a><a href="/changelog">What changed</a><a href="https://github.com/rossinskiy/discord-plus" rel="noopener">Source</a><a class="lang" href="/ru/plugins" hreflang="ru" lang="ru" aria-label="Русская версия сайта">RU</a><button class="tool" id="theme" type="button" aria-label="Switch between dark and light theme"><svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg><svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2z"/></svg></button><a class="btn sm" href="/install">Install</a></nav>
 <button class="tool menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
 </div>
 </header>
-<div class="progress" aria-hidden="true"><i></i></div>
 <main id="main">
 <div class="wrap">
 <div class="page-head">
@@ -78,7 +78,7 @@
 <div class="detail" id="d-app-lock" hidden><p>Covers Discord with a lock screen until you type your password. It locks when Discord starts, on a hotkey (Ctrl+Alt+L by default) and, if you set it, after some minutes without a mouse or keyboard.</p><ul><li>It stops someone sitting at your open screen. It does not protect against someone who can open your files.</li><li>Only a salted hash of the password is stored, on your PC.</li><li>Nothing happens until you set a password in the plugin settings.</li></ul><dl class="facts"><dt>Saves data</dt><dd>your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
 </li><li class="item" id="scheduled-messages" data-search="scheduledmessages write a message now and send it later with /schedule. type /schedule with a delay such as 10m, 2h30m or 1d and a message, and discord+ sends it in that channel when the time comes. /scheduled lists your waiting messages and can cancel one. tools [local]">
 <button class="row" type="button" aria-expanded="false" aria-controls="d-scheduled-messages"><span class="name">ScheduledMessages <span class="dim">Write a message now and send it later with /schedule.</span></span><span class="tags">[local]</span></button>
-<div class="detail" id="d-scheduled-messages" hidden><p>Type /schedule with a delay such as 10m, 2h30m or 1d and a message, and Discord+ sends it in that channel when the time comes. /scheduled lists your waiting messages and can cancel one.</p><ul><li>Discord has to be open at the send time.</li><li>A message that comes due while Discord is closed is not sent. You get a notice instead.</li><li>Waiting messages are stored on your PC.</li></ul><dl class="facts"><dt>Saves data</dt><dd>your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
+<div class="detail" id="d-scheduled-messages" hidden><p>Type /schedule with a delay such as 10m, 2h30m or 1d and a message, and Discord+ sends it in that channel when the time comes. /scheduled lists your waiting messages and can cancel one.</p><div class="mock" role="img" aria-label="Drawn illustration of ScheduledMessages"><div class="mock-l"><span class="dim">&gt;</span> /schedule in:10m message:call back</div><div class="mock-l"><span class="value">Scheduled</span> for 21:40, in this channel</div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><ul><li>Discord has to be open at the send time.</li><li>A message that comes due while Discord is closed is not sent. You get a notice instead.</li><li>Waiting messages are stored on your PC.</li></ul><dl class="facts"><dt>Saves data</dt><dd>your PC</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
 </li></ul></section><section class="group" aria-labelledby="g-chat-history"><h2 id="g-chat-history">Chat history</h2><ul class="rows" role="list"><li class="item" id="message-archive" data-search="messagearchive keeps edited and deleted messages visible in chat. deleted messages stay in chat, marked as deleted, and clicking (edited) opens the old versions. everything is saved on your own pc for 7 days. chat history [local]">
 <button class="row" type="button" aria-expanded="false" aria-controls="d-message-archive"><span class="name">MessageArchive <span class="dim">Keeps edited and deleted messages visible in chat.</span></span><span class="tags">[local]</span></button>
 <div class="detail" id="d-message-archive" hidden><p>Deleted messages stay in chat, marked as deleted, and clicking (edited) opens the old versions. Everything is saved on your own PC for 7 days.</p><div class="mock" role="img" aria-label="Drawn illustration of MessageArchive"><div class="mock-l"><span class="risk">deleted</span> see you at 8</div><div class="mock-l">see you at 9 <span class="dim">(edited)</span></div><div class="mock-l dim cap">Illustration, not a screenshot.</div></div><ul><li>It replaces MessageLogger, so you cannot run both.</li><li>It only knows what your client saw while it was running.</li><li>A button in the plugin settings clears it all at once.</li></ul><dl class="facts"><dt>Saves data</dt><dd>your PC, 7 days</dd><dt>Discord+ server</dt><dd>none</dd><dt>Risk</dt><dd>none</dd></dl></div>
@@ -106,10 +106,6 @@
 </div>
 </main>
 <footer>
-<div class="notice" id="notice" role="region" aria-label="Notice">
-<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
-<button class="btn" type="button">Got it</button>
-</div>
 <div class="wrap foot">
 <div class="links">
 <a href="/changelog">What changed</a>
@@ -125,8 +121,9 @@
 <p>&copy; <span data-year>2026</span> Discord+. Released under the GNU General Public License v3.0.</p>
 </div>
 </footer>
-<div class="dock">
-<div class="keys"><div class="wrap"><span><span>Click a row to open it</span></span><span><span class="hint-keys"><kbd>Esc</kbd>Clear the search</span></span></div></div>
+<div class="notice" id="notice" role="region" aria-label="Notice">
+<p>No cookies, no analytics. Only your theme choice is saved, in this browser. <a href="/privacy">Details</a></p>
+<button class="btn" type="button">Got it</button>
 </div>
 <button class="btn to-top" type="button" aria-label="Back to the top">Top</button>
 </body>
